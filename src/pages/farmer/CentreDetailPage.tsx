@@ -11,6 +11,7 @@ import {
   Gauge
 } from 'lucide-react';
 import { api } from '../../services/api';
+import { CentreKnowledgeHub } from '../../components/CentreKnowledgeHub';
 
 export const CentreDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -139,6 +140,8 @@ export const CentreDetailPage: React.FC = () => {
           </div>
         </div>
       </div>
+
+      <CentreKnowledgeHub centreId={centre.id} />
     </div>
   );
 };

@@ -41,6 +41,7 @@ import { OperatorFarmersPage } from './pages/operator/OperatorFarmersPage';
 import { OperatorBookingsPage } from './pages/operator/OperatorBookingsPage';
 import { DailyReportsPage } from './pages/operator/DailyReportsPage';
 import { CentreProfilePage } from './pages/operator/CentreProfilePage';
+import { KnowledgeManagementPage } from './pages/operator/KnowledgeManagementPage';
 
 // Admin Pages
 import { AdminDashboard } from './pages/admin/AdminDashboard';
@@ -97,6 +98,7 @@ export default function App() {
               <Route path="/operator/payments" element={<PaymentUpdatesPage />} />
               <Route path="/operator/reports" element={<DailyReportsPage />} />
               <Route path="/operator/profile" element={<CentreProfilePage />} />
+              <Route path="/operator/knowledge-hub" element={<KnowledgeManagementPage />} />
             </Route>
 
             {/* Admin Flow */}
