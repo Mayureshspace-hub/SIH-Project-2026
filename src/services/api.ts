@@ -221,9 +221,9 @@ export const api = {
       method: 'POST',
       body: JSON.stringify(data),
     }),
-  analyzeCropQuality: (imageBase64: string, cropName: string) =>
+  analyzeCropQuality: (imageBase64: string, cropName: string, referenceImageBase64?: string, referenceDescription?: string) =>
     request<any>('/quality/analyze', {
       method: 'POST',
-      body: JSON.stringify({ imageBase64, cropName }),
+      body: JSON.stringify({ imageBase64, cropName, referenceImageBase64, referenceDescription }),
     }),
 };

@@ -28,7 +28,6 @@ import { LiveQueuePage } from './pages/farmer/LiveQueuePage';
 import { MyBookingsPage } from './pages/farmer/MyBookingsPage';
 import { ProcurementPage } from './pages/farmer/ProcurementPage';
 import { PaymentStatusPage } from './pages/farmer/PaymentStatusPage';
-import { QualityCheckPage } from './pages/farmer/QualityCheckPage';
 import { NotificationsPage } from './pages/farmer/NotificationsPage';
 import { FarmerProfilePage } from './pages/farmer/FarmerProfilePage';
 
@@ -42,6 +41,7 @@ import { OperatorBookingsPage } from './pages/operator/OperatorBookingsPage';
 import { DailyReportsPage } from './pages/operator/DailyReportsPage';
 import { CentreProfilePage } from './pages/operator/CentreProfilePage';
 import { KnowledgeManagementPage } from './pages/operator/KnowledgeManagementPage';
+import { ReferenceImageManagementPage } from './pages/operator/ReferenceImageManagementPage';
 
 // Admin Pages
 import { AdminDashboard } from './pages/admin/AdminDashboard';
@@ -83,7 +83,6 @@ export default function App() {
               <Route path="/farmer/bookings" element={<MyBookingsPage />} />
               <Route path="/farmer/procurement" element={<ProcurementPage />} />
               <Route path="/farmer/payments" element={<PaymentStatusPage />} />
-              <Route path="/farmer/quality-check" element={<QualityCheckPage />} />
               <Route path="/farmer/notifications" element={<NotificationsPage />} />
               <Route path="/farmer/profile" element={<FarmerProfilePage />} />
             </Route>
@@ -99,6 +98,7 @@ export default function App() {
               <Route path="/operator/reports" element={<DailyReportsPage />} />
               <Route path="/operator/profile" element={<CentreProfilePage />} />
               <Route path="/operator/knowledge-hub" element={<KnowledgeManagementPage />} />
+              <Route path="/operator/ai-image-analysis" element={<ReferenceImageManagementPage />} />
             </Route>
 
             {/* Admin Flow */}

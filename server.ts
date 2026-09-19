@@ -1277,7 +1277,7 @@ async function startServer() {
   // ==========================================
   app.post('/api/quality/analyze', authenticate, async (req: any, res) => {
     try {
-      const { imageBase64, cropName, produceType } = req.body;
+      const { imageBase64, cropName, produceType, referenceImageBase64, referenceDescription } = req.body;
 
       if (!imageBase64) {
         return res.status(400).json({ error: 'Produce image is required for preliminary quality analysis' });
@@ -1287,7 +1287,12 @@ async function startServer() {
       if (process.env.GEMINI_API_KEY) {
         try {
           const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-          const base64Data = imageBase64.replace(/^data:image\/\w+;base64,/, '');
+          const toInlineData = (image: string) => {
+            const match = image.match(/^data:(image\/[^;]+);base64,(.*)$/);
+            return { mimeType: match?.[1] || 'image/jpeg', data: match?.[2] || image };
+          };
+          const produceImage = toInlineData(imageBase64);
+          const referenceImage = referenceImageBase64 ? toInlineData(referenceImageBase64) : null;
 
           const response = await ai.models.generateContent({
             model: 'gemini-2.5-flash',
@@ -1296,27 +1301,23 @@ async function startServer() {
                 role: 'user',
                 parts: [
                   {
-                    text: `You are an agricultural quality assessment advisor. Analyze this agricultural produce sample (${
-                      cropName || 'Grains'
-                    }).
-Assess the visual quality, grain uniformity, foreign matter presence, moisture indication, and estimated FAQ grade.
+                    text: `You are an agricultural quality assessment advisor. Analyze this agricultural produce sample (${cropName || 'Grains'}).
+${referenceImage ? `Compare it specifically with the supplied ${referenceDescription || 'procurement centre reference'} image. Treat that image as the centre's best-quality visual standard and describe the produce image's relative quality.` : ''}
+Assess only visual quality and similarity to the reference. Do not infer or state moisture, impurity percentages, exact foreign-matter percentages, or procurement prices.
 Provide a strictly structured JSON response in this format:
 {
-  "estimatedGrade": "Grade A (FAQ)" or "Grade B" or "FAQ Standard",
-  "uniformityPercentage": 92,
-  "foreignMatter": "Low (<1.2%)",
-  "discoloration": "Minimal",
-  "estimatedMspCompliance": "High (Meets standard procurement benchmarks)",
-  "observations": ["Uniform kernel size", "Clean harvested produce", "Low chaff content"],
-  "disclaimer": "Preliminary AI-assisted indication only. Final quality assessment and moisture testing is performed by the authorized procurement centre."
+  "estimatedGrade": "Grade A" or "Grade B" or "Grade C",
+  "visualSimilarityPercentage": 89,
+  "uniformity": "High" or "Medium" or "Low",
+  "visibleDamage": "Low" or "Medium" or "High",
+  "discoloration": "Low" or "Medium" or "High",
+  "visibleForeignMatter": "Low" or "Medium" or "High"
 }`,
                   },
                   {
-                    inlineData: {
-                      mimeType: 'image/jpeg',
-                      data: base64Data,
-                    },
+                    inlineData: produceImage,
                   },
+                  ...(referenceImage ? [{ inlineData: referenceImage }] : []),
                 ],
               },
             ],
@@ -1335,18 +1336,12 @@ Provide a strictly structured JSON response in this format:
 
       // Fallback deterministic quality indicator (if no API key or image parsing fallback)
       return res.json({
-        estimatedGrade: 'Grade A (FAQ)',
-        uniformityPercentage: 89,
-        foreignMatter: 'Low (< 1.5%)',
-        discoloration: 'Minimal (< 2%)',
-        estimatedMspCompliance: 'High (Meets standard procurement benchmarks)',
-        observations: [
-          'High visual uniformity in grain distribution',
-          'Absence of major foreign stones or inorganic matter',
-          'Moisture appears within acceptable procurement threshold (~12-14%)',
-        ],
-        disclaimer:
-          'Preliminary AI-assisted indication only. Final quality assessment is performed by the authorized procurement centre.',
+        estimatedGrade: 'Grade A',
+        visualSimilarityPercentage: 89,
+        uniformity: 'High',
+        visibleDamage: 'Low',
+        discoloration: 'Low',
+        visibleForeignMatter: 'Low',
       });
     } catch (err: any) {
       res.status(500).json({ error: err.message || 'Quality analysis failed' });
