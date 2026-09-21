@@ -12,7 +12,9 @@ import {
   LogOut,
   Menu,
   X,
-  Radio
+  Radio,
+  BookOpen,
+  Sparkles
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { DemoSwitcher } from '../components/DemoSwitcher';
@@ -32,6 +34,8 @@ export const OperatorLayout: React.FC = () => {
     { name: 'Payment Updates', path: '/operator/payments', icon: BadgePercent },
     { name: 'Daily Reports', path: '/operator/reports', icon: BarChart3 },
     { name: 'Centre Profile', path: '/operator/profile', icon: Building },
+    { name: 'Knowledge Hub', path: '/operator/knowledge-hub', icon: BookOpen },
+    { name: 'AI Image Analysis', path: '/operator/ai-image-analysis', icon: Sparkles },
   ];
 
   return (

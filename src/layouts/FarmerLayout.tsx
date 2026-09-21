@@ -13,7 +13,6 @@ import {
   Sprout,
   Menu,
   X,
-  Sparkles,
   ChevronRight,
   ShieldCheck
 } from 'lucide-react';
@@ -66,7 +65,6 @@ export const FarmerLayout: React.FC = () => {
     { name: 'My Bookings', path: '/farmer/bookings', icon: FileText },
     { name: 'Procurement', path: '/farmer/procurement', icon: ShieldCheck },
     { name: 'Payment Status', path: '/farmer/payments', icon: CreditCard },
-    { name: 'AI Quality Check', path: '/farmer/quality-check', icon: Sparkles },
     {
       name: 'Notifications',
       path: '/farmer/notifications',

@@ -76,6 +76,18 @@ export interface ProcurementCentre {
   todaySlots?: Slot[];
 }
 
+export interface FarmerKnowledgePractice {
+  id: string;
+  centreId: string;
+  farmerName: string;
+  crop: string;
+  fertilizers: string[];
+  pesticides: string[];
+  farmingPractices: string[];
+  season: string;
+  observedImprovement: string;
+}
+
 export interface Slot {
   id: string;
   centreId: string;
