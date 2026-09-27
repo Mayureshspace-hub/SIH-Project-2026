@@ -6,6 +6,7 @@ interface SocketContextType {
   socket: Socket | null;
   isConnected: boolean;
   joinCentreQueue: (centreId: string) => void;
+  joinCentreQueueRoom: (centreId: string) => void;
   joinFarmerQueue: (farmerId: string) => void;
   lastQueueUpdate: any;
   lastFarmerUpdate: any;
@@ -77,6 +78,7 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         socket: socketRef.current,
         isConnected,
         joinCentreQueue,
+        joinCentreQueueRoom: joinCentreQueue,
         joinFarmerQueue,
         lastQueueUpdate,
         lastFarmerUpdate,

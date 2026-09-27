@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { User, Mail, Phone, MapPin, Lock, ArrowRight, Sprout, AlertCircle } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
+import { User, Mail, Phone, MapPin, Lock, ArrowRight, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { supabase } from '../../supabaseClient';
 
 export const FarmerRegisterPage: React.FC = () => {
   const [name, setName] = useState('');
@@ -10,31 +10,40 @@ export const FarmerRegisterPage: React.FC = () => {
   const [village, setVillage] = useState('');
   const [district, setDistrict] = useState('Nagpur');
   const [landArea, setLandArea] = useState('5.0');
-  const [password, setPassword] = useState('Farmer@123');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [infoMessage, setInfoMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const { register } = useAuth();
   const navigate = useNavigate();
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    setInfoMessage(null);
     setLoading(true);
 
     try {
-      await register({
-        name,
+      const { data, error: signUpError } = await supabase.auth.signUp({
         email,
-        mobile,
-        village,
-        district,
-        landArea: Number(landArea),
         password,
       });
-      navigate('/farmer/dashboard');
+
+      if (signUpError) {
+        throw signUpError;
+      }
+
+      // If data.session is null, don't redirect to the dashboard/home.
+      // Just show: "Check your email and confirm your account before logging in."
+      if (!data?.session) {
+        setInfoMessage('Check your email and confirm your account before logging in.');
+        return;
+      }
+
+      // Only redirect when a real session exists
+      navigate('/');
     } catch (err: any) {
-      setError(err.message || 'Registration failed');
+      setError(err.message || 'Registration failed. Please check your details and try again.');
     } finally {
       setLoading(false);
     }
@@ -56,13 +65,6 @@ export const FarmerRegisterPage: React.FC = () => {
         </div>
 
         <div className="bg-white border border-stone-200 rounded-3xl p-6 sm:p-8 shadow-xs">
-          {error && (
-            <div className="mb-4 p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2">
-              <AlertCircle className="w-4 h-4 shrink-0" />
-              <span>{error}</span>
-            </div>
-          )}
-
           <form onSubmit={handleRegister} className="space-y-4">
             <div>
               <label className="block text-xs font-semibold text-stone-700 mb-1">Full Name</label>
@@ -174,11 +176,25 @@ export const FarmerRegisterPage: React.FC = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full mt-3 py-3 px-4 rounded-xl bg-emerald-800 hover:bg-emerald-900 text-white font-semibold text-sm transition shadow-xs flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full mt-3 py-3 px-4 rounded-xl bg-emerald-800 hover:bg-emerald-900 text-white font-semibold text-sm transition shadow-xs flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70"
             >
               <span>{loading ? 'Registering...' : 'Complete Farmer Registration'}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
+
+            {infoMessage && (
+              <div className="mt-3 p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs flex items-start gap-2.5">
+                <CheckCircle2 className="w-4 h-4 shrink-0 text-amber-600 mt-0.5" />
+                <span className="font-medium leading-relaxed">{infoMessage}</span>
+              </div>
+            )}
+
+            {error && (
+              <div className="mt-3 p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 shrink-0" />
+                <span>{error}</span>
+              </div>
+            )}
           </form>
 
           <div className="mt-5 text-center text-xs text-stone-600">

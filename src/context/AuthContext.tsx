@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User, Farmer, Operator, Role } from '../types';
 import { api, setAuthToken, removeAuthToken, getAuthToken } from '../services/api';
+import { supabase } from '../supabaseClient';
 
 interface AuthContextType {
   user: User | null;
@@ -98,6 +99,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const logout = () => {
+    supabase.auth.signOut().catch((err: any) => {
+      console.warn('Supabase signOut error:', err);
+    });
     removeAuthToken();
     setUser(null);
     setFarmer(null);
