@@ -96,7 +96,7 @@ export const LandingPage: React.FC = () => {
               End-to-End Transparency
             </h2>
             <h3 className="text-2xl sm:text-3xl font-serif font-bold text-stone-900">
-              The KisanSetu Journey
+              The Kisan Marg Journey
             </h3>
             <p className="mt-3 text-stone-600 text-sm">
               From discovering crop intake availability to receiving your official DBT payment confirmation.

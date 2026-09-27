@@ -27,7 +27,7 @@ export const PublicLayout: React.FC = () => {
               <Sprout className="w-5 h-5 text-amber-300" />
             </div>
             <div>
-              <span className="text-xl font-bold tracking-tight text-emerald-950 font-serif">KisanSetu</span>
+              <span className="text-xl font-bold tracking-tight text-emerald-950 font-serif">Kisan Marg</span>
               <span className="hidden sm:inline-block ml-2 text-xs font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
                 Procurement &amp; Live Queue
               </span>
@@ -96,7 +96,7 @@ export const PublicLayout: React.FC = () => {
               <div className="w-8 h-8 rounded-lg bg-emerald-800 flex items-center justify-center text-white">
                 <Sprout className="w-4 h-4 text-amber-300" />
               </div>
-              <span className="text-white font-semibold text-base font-serif">KisanSetu</span>
+              <span className="text-white font-semibold text-base font-serif">Kisan Marg</span>
               <span className="text-xs text-stone-500">| Smart India Hackathon 2026 Initiative</span>
             </div>
 
@@ -118,7 +118,7 @@ export const PublicLayout: React.FC = () => {
           </div>
 
           <div className="mt-6 pt-6 border-t border-stone-800 text-center text-xs text-stone-500">
-            &copy; 2026 KisanSetu. Designed to eliminate waiting lines and bring transparency to agricultural procurement.
+            &copy; 2026 Kisan Marg. Designed to eliminate waiting lines and bring transparency to agricultural procurement.
           </div>
         </div>
       </footer>
