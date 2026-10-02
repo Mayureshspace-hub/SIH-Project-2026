@@ -1,65 +1,78 @@
 import React from 'react';
-import { Sprout, CheckCircle2, Shield, HeartHandshake } from 'lucide-react';
+import { BookOpen, Image as ImageIcon } from 'lucide-react';
 
 export const AboutPage: React.FC = () => {
   return (
     <div className="bg-stone-50 py-12 md:py-20 text-stone-900">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-14">
           <span className="text-xs font-bold text-emerald-700 tracking-wider uppercase mb-2 block">
-            About The Mission
+            About KisanSetu
           </span>
           <h1 className="text-3xl sm:text-4xl font-serif font-bold text-emerald-950">
-            Dignity, Transparency &amp; Speed for Farmers
+            Making Procurement Easier for Farmers
           </h1>
-          <p className="mt-4 text-stone-600 max-w-2xl mx-auto text-base leading-relaxed">
-            KisanSetu was developed as a Smart India Hackathon solution addressing agricultural procurement center bottlenecks across India.
+          <p className="mt-4 text-stone-600 max-w-3xl mx-auto text-base leading-relaxed">
+            KisanSetu is a digital platform designed to make agricultural procurement easier, faster, and more transparent for farmers. It helps farmers reduce waiting time, manage procurement slots, track queue status, and stay informed about their procurement and payment status.
           </p>
         </div>
 
-        <div className="bg-white border border-stone-200 rounded-2xl p-8 space-y-6 text-stone-700 leading-relaxed text-sm">
-          <h2 className="text-xl font-serif font-bold text-emerald-950">The Problem We Are Solving</h2>
-          <p>
-            During peak Kharif and Rabi harvest windows, thousands of farmers bring loaded tractors and bullock carts to government procurement centres and APMC market yards. Because there has traditionally been no digital scheduling, farmers arrive simultaneously at 4:00 AM, resulting in queues spanning kilometers along state highways.
-          </p>
-          <p>
-            Farmers often spend 2 to 4 days sleeping on the roadside guarding their produce against unseasonal rain, pilferage, and weight loss due to natural drying. Furthermore, lack of transparency regarding when money is actually released has bred mistrust.
-          </p>
-
-          <div className="pt-4 border-t border-stone-100 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="flex items-start gap-3 bg-emerald-50/60 p-4 rounded-xl border border-emerald-100">
-              <CheckCircle2 className="w-5 h-5 text-emerald-700 shrink-0 mt-0.5" />
-              <div>
-                <strong className="block text-stone-900 text-sm font-semibold">Zero-Congestion Slots</strong>
-                <span className="text-xs text-stone-600">Strict capacity allocation per hour ensures steady throughput.</span>
+        <section aria-labelledby="kisan-marg-heading">
+          <h2 id="kisan-marg-heading" className="text-2xl font-serif font-bold text-emerald-950 text-center mb-6">
+            Kisan Marg Features
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-stretch">
+            <article className="bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 flex flex-col">
+              <div className="flex items-center gap-3 mb-3">
+                <span className="w-11 h-11 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
+                  <ImageIcon className="w-5 h-5 text-emerald-700" />
+                </span>
+                <h3 className="text-xl font-serif font-bold text-emerald-950">Quality Reference</h3>
               </div>
-            </div>
+              <p className="text-sm text-stone-600 leading-relaxed mb-5">
+                Help provide a quick indication of crop quality using image comparison.
+              </p>
+              <ol className="space-y-3 text-sm text-stone-700 leading-relaxed">
+                {[
+                  'Farmer captures or uploads a crop image.',
+                  'The system compares the crop image with standard/reference images and checks important quality factors such as size, color, and maturity.',
+                  'The system provides an indication of the crop quality.',
+                  'Based on the assessed crop quality, the system predicts the expected price of the crop.',
+                ].map((step, index) => (
+                  <li key={step} className="flex items-start gap-3">
+                    <span className="w-6 h-6 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold flex items-center justify-center shrink-0">{index + 1}</span>
+                    <span>{step}</span>
+                  </li>
+                ))}
+              </ol>
+            </article>
 
-            <div className="flex items-start gap-3 bg-emerald-50/60 p-4 rounded-xl border border-emerald-100">
-              <CheckCircle2 className="w-5 h-5 text-emerald-700 shrink-0 mt-0.5" />
-              <div>
-                <strong className="block text-stone-900 text-sm font-semibold">Dynamic Quantity Estimation</strong>
-                <span className="text-xs text-stone-600">Calculates wait time factoring the actual metric tonnage of vehicles ahead.</span>
+            <article className="bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 flex flex-col">
+              <div className="flex items-center gap-3 mb-3">
+                <span className="w-11 h-11 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
+                  <BookOpen className="w-5 h-5 text-emerald-700" />
+                </span>
+                <h3 className="text-xl font-serif font-bold text-emerald-950">Farmer Knowledge Hub</h3>
               </div>
-            </div>
-
-            <div className="flex items-start gap-3 bg-emerald-50/60 p-4 rounded-xl border border-emerald-100">
-              <CheckCircle2 className="w-5 h-5 text-emerald-700 shrink-0 mt-0.5" />
-              <div>
-                <strong className="block text-stone-900 text-sm font-semibold">No Speculative Amounts</strong>
-                <span className="text-xs text-stone-600">Payment status is only updated after physical inspection and official sanction.</span>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3 bg-emerald-50/60 p-4 rounded-xl border border-emerald-100">
-              <CheckCircle2 className="w-5 h-5 text-emerald-700 shrink-0 mt-0.5" />
-              <div>
-                <strong className="block text-stone-900 text-sm font-semibold">Real-Time WebSockets</strong>
-                <span className="text-xs text-stone-600">Farmer mobile screens react instantly when the weighbridge calls the next token.</span>
-              </div>
-            </div>
+              <p className="text-sm text-stone-600 leading-relaxed mb-5">
+                Help farmers learn useful and practical farming practices from experienced farmers.
+              </p>
+              <ol className="space-y-3 text-sm text-stone-700 leading-relaxed">
+                {[
+                  'Experienced farmers share their proven farming practices.',
+                  'Information about crops, fertilizers, and pesticides is shared.',
+                  'Other farmers can learn and apply useful practices.',
+                  'This helps improve farming knowledge, crop quality, and productivity.',
+                ].map((step, index) => (
+                  <li key={step} className="flex items-start gap-3">
+                    <span className="w-6 h-6 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold flex items-center justify-center shrink-0">{index + 1}</span>
+                    <span>{step}</span>
+                  </li>
+                ))}
+              </ol>
+            </article>
           </div>
-        </div>
+        </section>
       </div>
     </div>
   );
