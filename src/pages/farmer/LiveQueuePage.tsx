@@ -130,7 +130,7 @@ export const LiveQueuePage: React.FC = () => {
             </span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-serif font-bold text-stone-900 mt-1">
-            {liveQueue.centre?.name || 'Parseoni Procurement Centre'}
+            {liveQueue.centre?.name}
           </h1>
           <p className="text-xs text-stone-500 mt-0.5 flex items-center gap-1">
             <MapPin className="w-3.5 h-3.5 text-emerald-700" />
@@ -338,7 +338,7 @@ export const LiveQueuePage: React.FC = () => {
                         ? 'At Weighbridge'
                         : isItemCalled
                         ? 'Arriving at Gate'
-                        : `~${item.estimatedWaitMinutes || 15}m wait`}
+                        : `~${item.estimatedWaitMinutes ?? 0}m wait`}
                     </span>
                   </div>
                 </div>

@@ -19,10 +19,10 @@ export const ProcurementSlipPage: React.FC = () => {
   const centreId = operator?.centreId || 'centre-parseoni';
 
   const initialBookingId = searchParams.get('bookingId') || '';
-  const initialFarmer = searchParams.get('farmerName') || 'Rajesh Patil';
-  const initialCrop = searchParams.get('cropName') || 'Paddy (Dhan)';
-  const initialQty = searchParams.get('quantity') || '18';
-  const initialToken = searchParams.get('tokenNumber') || 'PAR-027';
+  const initialFarmer = searchParams.get('farmerName') || '';
+  const initialCrop = searchParams.get('cropName') || '';
+  const initialQty = searchParams.get('quantity') || '';
+  const initialToken = searchParams.get('tokenNumber') || '';
 
   const [bookingId, setBookingId] = useState(initialBookingId);
   const [deliveredQuantity, setDeliveredQuantity] = useState(initialQty);

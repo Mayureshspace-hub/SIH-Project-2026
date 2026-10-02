@@ -104,7 +104,7 @@ export interface Booking {
   slotId: string;
   cropId: string;
   quantity: number; // in quintals
-  tokenNumber: string; // PAR-027
+  tokenNumber: string;
   status: BookingStatus;
   bookedAt: string;
   checkedInAt?: string;

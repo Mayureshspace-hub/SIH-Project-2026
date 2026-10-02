@@ -95,7 +95,7 @@ export const FarmerLayout: React.FC = () => {
               <Sprout className="w-5 h-5 text-amber-300" />
             </div>
             <div>
-              <span className="text-lg font-bold text-emerald-950 font-serif leading-none">KisanSetu</span>
+              <span className="text-lg font-bold text-emerald-950 font-serif leading-none">Kisan Marg</span>
               <span className="block text-[11px] font-semibold text-emerald-700 tracking-wide uppercase">
                 Farmer Platform
               </span>
@@ -133,8 +133,8 @@ export const FarmerLayout: React.FC = () => {
 
           <div className="hidden md:flex items-center gap-2.5 pl-3 border-l border-stone-200">
             <div className="text-right">
-              <p className="text-xs font-bold text-stone-900 leading-tight">{user?.name || 'Rajesh Patil'}</p>
-              <p className="text-[11px] text-stone-500">{farmer?.farmerId || 'MH-NAG-2026-0814'}</p>
+              <p className="text-xs font-bold text-stone-900 leading-tight">{user?.name || 'Farmer'}</p>
+              <p className="text-[11px] text-stone-500">{farmer?.farmerId || 'Not assigned'}</p>
             </div>
             <button
               onClick={() => {

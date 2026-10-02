@@ -165,7 +165,7 @@ model Booking {
   cropId              String
   crop                Crop               @relation(fields: [cropId], references: [id], onDelete: Cascade)
   quantity            Float              // quintals
-  tokenNumber         String             // e.g. PAR-027
+  tokenNumber         String
   status              BookingStatus      @default(BOOKED)
   bookedAt            DateTime           @default(now())
   checkedInAt         DateTime?

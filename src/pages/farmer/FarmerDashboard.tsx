@@ -50,10 +50,10 @@ export const FarmerDashboard: React.FC = () => {
             Farmer Portal
           </span>
           <h1 className="text-2xl sm:text-3xl font-serif font-bold text-stone-900 mt-0.5">
-            Welcome, {user?.name || 'Rajesh Patil'}
+            Welcome, {user?.name || 'Farmer'}
           </h1>
           <p className="text-xs text-stone-500 mt-1">
-            Registered Village: <strong className="text-stone-700">{farmer?.village || 'Sawangi, Parseoni'}</strong> • ID: <span className="font-mono">{farmer?.farmerId || 'MH-NAG-2026-0814'}</span>
+            Registered Village: <strong className="text-stone-700">{farmer?.village || 'Not provided'}</strong> • ID: <span className="font-mono">{farmer?.farmerId || 'Not assigned'}</span>
           </p>
         </div>
 
@@ -99,18 +99,18 @@ export const FarmerDashboard: React.FC = () => {
             <div>
               <span className="text-xs text-emerald-300/80 block">Procurement Centre</span>
               <h3 className="text-lg font-bold text-white mt-1 leading-snug">
-                {liveQueue.centre?.name || 'Parseoni Procurement Centre'}
+                {liveQueue.centre?.name}
               </h3>
               <p className="text-xs text-emerald-200/70 mt-1 flex items-center gap-1">
                 <MapPin className="w-3 h-3 text-amber-300" />
-                <span>{liveQueue.centre?.location || 'Parseoni Tehsil'}</span>
+                <span>{liveQueue.centre?.location}</span>
               </p>
             </div>
 
             <div>
               <span className="text-xs text-emerald-300/80 block">Crop &amp; Quantity</span>
               <h3 className="text-lg font-bold text-amber-300 mt-1">
-                {liveQueue.crop?.name || 'Paddy'}
+                {liveQueue.crop?.name}
               </h3>
               <p className="text-xs text-emerald-100 mt-1">
                 Reported: <strong>{liveQueue.booking?.quantity} quintals</strong>
@@ -124,7 +124,7 @@ export const FarmerDashboard: React.FC = () => {
                 <span>{liveQueue.tokenNumber}</span>
               </div>
               <p className="text-[11px] text-emerald-300/70 mt-1">
-                Slot: {liveQueue.slot ? `${liveQueue.slot.startTime} – ${liveQueue.slot.endTime}` : '11:00 AM – 12:00 PM'}
+                Slot: {liveQueue.slot ? `${liveQueue.slot.startTime} – ${liveQueue.slot.endTime}` : 'Not assigned'}
               </p>
             </div>
 
@@ -163,16 +163,16 @@ export const FarmerDashboard: React.FC = () => {
           <div className="w-12 h-12 rounded-2xl bg-stone-100 text-stone-400 mx-auto flex items-center justify-center mb-3">
             <CalendarCheck className="w-6 h-6 text-emerald-700" />
           </div>
-          <h3 className="text-lg font-bold text-stone-900">No Active Booking Today</h3>
+          <h3 className="text-lg font-bold text-stone-900">No Active Token</h3>
           <p className="text-xs text-stone-500 max-w-md mx-auto mt-1 mb-5">
-            You do not currently have a procurement slot booked. Find an authorized centre accepting your crop to reserve a token.
+            You have no active queue token. Book a slot to receive your token.
           </p>
           <Link
-            to="/farmer/centres"
+            to="/farmer/book-slot"
             className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-semibold transition shadow-xs"
           >
-            <Search className="w-4 h-4" />
-            <span>Find Procurement Centre</span>
+            <CalendarCheck className="w-4 h-4" />
+            <span>Book a Slot</span>
           </Link>
         </div>
       )}

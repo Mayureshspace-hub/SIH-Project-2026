@@ -47,7 +47,7 @@ export const AdminLayout: React.FC = () => {
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-bold text-base tracking-tight text-white font-serif">KisanSetu Admin Portal</span>
+              <span className="font-bold text-base tracking-tight text-white font-serif">Kisan Marg Admin Portal</span>
               <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">
                 RESTRICTED
               </span>

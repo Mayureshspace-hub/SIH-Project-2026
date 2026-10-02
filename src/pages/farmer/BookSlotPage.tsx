@@ -513,7 +513,9 @@ export const BookSlotPage: React.FC = () => {
               <div className="flex justify-between">
                 <span className="text-stone-500">Estimated Waiting:</span>
                 <strong className="text-amber-700 font-mono">
-                  ~{confirmedData.liveQueue?.estimatedWaitMinutes || 25} minutes
+                  {confirmedData.liveQueue?.estimatedWaitMinutes != null
+                    ? `~${confirmedData.liveQueue.estimatedWaitMinutes} minutes`
+                    : 'Not available'}
                 </strong>
               </div>
             </div>

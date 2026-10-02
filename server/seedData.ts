@@ -497,7 +497,7 @@ export function getInitialSeedData() {
         if (ctr.id === 'ctr_parseoni' && d === today) {
           if (t.start === '09:00') { booked = 8; status = 'AVAILABLE'; }
           else if (t.start === '10:00') { booked = 10; status = 'FULL'; }
-          else if (t.start === '11:00') { booked = 7; status = 'AVAILABLE'; } // Rajesh's slot
+          else if (t.start === '11:00') { booked = 7; status = 'AVAILABLE'; }
           else if (t.start === '12:00') { booked = 4; status = 'AVAILABLE'; }
           else { booked = 2; status = 'AVAILABLE'; }
         } else {
@@ -582,84 +582,6 @@ export function getInitialSeedData() {
       completedAt: new Date(Date.now() - 3600000 * 0.7).toISOString(),
     },
 
-    // Active live queue at Parseoni right now:
-    // Farmer currently PROCESSING: Vilasrao Kadam (PAR-024)
-    {
-      id: 'bk_024',
-      bookingId: `BK-${today.replace(/-/g, '')}-0024`,
-      farmerId: 'frm_vilas',
-      centreId: 'ctr_parseoni',
-      slotId: parseoni10Slot.id,
-      cropId: 'crop_paddy',
-      quantity: 16,
-      tokenNumber: 'PAR-024',
-      status: 'PROCESSING',
-      bookedAt: new Date(Date.now() - 3600000 * 3).toISOString(),
-      checkedInAt: new Date(Date.now() - 3600000 * 1.1).toISOString(),
-      calledAt: new Date(Date.now() - 3600000 * 0.5).toISOString(),
-      processingStartedAt: new Date(Date.now() - 1000 * 60 * 12).toISOString(),
-    },
-
-    // Farmer CALLED: Prakash Waghmare (PAR-025)
-    {
-      id: 'bk_025',
-      bookingId: `BK-${today.replace(/-/g, '')}-0025`,
-      farmerId: 'frm_prakash',
-      centreId: 'ctr_parseoni',
-      slotId: parseoni10Slot.id,
-      cropId: 'crop_paddy',
-      quantity: 8,
-      tokenNumber: 'PAR-025',
-      status: 'CALLED',
-      bookedAt: new Date(Date.now() - 3600000 * 2.5).toISOString(),
-      checkedInAt: new Date(Date.now() - 3600000 * 0.8).toISOString(),
-      calledAt: new Date(Date.now() - 1000 * 60 * 3).toISOString(),
-    },
-
-    // Farmer WAITING ahead: Ganesh Wankhede (PAR-026)
-    {
-      id: 'bk_026',
-      bookingId: `BK-${today.replace(/-/g, '')}-0026`,
-      farmerId: 'frm_ganesh',
-      centreId: 'ctr_parseoni',
-      slotId: parseoni11Slot.id,
-      cropId: 'crop_paddy',
-      quantity: 10,
-      tokenNumber: 'PAR-026',
-      status: 'WAITING',
-      bookedAt: new Date(Date.now() - 3600000 * 2).toISOString(),
-      checkedInAt: new Date(Date.now() - 3600000 * 0.4).toISOString(),
-    },
-
-    // Rajesh Patil (Demo User!) - Token PAR-027, 18 quintals Paddy, WAITING
-    {
-      id: 'bk_027',
-      bookingId: `BK-${today.replace(/-/g, '')}-0027`,
-      farmerId: 'frm_rajesh',
-      centreId: 'ctr_parseoni',
-      slotId: parseoni11Slot.id,
-      cropId: 'crop_paddy',
-      quantity: 18,
-      tokenNumber: 'PAR-027',
-      status: 'WAITING',
-      bookedAt: new Date(Date.now() - 3600000 * 1.5).toISOString(),
-      checkedInAt: new Date(Date.now() - 3600000 * 0.2).toISOString(),
-    },
-
-    // Additional farmer queued behind Rajesh
-    {
-      id: 'bk_028',
-      bookingId: `BK-${today.replace(/-/g, '')}-0028`,
-      farmerId: 'frm_suresh',
-      centreId: 'ctr_parseoni',
-      slotId: parseoni11Slot.id,
-      cropId: 'crop_soybean',
-      quantity: 15,
-      tokenNumber: 'PAR-028',
-      status: 'BOOKED',
-      bookedAt: new Date(Date.now() - 3600000 * 1).toISOString(),
-    },
-
     // Past completed booking for Rajesh Patil (to demonstrate historical completed procurement & payment)
     {
       id: 'bk_rajesh_past',
@@ -677,68 +599,7 @@ export function getInitialSeedData() {
     },
   ];
 
-  const queueEntries: QueueEntry[] = [
-    {
-      id: 'qe_024',
-      bookingId: 'bk_024',
-      centreId: 'ctr_parseoni',
-      date: today,
-      tokenNumber: 'PAR-024',
-      queueStatus: 'PROCESSING',
-      queuePosition: 1,
-      estimatedWaitMinutes: 5,
-      joinedAt: new Date(Date.now() - 3600000 * 1.1).toISOString(),
-      updatedAt: new Date().toISOString(),
-    },
-    {
-      id: 'qe_025',
-      bookingId: 'bk_025',
-      centreId: 'ctr_parseoni',
-      date: today,
-      tokenNumber: 'PAR-025',
-      queueStatus: 'CALLED',
-      queuePosition: 2,
-      estimatedWaitMinutes: 12,
-      joinedAt: new Date(Date.now() - 3600000 * 0.8).toISOString(),
-      updatedAt: new Date().toISOString(),
-    },
-    {
-      id: 'qe_026',
-      bookingId: 'bk_026',
-      centreId: 'ctr_parseoni',
-      date: today,
-      tokenNumber: 'PAR-026',
-      queueStatus: 'WAITING',
-      queuePosition: 3,
-      estimatedWaitMinutes: 28,
-      joinedAt: new Date(Date.now() - 3600000 * 0.4).toISOString(),
-      updatedAt: new Date().toISOString(),
-    },
-    {
-      id: 'qe_027',
-      bookingId: 'bk_027',
-      centreId: 'ctr_parseoni',
-      date: today,
-      tokenNumber: 'PAR-027',
-      queueStatus: 'WAITING',
-      queuePosition: 4,
-      estimatedWaitMinutes: 48,
-      joinedAt: new Date(Date.now() - 3600000 * 0.2).toISOString(),
-      updatedAt: new Date().toISOString(),
-    },
-    {
-      id: 'qe_028',
-      bookingId: 'bk_028',
-      centreId: 'ctr_parseoni',
-      date: today,
-      tokenNumber: 'PAR-028',
-      queueStatus: 'WAITING',
-      queuePosition: 5,
-      estimatedWaitMinutes: 72,
-      joinedAt: new Date(Date.now() - 3600000 * 0.1).toISOString(),
-      updatedAt: new Date().toISOString(),
-    },
-  ];
+  const queueEntries: QueueEntry[] = [];
 
   const procurements: ProcurementRecord[] = [
     {
@@ -846,26 +707,7 @@ export function getInitialSeedData() {
     },
   ];
 
-  const notifications: Notification[] = [
-    {
-      id: 'notif_1',
-      farmerId: 'frm_rajesh',
-      title: 'Booking Confirmed',
-      message: 'Your procurement slot at Parseoni Procurement Centre is confirmed for today, 11:00 AM – 12:00 PM. Token: PAR-027.',
-      type: 'BOOKING',
-      read: true,
-      createdAt: new Date(Date.now() - 3600000 * 1.5).toISOString(),
-    },
-    {
-      id: 'notif_2',
-      farmerId: 'frm_rajesh',
-      title: 'Queue Position Update',
-      message: 'Your arrival check-in has been confirmed. You are in queue with 3 farmers ahead. Real-time waiting time: ~48 minutes.',
-      type: 'QUEUE',
-      read: false,
-      createdAt: new Date(Date.now() - 3600000 * 0.2).toISOString(),
-    },
-  ];
+  const notifications: Notification[] = [];
 
   return {
     users,

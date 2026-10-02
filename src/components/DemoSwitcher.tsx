@@ -67,7 +67,7 @@ export const DemoSwitcher: React.FC = () => {
               }`}
             >
               <Users className="w-3.5 h-3.5" />
-              <span>👨‍🌾 Farmer: Rajesh Patil (Token PAR-027)</span>
+              <span>Farmer: Rajesh Patil</span>
             </button>
 
             <button

@@ -33,14 +33,14 @@ export const HowItWorksPage: React.FC = () => {
       title: 'Receive Unique Digital Token',
       icon: Ticket,
       description:
-        'The platform generates an authenticated digital token (e.g. PAR-027) stamped with your slot, centre code, and reported produce quantity.',
+        'The platform generates an authenticated digital token stamped with your slot, centre code, and reported produce quantity.',
     },
     {
       num: '04',
       title: 'Quantity-Aware Dynamic Live Queue',
       icon: Clock,
       description:
-        'Unlike primitive queues that assume a flat 10 minutes per person, KisanSetu estimates processing duration based on the quintals each farmer ahead has brought. Track changes live without refreshing.',
+        'Unlike primitive queues that assume a flat 10 minutes per person, Kisan Marg estimates processing duration based on the quintals each farmer ahead has brought. Track changes live without refreshing.',
     },
     {
       num: '05',
@@ -66,7 +66,7 @@ export const HowItWorksPage: React.FC = () => {
             System Guide
           </span>
           <h1 className="text-3xl sm:text-4xl font-serif font-bold text-emerald-950">
-            How KisanSetu Works
+            How Kisan Marg Works
           </h1>
           <p className="mt-4 text-stone-600 max-w-xl mx-auto text-base leading-relaxed">
             Eliminating 10+ hours of physical waiting in tractor lines through algorithmic slot scheduling and real-time weighbridge queue orchestration.

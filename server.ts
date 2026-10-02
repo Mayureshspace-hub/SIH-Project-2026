@@ -1369,7 +1369,7 @@ Provide a strictly structured JSON response in this format:
   }
 
   server.listen(PORT, '0.0.0.0', () => {
-    console.log(`KisanSetu Server & Socket.IO running on http://0.0.0.0:${PORT}`);
+    console.log(`Kisan Marg Server & Socket.IO running on http://0.0.0.0:${PORT}`);
   });
 }
 
