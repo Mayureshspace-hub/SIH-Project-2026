@@ -29,6 +29,9 @@ export const BookSlotPage: React.FC = () => {
   const [centres, setCentres] = useState<ProcurementCentre[]>([]);
   const [slots, setSlots] = useState<Slot[]>([]);
 
+  // Track if centre was pre-selected via Find Centre flow
+  const centrePreSelected = Boolean(searchParams.get('centreId'));
+
   // Selected state
   const [selectedCropId, setSelectedCropId] = useState<string>(searchParams.get('cropId') || '');
   const [selectedCentreId, setSelectedCentreId] = useState<string>(searchParams.get('centreId') || '');
@@ -51,7 +54,7 @@ export const BookSlotPage: React.FC = () => {
 
       if (searchParams.get('centreId')) {
         setSelectedCentreId(searchParams.get('centreId')!);
-        setStep(2);
+        // Stay on step 1 (Crop Selection) so the user must select a crop first
       }
       if (searchParams.get('cropId')) {
         setSelectedCropId(searchParams.get('cropId')!);
@@ -146,11 +149,16 @@ export const BookSlotPage: React.FC = () => {
             <span>Select Your Harvest Crop</span>
           </h2>
           <p className="text-xs text-stone-500">
-            Centres only accept authorized crops for procurement. Choose what you are bringing to the centre.
+            {centrePreSelected && selectedCentre
+              ? <>Showing crops accepted at <strong>{selectedCentre.name}</strong>. Choose what you are bringing.</>
+              : 'Centres only accept authorized crops for procurement. Choose what you are bringing to the centre.'}
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-            {crops.map((c) => (
+            {(centrePreSelected && selectedCentre
+              ? crops.filter((c) => selectedCentre.acceptedCrops?.some((ac: any) => ac.id === c.id))
+              : crops
+            ).map((c) => (
               <button
                 key={c.id}
                 type="button"
@@ -175,10 +183,10 @@ export const BookSlotPage: React.FC = () => {
           <div className="pt-4 flex justify-end">
             <button
               disabled={!selectedCropId}
-              onClick={() => setStep(2)}
+              onClick={() => setStep(centrePreSelected ? 3 : 2)}
               className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-semibold disabled:opacity-50 cursor-pointer shadow-xs"
             >
-              <span>Next: Choose Centre</span>
+              <span>{centrePreSelected ? 'Next: Select Slot' : 'Next: Choose Centre'}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
@@ -262,11 +270,11 @@ export const BookSlotPage: React.FC = () => {
               <span>Select Date &amp; Available Slot</span>
             </h2>
             <button
-              onClick={() => setStep(2)}
+              onClick={() => setStep(centrePreSelected ? 1 : 2)}
               className="text-xs text-stone-500 hover:text-stone-800 flex items-center gap-1 cursor-pointer"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
-              <span>{selectedCentre?.name}</span>
+              <span>{centrePreSelected ? 'Change Crop' : selectedCentre?.name}</span>
             </button>
           </div>
 
@@ -345,7 +353,7 @@ export const BookSlotPage: React.FC = () => {
 
           <div className="pt-4 flex items-center justify-between">
             <button
-              onClick={() => setStep(2)}
+              onClick={() => setStep(centrePreSelected ? 1 : 2)}
               className="px-4 py-2 text-xs font-semibold text-stone-600 hover:bg-stone-100 rounded-xl"
             >
               Back
