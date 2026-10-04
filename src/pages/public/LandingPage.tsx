@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Link } from 'react-router-dom';
 import {
   ArrowRight,
@@ -10,27 +10,50 @@ import {
   CreditCard,
   CheckCircle2,
   MapPin,
-  Sparkles
+  Sparkles,
+  UserCircle,
+  Building,
+  Image as ImageIcon,
+  BookOpen,
+  Users,
+  Settings,
+  FileText,
+  DollarSign
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export const LandingPage: React.FC = () => {
-  const workflowSteps = [
-    { title: 'Find Centre', desc: 'Locate nearby APMC procurement hubs or search by accepted crop.', icon: Search },
-    { title: 'Select Crop', desc: 'Verify MSP support and crop availability at the chosen depot.', icon: Sparkles },
-    { title: 'Book Slot', desc: 'Reserve a verified 1-hour weighbridge entry window without physical queues.', icon: CalendarCheck },
-    { title: 'Get Token', desc: 'Receive a digital token code that reserves your turn in the operational queue.', icon: Ticket },
-    { title: 'Track Queue', desc: 'Real-time live queue counter dynamically calculated based on produce quantities ahead.', icon: Clock },
-    { title: 'Procurement', desc: 'Authorized weight scale logging, moisture grading, and official procurement slip.', icon: ShieldCheck },
-    { title: 'Payment Status', desc: 'Track verified DBT fund transfer once officially sanctioned by the centre.', icon: CreditCard },
+  const { t } = useTranslation();
+
+  const farmerWorkflow = [
+    { step: '01', title: 'Register & Login', desc: 'Farmer creates an account and logs into the Kisan Marg platform.', icon: UserCircle },
+    { step: '02', title: 'Find Procurement Centre', desc: 'Farmer searches for a nearby procurement centre based on their crop.', icon: Search },
+    { step: '03', title: 'Select Centre', desc: 'Farmer selects the procurement centre and views its available information.', icon: Building },
+    { step: '04', title: 'Farmer Knowledge Hub', desc: 'View farming information from high-performing farmers associated with that centre.', icon: BookOpen },
+    { step: '05', title: 'Crop Image & Quality Check', desc: 'Upload crop image for quality analysis and comparison with centre reference images.', icon: ImageIcon },
+    { step: '06', title: 'Book a Slot', desc: 'Select date/time slot, enter crop details, and receive a digital token.', icon: CalendarCheck },
+    { step: '07', title: 'Track Live Queue', desc: 'Check token number, farmers ahead, queue status, and estimated waiting time.', icon: Clock },
+    { step: '08', title: 'Visit & Complete Procurement', desc: 'Follow centre process: check-in, KYC, lot creation, weighing and quality assessment.', icon: ShieldCheck },
+    { step: '09', title: 'Track Payment Status', desc: 'Track payment through: Payment Not Finalized → On the Way → Completed.', icon: DollarSign },
+  ];
+
+  const centreWorkflow = [
+    { step: '01', title: 'Register Centre', desc: 'Centre/operator registers their procurement centre with complete details.', icon: Building },
+    { step: '02', title: 'Manage Centre', desc: 'Manage centre information, capacity, slots and daily procurement operations.', icon: Settings },
+    { step: '03', title: 'Upload Crop Reference Images', desc: 'Upload high-quality reference images for each supported crop for quality analysis.', icon: ImageIcon },
+    { step: '04', title: 'Manage Farmer Knowledge Hub', desc: 'Add and manage farming information from high-performing farmers associated with the centre.', icon: BookOpen },
+    { step: '05', title: 'Manage Farmer Capacity & Queue', desc: 'Monitor farmers, slot capacity, tokens and manage the live queue flow.', icon: Users },
+    { step: '06', title: 'Track Procurement Tasks', desc: 'Manage farmer processing: check-in, KYC, lot creation, weighing and quality assessment.', icon: FileText },
+    { step: '07', title: 'Manage Payment Status', desc: 'Track and update farmer payment status so farmers can view current payment stage.', icon: DollarSign },
   ];
 
   const highlights = [
-    { title: 'Find Procurement Centres', desc: 'Search by radius, district, or crops accepted.' },
-    { title: 'Book Procurement Slots', desc: 'Guaranteed 1-hour entry windows to eliminate 12+ hour line-ups.' },
-    { title: 'Digital Token', desc: 'Cryptographically ordered token for transparent FIFO processing.' },
-    { title: 'Live Queue Tracking', desc: 'Dynamic wait estimation factoring produce quintals of farmers ahead.' },
-    { title: 'Procurement Status', desc: 'Real-time notification as weighbridge inspects and logs your crop.' },
-    { title: 'Payment Status', desc: 'Verified DBT status tracking directly from the procurement registry.' },
+    { title: t('centreDetail.title'), desc: t('findCentres.searchByLocation') },
+    { title: t('bookSlot.title'), desc: t('bookSlot.bookingDetails') },
+    { title: t('queue.yourToken'), desc: t('queue.liveUpdates') },
+    { title: t('queue.title'), desc: t('queue.estimatedWaitTime') },
+    { title: t('procurement.title'), desc: t('procurement.procurementSlip') },
+    { title: t('payment.paymentStatus'), desc: t('payment.dbtStatus') },
   ];
 
   return (
@@ -88,38 +111,93 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Visual Workflow Section */}
+      {/* How to Use Section - Two Workflows */}
       <section className="py-16 md:py-24 bg-white border-b border-stone-200">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-14">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-16">
             <h2 className="text-xs uppercase tracking-widest text-emerald-700 font-bold mb-2">
-              End-to-End Transparency
+              How to Use Kisan Marg
             </h2>
             <h3 className="text-2xl sm:text-3xl font-serif font-bold text-stone-900">
-              The KisanSetu Journey
+              Clear Steps for Every Role
             </h3>
             <p className="mt-3 text-stone-600 text-sm">
-              From discovering crop intake availability to receiving your official DBT payment confirmation.
+              Follow simple workflows designed for farmers and procurement centre operators.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-7 gap-3 relative">
-            {workflowSteps.map((step, idx) => {
-              const Icon = step.icon;
-              return (
-                <div
-                  key={step.title}
-                  className="bg-stone-50 border border-stone-200 rounded-xl p-4 flex flex-col items-center text-center relative group hover:border-emerald-500 hover:shadow-xs transition"
-                >
-                  <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-sm mb-3">
-                    <Icon className="w-5 h-5" />
-                  </div>
-                  <span className="text-[11px] font-mono font-semibold text-emerald-800 mb-1">Step {idx + 1}</span>
-                  <h4 className="font-semibold text-stone-900 text-sm mb-1">{step.title}</h4>
-                  <p className="text-stone-500 text-[11px] leading-tight">{step.desc}</p>
+          {/* Two Column Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8">
+
+            {/* FARMER WORKFLOW */}
+            <div>
+              <div className="flex items-center gap-3 mb-8">
+                <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center">
+                  <UserCircle className="w-6 h-6" />
                 </div>
-              );
-            })}
+                <h4 className="text-xl font-serif font-bold text-stone-900">Farmer Workflow</h4>
+              </div>
+
+              <div className="space-y-4">
+                {farmerWorkflow.map((step, idx) => {
+                  const Icon = step.icon;
+                  return (
+                    <div key={step.step} className="flex gap-4">
+                      <div className="flex flex-col items-center shrink-0">
+                        <div className="w-12 h-12 rounded-full bg-emerald-50 border-2 border-emerald-700 text-emerald-700 flex items-center justify-center font-bold text-sm">
+                          {step.step}
+                        </div>
+                        {idx < farmerWorkflow.length - 1 && (
+                          <div className="w-0.5 h-12 bg-emerald-200 mt-2" />
+                        )}
+                      </div>
+                      <div className="pb-4 pt-2">
+                        <div className="flex items-start gap-2 mb-1">
+                          <Icon className="w-5 h-5 text-emerald-600 mt-0.5 shrink-0" />
+                          <h5 className="font-semibold text-stone-900 text-sm">{step.title}</h5>
+                        </div>
+                        <p className="text-stone-600 text-sm leading-relaxed ml-7">{step.desc}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* PROCUREMENT CENTRE WORKFLOW */}
+            <div>
+              <div className="flex items-center gap-3 mb-8">
+                <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-800 flex items-center justify-center">
+                  <Building className="w-6 h-6" />
+                </div>
+                <h4 className="text-xl font-serif font-bold text-stone-900">Centre Operator Workflow</h4>
+              </div>
+
+              <div className="space-y-4">
+                {centreWorkflow.map((step, idx) => {
+                  const Icon = step.icon;
+                  return (
+                    <div key={step.step} className="flex gap-4">
+                      <div className="flex flex-col items-center shrink-0">
+                        <div className="w-12 h-12 rounded-full bg-blue-50 border-2 border-blue-700 text-blue-700 flex items-center justify-center font-bold text-sm">
+                          {step.step}
+                        </div>
+                        {idx < centreWorkflow.length - 1 && (
+                          <div className="w-0.5 h-12 bg-blue-200 mt-2" />
+                        )}
+                      </div>
+                      <div className="pb-4 pt-2">
+                        <div className="flex items-start gap-2 mb-1">
+                          <Icon className="w-5 h-5 text-blue-600 mt-0.5 shrink-0" />
+                          <h5 className="font-semibold text-stone-900 text-sm">{step.title}</h5>
+                        </div>
+                        <p className="text-stone-600 text-sm leading-relaxed ml-7">{step.desc}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </div>
       </section>

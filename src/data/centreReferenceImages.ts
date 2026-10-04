@@ -1,4 +1,4 @@
-export type CentreReferenceImage = {
+﻿export type CentreReferenceImage = {
   centreId: string;
   cropId: string;
   cropName: string;
@@ -6,7 +6,7 @@ export type CentreReferenceImage = {
   updatedAt: string;
 };
 
-const storageKey = 'kisansetu_centre_reference_images';
+const storageKey = 'Kisan Marg_centre_reference_images';
 
 const read = (): CentreReferenceImage[] => {
   try { return JSON.parse(localStorage.getItem(storageKey) || '[]'); } catch { return []; }

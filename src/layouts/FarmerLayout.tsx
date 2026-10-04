@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard,
@@ -19,13 +19,16 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { useSocket } from '../context/SocketContext';
 import { DemoSwitcher } from '../components/DemoSwitcher';
+import { LanguageSelector } from '../components/LanguageSelector';
 import { api } from '../services/api';
+import { useTranslation } from 'react-i18next';
 
 export const FarmerLayout: React.FC = () => {
   const { user, farmer, logout } = useAuth();
   const { lastFarmerUpdate } = useSocket();
   const location = useLocation();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [unreadCount, setUnreadCount] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [liveQueueData, setLiveQueueData] = useState<any>(null);
@@ -53,25 +56,25 @@ export const FarmerLayout: React.FC = () => {
   }, [lastFarmerUpdate]);
 
   const navItems = [
-    { name: 'Overview', path: '/farmer/dashboard', icon: LayoutDashboard },
-    { name: 'Find Centre', path: '/farmer/centres', icon: Search },
-    { name: 'Book Slot', path: '/farmer/book-slot', icon: CalendarCheck2 },
+    { name: t('navigation.overview'), path: '/farmer/dashboard', icon: LayoutDashboard },
+    { name: t('navigation.findCentre'), path: '/farmer/centres', icon: Search },
+    { name: t('navigation.bookSlot'), path: '/farmer/book-slot', icon: CalendarCheck2 },
     {
-      name: 'My Queue',
+      name: t('navigation.myQueue'),
       path: '/farmer/queue',
       icon: Clock,
       badge: liveQueueData?.tokenNumber ? 'LIVE' : null,
     },
-    { name: 'My Bookings', path: '/farmer/bookings', icon: FileText },
-    { name: 'Procurement', path: '/farmer/procurement', icon: ShieldCheck },
-    { name: 'Payment Status', path: '/farmer/payments', icon: CreditCard },
+    { name: t('navigation.myBookings'), path: '/farmer/bookings', icon: FileText },
+    { name: t('navigation.procurement'), path: '/farmer/procurement', icon: ShieldCheck },
+    { name: t('navigation.paymentStatus'), path: '/farmer/payments', icon: CreditCard },
     {
-      name: 'Notifications',
+      name: t('navigation.notifications'),
       path: '/farmer/notifications',
       icon: Bell,
       count: unreadCount,
     },
-    { name: 'Profile', path: '/farmer/profile', icon: UserCheck },
+    { name: t('navigation.profile'), path: '/farmer/profile', icon: UserCheck },
   ];
 
   return (
@@ -93,9 +96,9 @@ export const FarmerLayout: React.FC = () => {
               <Sprout className="w-5 h-5 text-amber-300" />
             </div>
             <div>
-              <span className="text-lg font-bold text-emerald-950 font-serif leading-none">KisanSetu</span>
+              <span className="text-lg font-bold text-emerald-950 font-serif leading-none">Kisan Marg</span>
               <span className="block text-[11px] font-semibold text-emerald-700 tracking-wide uppercase">
-                Farmer Platform
+                {t('farmer.dashboard')}
               </span>
             </div>
           </Link>
@@ -108,18 +111,19 @@ export const FarmerLayout: React.FC = () => {
             className="hidden sm:inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 border border-amber-300/80 text-amber-900 text-xs font-medium hover:bg-amber-100 transition shadow-2xs"
           >
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-            <span>Token: <strong>{liveQueueData.tokenNumber}</strong></span>
+            <span>{t('procurement.token')}: <strong>{liveQueueData.tokenNumber}</strong></span>
             <span className="text-stone-400">•</span>
-            <span>{liveQueueData.farmersAhead} ahead</span>
+            <span>{liveQueueData.farmersAhead} {t('queue.yourPosition')}</span>
             <ChevronRight className="w-3.5 h-3.5 text-amber-700" />
           </Link>
         )}
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
+          <LanguageSelector />
           <Link
             to="/farmer/notifications"
             className="relative p-2 rounded-lg text-stone-600 hover:bg-stone-100 transition"
-            title="Notifications"
+            title={t('navigation.notifications')}
           >
             <Bell className="w-5 h-5" />
             {unreadCount > 0 && (
@@ -140,7 +144,7 @@ export const FarmerLayout: React.FC = () => {
                 navigate('/');
               }}
               className="p-2 text-stone-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition cursor-pointer"
-              title="Sign Out"
+              title={t('common.logout')}
             >
               <LogOut className="w-4 h-4" />
             </button>
@@ -193,7 +197,7 @@ export const FarmerLayout: React.FC = () => {
 
           <div className="mt-auto pt-4 border-t border-stone-200">
             <div className="bg-stone-50 rounded-xl p-3 border border-stone-200 text-xs text-stone-600">
-              <p className="font-semibold text-stone-900 mb-0.5">Need Assistance?</p>
+              <p className="font-semibold text-stone-900 mb-0.5">{t('common.help')}</p>
               <p className="text-[11px] text-stone-500">Kisan Call Centre Toll-Free:</p>
               <p className="font-mono font-bold text-emerald-800 mt-1">1800-180-1551</p>
             </div>
@@ -205,7 +209,7 @@ export const FarmerLayout: React.FC = () => {
           <div className="fixed inset-0 z-40 md:hidden bg-stone-900/60 backdrop-blur-xs flex">
             <div className="w-72 bg-white h-full p-4 flex flex-col shadow-xl">
               <div className="flex items-center justify-between pb-4 border-b border-stone-200">
-                <span className="font-serif font-bold text-emerald-950 text-lg">Farmer Menu</span>
+                <span className="font-serif font-bold text-emerald-950 text-lg">{t('farmer.dashboard')}</span>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
                   className="p-2 text-stone-500 hover:bg-stone-100 rounded-lg"
@@ -250,7 +254,7 @@ export const FarmerLayout: React.FC = () => {
                   className="w-full flex items-center justify-center gap-2 py-2 text-sm font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition"
                 >
                   <LogOut className="w-4 h-4" />
-                  <span>Sign Out</span>
+                  <span>{t('common.logout')}</span>
                 </button>
               </div>
             </div>
@@ -272,7 +276,7 @@ export const FarmerLayout: React.FC = () => {
           }`}
         >
           <LayoutDashboard className="w-5 h-5" />
-          <span>Home</span>
+          <span>{t('common.home')}</span>
         </Link>
 
         <Link
@@ -282,7 +286,7 @@ export const FarmerLayout: React.FC = () => {
           }`}
         >
           <Search className="w-5 h-5" />
-          <span>Centres</span>
+          <span>{t('navigation.centres')}</span>
         </Link>
 
         <Link
@@ -292,7 +296,7 @@ export const FarmerLayout: React.FC = () => {
           }`}
         >
           <CalendarCheck2 className="w-5 h-5" />
-          <span>Book</span>
+          <span>{t('navigation.bookSlot')}</span>
         </Link>
 
         <Link
@@ -302,7 +306,7 @@ export const FarmerLayout: React.FC = () => {
           }`}
         >
           <Clock className="w-5 h-5" />
-          <span>Queue</span>
+          <span>{t('navigation.queue')}</span>
           {liveQueueData?.tokenNumber && (
             <span className="absolute -top-1 right-2 w-2.5 h-2.5 bg-amber-500 rounded-full animate-ping" />
           )}
@@ -315,7 +319,7 @@ export const FarmerLayout: React.FC = () => {
           }`}
         >
           <UserCheck className="w-5 h-5" />
-          <span>Profile</span>
+          <span>{t('navigation.profile')}</span>
         </Link>
       </nav>
     </div>

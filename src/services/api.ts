@@ -1,15 +1,15 @@
-const API_BASE = '/api';
+﻿const API_BASE = '/api';
 
 export function getAuthToken(): string | null {
-  return localStorage.getItem('kisansetu_token');
+  return localStorage.getItem('Kisan Marg_token');
 }
 
 export function setAuthToken(token: string) {
-  localStorage.setItem('kisansetu_token', token);
+  localStorage.setItem('Kisan Marg_token', token);
 }
 
 export function removeAuthToken() {
-  localStorage.removeItem('kisansetu_token');
+  localStorage.removeItem('Kisan Marg_token');
 }
 
 async function request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {

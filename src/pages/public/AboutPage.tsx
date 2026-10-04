@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Sprout, CheckCircle2, Shield, HeartHandshake } from 'lucide-react';
 
 export const AboutPage: React.FC = () => {
@@ -13,7 +13,7 @@ export const AboutPage: React.FC = () => {
             Dignity, Transparency &amp; Speed for Farmers
           </h1>
           <p className="mt-4 text-stone-600 max-w-2xl mx-auto text-base leading-relaxed">
-            KisanSetu was developed as a Smart India Hackathon solution addressing agricultural procurement center bottlenecks across India.
+            Kisan Marg was developed as a Smart India Hackathon solution addressing agricultural procurement center bottlenecks across India.
           </p>
         </div>
 

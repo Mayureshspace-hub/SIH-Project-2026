@@ -1,18 +1,21 @@
-import React from 'react';
+﻿import React from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { Sprout, ArrowRight, Shield } from 'lucide-react';
 import { DemoSwitcher } from '../components/DemoSwitcher';
 import { useAuth } from '../context/AuthContext';
+import { LanguageSelector } from '../components/LanguageSelector';
+import { useTranslation } from 'react-i18next';
 
 export const PublicLayout: React.FC = () => {
   const location = useLocation();
   const { user } = useAuth();
+  const { t } = useTranslation();
 
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'How It Works', path: '/how-it-works' },
-    { name: 'Centres', path: '/centres' },
-    { name: 'About', path: '/about' },
+    { name: t('navigation.home'), path: '/' },
+    { name: t('navigation.howItWorks'), path: '/how-it-works' },
+    { name: t('navigation.centres'), path: '/centres' },
+    { name: t('navigation.about'), path: '/about' },
   ];
 
   return (
@@ -27,9 +30,9 @@ export const PublicLayout: React.FC = () => {
               <Sprout className="w-5 h-5 text-amber-300" />
             </div>
             <div>
-              <span className="text-xl font-bold tracking-tight text-emerald-950 font-serif">KisanSetu</span>
+              <span className="text-xl font-bold tracking-tight text-emerald-950 font-serif">Kisan Marg</span>
               <span className="hidden sm:inline-block ml-2 text-xs font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                Procurement &amp; Live Queue
+                {t('landingPage.sih2026')}
               </span>
             </div>
           </Link>
@@ -48,7 +51,8 @@ export const PublicLayout: React.FC = () => {
             ))}
           </nav>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
+            <LanguageSelector />
             {user ? (
               <Link
                 to={
@@ -60,7 +64,7 @@ export const PublicLayout: React.FC = () => {
                 }
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-800 text-white text-sm font-medium hover:bg-emerald-900 transition shadow-xs"
               >
-                <span>Go to Dashboard</span>
+                <span>{t('navigation.goToDashboard')}</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
             ) : (
@@ -69,13 +73,13 @@ export const PublicLayout: React.FC = () => {
                   to="/login"
                   className="px-3.5 py-2 text-sm font-medium text-stone-700 hover:text-emerald-800 transition"
                 >
-                  Login
+                  {t('navigation.login')}
                 </Link>
                 <Link
                   to="/register"
                   className="inline-flex items-center px-4 py-2 rounded-lg bg-emerald-800 text-white text-sm font-medium hover:bg-emerald-900 transition shadow-xs"
                 >
-                  Register
+                  {t('navigation.register')}
                 </Link>
               </>
             )}
@@ -96,7 +100,7 @@ export const PublicLayout: React.FC = () => {
               <div className="w-8 h-8 rounded-lg bg-emerald-800 flex items-center justify-center text-white">
                 <Sprout className="w-4 h-4 text-amber-300" />
               </div>
-              <span className="text-white font-semibold text-base font-serif">KisanSetu</span>
+              <span className="text-white font-semibold text-base font-serif">Kisan Marg</span>
               <span className="text-xs text-stone-500">| Smart India Hackathon 2026 Initiative</span>
             </div>
 
@@ -118,7 +122,7 @@ export const PublicLayout: React.FC = () => {
           </div>
 
           <div className="mt-6 pt-6 border-t border-stone-800 text-center text-xs text-stone-500">
-            &copy; 2026 KisanSetu. Designed to eliminate waiting lines and bring transparency to agricultural procurement.
+            &copy; 2026 Kisan Marg. Designed to eliminate waiting lines and bring transparency to agricultural procurement.
           </div>
         </div>
       </footer>
