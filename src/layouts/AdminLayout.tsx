@@ -63,9 +63,9 @@ export const AdminLayout: React.FC = () => {
           </div>
 
           <button
-            onClick={() => {
-              logout();
-              navigate('/');
+            onClick={async () => {
+              await logout();
+              navigate('/login');
             }}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-300 hover:text-white text-xs font-medium border border-stone-700 transition cursor-pointer"
           >

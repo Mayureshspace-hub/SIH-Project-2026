@@ -76,9 +76,9 @@ export const OperatorLayout: React.FC = () => {
           </div>
 
           <button
-            onClick={() => {
-              logout();
-              navigate('/');
+            onClick={async () => {
+              await logout();
+              navigate('/login');
             }}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-red-950 text-slate-300 hover:text-red-300 text-xs font-medium border border-slate-700 transition cursor-pointer"
             title="Sign Out"

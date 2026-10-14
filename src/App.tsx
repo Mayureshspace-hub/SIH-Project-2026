@@ -8,7 +8,6 @@ import { PublicLayout } from './layouts/PublicLayout';
 import { FarmerLayout } from './layouts/FarmerLayout';
 import { OperatorLayout } from './layouts/OperatorLayout';
 import { AdminLayout } from './layouts/AdminLayout';
-import { ProtectedRoute } from './components/ProtectedRoute';
 
 // Public Pages
 import { LandingPage } from './pages/public/LandingPage';
@@ -18,6 +17,7 @@ import { PublicCentresPage } from './pages/public/PublicCentresPage';
 import { PublicCentreDetailPage } from './pages/public/PublicCentreDetailPage';
 import { RoleSelectionLoginPage } from './pages/public/RoleSelectionLoginPage';
 import { FarmerRegisterPage } from './pages/public/FarmerRegisterPage';
+import { VerifyEmailPage } from './pages/public/VerifyEmailPage';
 import { AdminLoginPage } from './pages/public/AdminLoginPage';
 
 // Farmer Pages
@@ -71,52 +71,50 @@ export default function App() {
               <Route path="/centres/:id" element={<PublicCentreDetailPage />} />
               <Route path="/login" element={<RoleSelectionLoginPage />} />
               <Route path="/register" element={<FarmerRegisterPage />} />
+              <Route path="/verify-email" element={<VerifyEmailPage />} />
               <Route path="/admin/login" element={<AdminLoginPage />} />
             </Route>
 
-            {/* Protected Private Routes (Farmer, Operator, Admin) */}
-            <Route element={<ProtectedRoute />}>
-              {/* Farmer Flow */}
-              <Route element={<FarmerLayout />}>
-                <Route path="/farmer/dashboard" element={<FarmerDashboard />} />
-                <Route path="/farmer/centres" element={<FindCentresPage />} />
-                <Route path="/farmer/centres/:id" element={<CentreDetailPage />} />
-                <Route path="/farmer/book-slot" element={<BookSlotPage />} />
-                <Route path="/farmer/queue" element={<LiveQueuePage />} />
-                <Route path="/farmer/bookings" element={<MyBookingsPage />} />
-                <Route path="/farmer/procurement" element={<ProcurementPage />} />
-                <Route path="/farmer/payments" element={<PaymentStatusPage />} />
-                <Route path="/farmer/notifications" element={<NotificationsPage />} />
-                <Route path="/farmer/profile" element={<FarmerProfilePage />} />
-              </Route>
+            {/* Farmer Flow */}
+            <Route element={<FarmerLayout />}>
+              <Route path="/farmer/dashboard" element={<FarmerDashboard />} />
+              <Route path="/farmer/centres" element={<FindCentresPage />} />
+              <Route path="/farmer/centres/:id" element={<CentreDetailPage />} />
+              <Route path="/farmer/book-slot" element={<BookSlotPage />} />
+              <Route path="/farmer/queue" element={<LiveQueuePage />} />
+              <Route path="/farmer/bookings" element={<MyBookingsPage />} />
+              <Route path="/farmer/procurement" element={<ProcurementPage />} />
+              <Route path="/farmer/payments" element={<PaymentStatusPage />} />
+              <Route path="/farmer/notifications" element={<NotificationsPage />} />
+              <Route path="/farmer/profile" element={<FarmerProfilePage />} />
+            </Route>
 
-              {/* Operator Flow */}
-              <Route element={<OperatorLayout />}>
-                <Route path="/operator/dashboard" element={<OperatorDashboard />} />
-                <Route path="/operator/queue" element={<TodayQueuePage />} />
-                <Route path="/operator/farmers" element={<OperatorFarmersPage />} />
-                <Route path="/operator/bookings" element={<OperatorBookingsPage />} />
-                <Route path="/operator/procurement" element={<ProcurementSlipPage />} />
-                <Route path="/operator/payments" element={<PaymentUpdatesPage />} />
-                <Route path="/operator/reports" element={<DailyReportsPage />} />
-                <Route path="/operator/profile" element={<CentreProfilePage />} />
-                <Route path="/operator/knowledge-hub" element={<KnowledgeManagementPage />} />
-                <Route path="/operator/ai-image-analysis" element={<ReferenceImageManagementPage />} />
-              </Route>
+            {/* Operator Flow */}
+            <Route element={<OperatorLayout />}>
+              <Route path="/operator/dashboard" element={<OperatorDashboard />} />
+              <Route path="/operator/queue" element={<TodayQueuePage />} />
+              <Route path="/operator/farmers" element={<OperatorFarmersPage />} />
+              <Route path="/operator/bookings" element={<OperatorBookingsPage />} />
+              <Route path="/operator/procurement" element={<ProcurementSlipPage />} />
+              <Route path="/operator/payments" element={<PaymentUpdatesPage />} />
+              <Route path="/operator/reports" element={<DailyReportsPage />} />
+              <Route path="/operator/profile" element={<CentreProfilePage />} />
+              <Route path="/operator/knowledge-hub" element={<KnowledgeManagementPage />} />
+              <Route path="/operator/ai-image-analysis" element={<ReferenceImageManagementPage />} />
+            </Route>
 
-              {/* Admin Flow */}
-              <Route element={<AdminLayout />}>
-                <Route path="/admin/dashboard" element={<AdminDashboard />} />
-                <Route path="/admin/centres" element={<AdminCentresPage />} />
-                <Route path="/admin/operators" element={<AdminOperatorsPage />} />
-                <Route path="/admin/farmers" element={<AdminFarmersPage />} />
-                <Route path="/admin/bookings" element={<AdminBookingsPage />} />
-                <Route path="/admin/queue" element={<AdminQueuePage />} />
-                <Route path="/admin/procurement" element={<AdminProcurementPage />} />
-                <Route path="/admin/payments" element={<AdminPaymentsPage />} />
-                <Route path="/admin/reports" element={<AdminReportsPage />} />
-                <Route path="/admin/settings" element={<AdminSettingsPage />} />
-              </Route>
+            {/* Admin Flow */}
+            <Route element={<AdminLayout />}>
+              <Route path="/admin/dashboard" element={<AdminDashboard />} />
+              <Route path="/admin/centres" element={<AdminCentresPage />} />
+              <Route path="/admin/operators" element={<AdminOperatorsPage />} />
+              <Route path="/admin/farmers" element={<AdminFarmersPage />} />
+              <Route path="/admin/bookings" element={<AdminBookingsPage />} />
+              <Route path="/admin/queue" element={<AdminQueuePage />} />
+              <Route path="/admin/procurement" element={<AdminProcurementPage />} />
+              <Route path="/admin/payments" element={<AdminPaymentsPage />} />
+              <Route path="/admin/reports" element={<AdminReportsPage />} />
+              <Route path="/admin/settings" element={<AdminSettingsPage />} />
             </Route>
 
             {/* Fallback */}

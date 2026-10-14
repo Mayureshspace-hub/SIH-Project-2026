@@ -1,12 +1,13 @@
 import React from 'react';
-import { Outlet, Link, useLocation } from 'react-router-dom';
-import { Sprout, ArrowRight, Shield } from 'lucide-react';
+import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
+import { Sprout, ArrowRight, Shield, LogOut } from 'lucide-react';
 import { DemoSwitcher } from '../components/DemoSwitcher';
 import { useAuth } from '../context/AuthContext';
 
 export const PublicLayout: React.FC = () => {
   const location = useLocation();
-  const { user } = useAuth();
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -50,19 +51,32 @@ export const PublicLayout: React.FC = () => {
 
           <div className="flex items-center gap-3">
             {user ? (
-              <Link
-                to={
-                  user.role === 'FARMER'
-                    ? '/farmer/dashboard'
-                    : user.role === 'OPERATOR'
-                    ? '/operator/dashboard'
-                    : '/admin/dashboard'
-                }
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-800 text-white text-sm font-medium hover:bg-emerald-900 transition shadow-xs"
-              >
-                <span>Go to Dashboard</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
+              <div className="flex items-center gap-2">
+                <Link
+                  to={
+                    user.role === 'FARMER'
+                      ? '/farmer/dashboard'
+                      : user.role === 'OPERATOR'
+                      ? '/operator/dashboard'
+                      : '/admin/dashboard'
+                  }
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-800 text-white text-sm font-medium hover:bg-emerald-900 transition shadow-xs"
+                >
+                  <span>Go to Dashboard</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+                <button
+                  onClick={async () => {
+                    await logout();
+                    navigate('/login');
+                  }}
+                  className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-stone-600 hover:text-red-600 transition cursor-pointer"
+                  title="Sign Out"
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span className="hidden sm:inline">Sign Out</span>
+                </button>
+              </div>
             ) : (
               <>
                 <Link

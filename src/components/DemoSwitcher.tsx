@@ -97,9 +97,9 @@ export const DemoSwitcher: React.FC = () => {
 
           {user && (
             <button
-              onClick={() => {
-                logout();
-                navigate('/');
+              onClick={async () => {
+                await logout();
+                navigate('/login');
                 setIsOpen(false);
               }}
               className="text-red-400 hover:text-red-300 font-medium px-2 py-0.5 underline cursor-pointer"
