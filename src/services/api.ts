@@ -221,9 +221,13 @@ export const api = {
       method: 'POST',
       body: JSON.stringify(data),
     }),
-  analyzeCropQuality: (imageBase64: string, cropName: string, referenceImageBase64?: string, referenceDescription?: string) =>
-    request<any>('/quality/analyze', {
+  analyzeCropQuality: async (imageBase64: string, cropName: string, referenceImageBase64?: string, referenceDescription?: string) => {
+    console.log("🔵 FRONTEND: Sending request to /quality/analyze");
+    const result = await request<any>('/quality/analyze', {
       method: 'POST',
       body: JSON.stringify({ imageBase64, cropName, referenceImageBase64, referenceDescription }),
-    }),
+    });
+    console.log("🟢 FRONTEND: Response from /quality/analyze:", result);
+    return result;
+  },
 };
