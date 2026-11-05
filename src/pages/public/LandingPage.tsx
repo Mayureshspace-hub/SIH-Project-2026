@@ -184,12 +184,10 @@ export const LandingPage: React.FC = () => {
             <FadeIn delay={0.3}>
               <div className="relative mx-auto max-w-[540px]">
                 {/* Background Golden Field Image */}
-                <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white aspect-[16/10] bg-emerald-950 group">
-                  <img
-                    alt="Lush golden wheat crops ready for harvest meeting rich green farm fields at sunset"
-                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
-                    src="https://lh3.googleusercontent.com/aida/AEtjO1Xh3kqz_6pZS-JUQlm4A2Af74VWV4Nrtfh2arJeyYpDONVtljhMVE-wpXIz1ofIRxMZx1CGx0I-upd7ql2PcG78glWsugpPfE8oRDCd67wFoe6MBy6t4U7OFC2U-7sz0Aok0Bd63FfYvt5Csu4RWqvOgPYGYVo8HQJSZSgoJ4EptM9uPIDKiYQoKtPW0M6UyPi6aD6oI-IErGGm_UNM49aZRmDc2-raoRQa3dudSF58-dwo2lIzYSrU0twY"
-                  />
+                <div
+                  className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white aspect-[16/10] bg-emerald-950 bg-cover bg-center group"
+                  style={{ backgroundImage: "url('/assets/verified-centre-landscape.png')" }}
+                >
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
                   <div className="absolute bottom-4 left-4 right-4 text-white flex items-end justify-between">
                     <div>
