@@ -142,7 +142,7 @@ export const HowItWorksPage: React.FC = () => (
     <div className="mx-auto max-w-6xl px-4 sm:px-6">
       <header className="mx-auto mb-12 max-w-2xl text-center sm:mb-14">
         <span className="mb-2 block text-xs font-bold uppercase tracking-wider text-emerald-700">System Guide</span>
-        <h1 className="font-serif text-3xl font-bold text-emerald-950 sm:text-4xl">How KisanSetu Works</h1>
+        <h1 className="font-serif text-3xl font-bold text-emerald-950 sm:text-4xl">How Kisan Marg Works</h1>
         <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-stone-600">
           A clear view of the procurement journey, from booking a center visit to tracking the outcome.
         </p>
@@ -182,7 +182,7 @@ export const HowItWorksPage: React.FC = () => (
           className="inline-flex items-center gap-2 rounded-xl bg-emerald-800 px-6 py-3 font-medium text-white transition hover:bg-emerald-900"
         >
           <Search className="h-4 w-4" aria-hidden="true" />
-          <span>Get started with KisanSetu</span>
+          <span>Get started with Kisan Marg</span>
           <ArrowRight className="h-4 w-4" aria-hidden="true" />
         </Link>
       </div>

@@ -7,13 +7,13 @@ export const AboutPage: React.FC = () => {
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-14">
           <span className="text-xs font-bold text-emerald-700 tracking-wider uppercase mb-2 block">
-            About KisanSetu
+            About Kisan Marg
           </span>
           <h1 className="text-3xl sm:text-4xl font-serif font-bold text-emerald-950">
             Making Procurement Easier for Farmers
           </h1>
           <p className="mt-4 text-stone-600 max-w-3xl mx-auto text-base leading-relaxed">
-            KisanSetu is a digital platform designed to make agricultural procurement easier, faster, and more transparent for farmers. It helps farmers reduce waiting time, manage procurement slots, track queue status, and stay informed about their procurement and payment status.
+            Kisan Marg is a digital platform designed to make agricultural procurement easier, faster, and more transparent for farmers. It helps farmers reduce waiting time, manage procurement slots, track queue status, and stay informed about their procurement and payment status.
           </p>
         </div>
 

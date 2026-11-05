@@ -93,7 +93,7 @@ export const FarmerLayout: React.FC = () => {
               <Sprout className="w-5 h-5 text-amber-300" />
             </div>
             <div>
-              <span className="text-lg font-bold text-emerald-950 font-serif leading-none">KisanSetu</span>
+              <span className="text-lg font-bold text-emerald-950 font-serif leading-none">Kisan Marg</span>
               <span className="block text-[11px] font-semibold text-emerald-700 tracking-wide uppercase">
                 Farmer Platform
               </span>

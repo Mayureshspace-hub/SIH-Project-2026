@@ -67,21 +67,21 @@ export const FarmerRegisterPage: React.FC = () => {
   };
 
   return (
-    <div className="bg-stone-50 py-12 md:py-20 text-stone-900 min-h-[calc(100vh-4rem)] flex items-center justify-center">
+    <div className="bg-[#faf8f5] py-12 md:py-20 text-[#1a2e2a] min-h-[calc(100vh-4rem)] flex items-center justify-center">
       <div className="max-w-lg w-full mx-auto px-4 sm:px-6">
-        <div className="text-center mb-8">
-          <span className="text-xs font-bold text-emerald-700 tracking-wider uppercase mb-1 block">
+        <div className="text-center mb-9">
+          <span className="text-xs font-bold text-[#0f5e59] tracking-[0.16em] uppercase mb-2 block">
             Farmer Enrollment
           </span>
-          <h1 className="text-2xl sm:text-3xl font-serif font-bold text-emerald-950">
-            Register for Smart Procurement
+          <h1 className="text-3xl sm:text-4xl font-serif font-bold tracking-tight text-[#123c35]">
+            Join Kisan Marg
           </h1>
-          <p className="text-xs text-stone-500 mt-1">
+          <p className="text-sm text-stone-500 mt-2">
             Create your digital farmer profile to book slots and skip weighbridge waiting.
           </p>
         </div>
 
-        <div className="bg-white border border-stone-200 rounded-3xl p-6 sm:p-8 shadow-xs">
+        <div className="bg-white border border-[#0f5e59]/15 rounded-3xl p-6 sm:p-8 shadow-[0_18px_50px_rgba(15,94,89,0.08)]">
           <form onSubmit={handleRegister} className="space-y-4">
             <div>
               <label className="block text-xs font-semibold text-stone-700 mb-1">Full Name</label>
@@ -93,7 +93,7 @@ export const FarmerRegisterPage: React.FC = () => {
                   placeholder="e.g. Rameshwar Patil"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 text-sm bg-stone-50 border border-stone-200 rounded-xl focus:outline-none focus:border-emerald-600"
+                  className="w-full pl-10 pr-4 py-2.5 text-sm bg-[#faf8f5] border border-stone-200 rounded-xl transition-colors placeholder:text-stone-400 focus:outline-none focus:border-[#0f8a6a] focus:ring-4 focus:ring-[#0f8a6a]/10"
                 />
               </div>
             </div>
@@ -109,7 +109,7 @@ export const FarmerRegisterPage: React.FC = () => {
                     placeholder="farmer@example.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 text-sm bg-stone-50 border border-stone-200 rounded-xl focus:outline-none focus:border-emerald-600"
+                    className="w-full pl-10 pr-4 py-2.5 text-sm bg-[#faf8f5] border border-stone-200 rounded-xl transition-colors placeholder:text-stone-400 focus:outline-none focus:border-[#0f8a6a] focus:ring-4 focus:ring-[#0f8a6a]/10"
                   />
                 </div>
               </div>
@@ -124,7 +124,7 @@ export const FarmerRegisterPage: React.FC = () => {
                     placeholder="+91 98000 00000"
                     value={mobile}
                     onChange={(e) => setMobile(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 text-sm bg-stone-50 border border-stone-200 rounded-xl focus:outline-none focus:border-emerald-600"
+                    className="w-full pl-10 pr-4 py-2.5 text-sm bg-[#faf8f5] border border-stone-200 rounded-xl transition-colors placeholder:text-stone-400 focus:outline-none focus:border-[#0f8a6a] focus:ring-4 focus:ring-[#0f8a6a]/10"
                   />
                 </div>
               </div>
@@ -141,7 +141,7 @@ export const FarmerRegisterPage: React.FC = () => {
                     placeholder="Sawangi, Parseoni"
                     value={village}
                     onChange={(e) => setVillage(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 text-sm bg-stone-50 border border-stone-200 rounded-xl focus:outline-none focus:border-emerald-600"
+                    className="w-full pl-10 pr-4 py-2.5 text-sm bg-[#faf8f5] border border-stone-200 rounded-xl transition-colors placeholder:text-stone-400 focus:outline-none focus:border-[#0f8a6a] focus:ring-4 focus:ring-[#0f8a6a]/10"
                   />
                 </div>
               </div>
@@ -151,7 +151,7 @@ export const FarmerRegisterPage: React.FC = () => {
                 <select
                   value={district}
                   onChange={(e) => setDistrict(e.target.value)}
-                  className="w-full py-2 px-3 text-sm bg-stone-50 border border-stone-200 rounded-xl focus:outline-none focus:border-emerald-600"
+                  className="w-full py-2.5 px-3 text-sm bg-[#faf8f5] border border-stone-200 rounded-xl transition-colors focus:outline-none focus:border-[#0f8a6a] focus:ring-4 focus:ring-[#0f8a6a]/10"
                 >
                   <option value="Nagpur">Nagpur</option>
                   <option value="Wardha">Wardha</option>
@@ -171,7 +171,7 @@ export const FarmerRegisterPage: React.FC = () => {
                   required
                   value={landArea}
                   onChange={(e) => setLandArea(e.target.value)}
-                  className="w-full px-4 py-2 text-sm bg-stone-50 border border-stone-200 rounded-xl focus:outline-none focus:border-emerald-600"
+                  className="w-full px-4 py-2.5 text-sm bg-[#faf8f5] border border-stone-200 rounded-xl transition-colors focus:outline-none focus:border-[#0f8a6a] focus:ring-4 focus:ring-[#0f8a6a]/10"
                 />
               </div>
 
@@ -184,7 +184,7 @@ export const FarmerRegisterPage: React.FC = () => {
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 text-sm bg-stone-50 border border-stone-200 rounded-xl focus:outline-none focus:border-emerald-600"
+                    className="w-full pl-10 pr-4 py-2.5 text-sm bg-[#faf8f5] border border-stone-200 rounded-xl transition-colors focus:outline-none focus:border-[#0f8a6a] focus:ring-4 focus:ring-[#0f8a6a]/10"
                   />
                 </div>
               </div>
@@ -193,7 +193,7 @@ export const FarmerRegisterPage: React.FC = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full mt-3 py-3 px-4 rounded-xl bg-emerald-800 hover:bg-emerald-900 text-white font-semibold text-sm transition shadow-xs flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70"
+              className="w-full mt-3 py-3 px-4 rounded-xl bg-[#0f5e59] hover:bg-[#0b4b47] text-white font-semibold text-sm transition-all duration-200 shadow-sm hover:shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8a317] focus-visible:ring-offset-2"
             >
               <span>{loading ? 'Registering...' : 'Complete Farmer Registration'}</span>
               <ArrowRight className="w-4 h-4" />
@@ -212,7 +212,7 @@ export const FarmerRegisterPage: React.FC = () => {
               type="button"
               onClick={handleGoogleSignIn}
               disabled={loading}
-              className="w-full py-2.5 px-4 rounded-xl border border-stone-300 hover:border-stone-400 bg-white hover:bg-stone-50 text-stone-700 font-semibold text-sm transition shadow-xs flex items-center justify-center gap-2.5 cursor-pointer disabled:opacity-60"
+              className="w-full py-3 px-4 rounded-xl border border-stone-300 hover:border-[#0f5e59]/50 bg-white hover:bg-[#faf8f5] text-stone-700 font-semibold text-sm transition-all duration-200 shadow-sm hover:shadow-md flex items-center justify-center gap-2.5 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8a317] focus-visible:ring-offset-2"
             >
               <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />

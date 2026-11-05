@@ -106,7 +106,7 @@ export const AdminSettingsPage: React.FC = () => {
                 className="w-4 h-4 text-emerald-700 rounded"
               />
               <div>
-                <strong className="block text-stone-900">KisanSetu WhatsApp Business Desk</strong>
+                <strong className="block text-stone-900">Kisan Marg WhatsApp Business Desk</strong>
                 <span className="text-stone-500 text-[11px]">Instant digital pass and live queue link</span>
               </div>
             </label>

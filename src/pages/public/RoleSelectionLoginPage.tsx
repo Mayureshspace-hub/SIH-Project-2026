@@ -92,35 +92,35 @@ export const RoleSelectionLoginPage: React.FC = () => {
   };
 
   return (
-    <div className="bg-stone-50 py-12 md:py-20 text-stone-900 min-h-[calc(100vh-4rem)] flex items-center justify-center">
+    <div className="bg-[#faf8f5] py-12 md:py-20 text-[#1a2e2a] min-h-[calc(100vh-4rem)] flex items-center justify-center">
       <div className="max-w-md w-full mx-auto px-4 sm:px-6">
-        <div className="text-center mb-8">
-          <span className="text-xs font-bold text-emerald-700 tracking-wider uppercase mb-1 block">
+        <div className="text-center mb-9">
+          <span className="text-xs font-bold text-[#0f5e59] tracking-[0.16em] uppercase mb-2 block">
             Portal Access
           </span>
-          <h1 className="text-2xl sm:text-3xl font-serif font-bold text-emerald-950">
-            Sign In to KisanSetu
+          <h1 className="text-3xl sm:text-4xl font-serif font-bold tracking-tight text-[#123c35]">
+            Sign In to Kisan Marg
           </h1>
-          <p className="text-xs text-stone-500 mt-1">Select your account persona below to continue.</p>
+          <p className="text-sm text-stone-500 mt-2">Select your account type to continue.</p>
         </div>
 
         {/* Role Selection Box: Farmer vs Centre (Section 6) */}
-        <div className="bg-white border border-stone-200 rounded-3xl p-6 sm:p-8 shadow-xs">
-          <label className="block text-xs font-bold text-stone-700 uppercase tracking-wide mb-3 text-center">
+        <div className="bg-white border border-[#0f5e59]/15 rounded-3xl p-6 sm:p-8 shadow-[0_18px_50px_rgba(15,94,89,0.08)]">
+          <label className="block text-xs font-bold text-[#123c35] uppercase tracking-[0.12em] mb-4 text-center">
             Who are you?
           </label>
 
-          <div className="grid grid-cols-2 gap-3 mb-6">
+          <div className="grid grid-cols-2 gap-3 mb-7">
             <button
               type="button"
               onClick={() => handleRoleChange('FARMER')}
-              className={`flex flex-col items-center gap-2 p-3.5 rounded-2xl border-2 transition cursor-pointer ${
+              className={`flex flex-col items-center gap-2.5 p-4 rounded-2xl border-2 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8a317] focus-visible:ring-offset-2 ${
                 selectedRole === 'FARMER'
-                  ? 'border-emerald-700 bg-emerald-50 text-emerald-950 font-bold'
-                  : 'border-stone-200 hover:border-stone-300 text-stone-600 bg-stone-50'
+                  ? 'border-[#0f8a6a] bg-[#e8f8f0] text-[#123c35] font-bold shadow-sm'
+                  : 'border-stone-200 hover:border-[#0f5e59]/40 hover:bg-[#faf8f5] text-stone-600 bg-white'
               }`}
             >
-              <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-800">
+              <div className="w-11 h-11 rounded-full bg-[#d7f6e7] flex items-center justify-center text-[#0f7c61]">
                 <Users className="w-5 h-5" />
               </div>
               <span className="text-xs">👨‍🌾 Farmer</span>
@@ -129,13 +129,13 @@ export const RoleSelectionLoginPage: React.FC = () => {
             <button
               type="button"
               onClick={() => handleRoleChange('OPERATOR')}
-              className={`flex flex-col items-center gap-2 p-3.5 rounded-2xl border-2 transition cursor-pointer ${
+              className={`flex flex-col items-center gap-2.5 p-4 rounded-2xl border-2 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8a317] focus-visible:ring-offset-2 ${
                 selectedRole === 'OPERATOR'
-                  ? 'border-emerald-700 bg-emerald-50 text-emerald-950 font-bold'
-                  : 'border-stone-200 hover:border-stone-300 text-stone-600 bg-stone-50'
+                  ? 'border-[#0f8a6a] bg-[#e8f8f0] text-[#123c35] font-bold shadow-sm'
+                  : 'border-stone-200 hover:border-[#0f5e59]/40 hover:bg-[#faf8f5] text-stone-600 bg-white'
               }`}
             >
-              <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-800">
+              <div className="w-11 h-11 rounded-full bg-[#d7f6e7] flex items-center justify-center text-[#0f7c61]">
                 <Building2 className="w-5 h-5" />
               </div>
               <span className="text-xs">🏢 Procurement Centre</span>
@@ -152,7 +152,7 @@ export const RoleSelectionLoginPage: React.FC = () => {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 text-sm bg-stone-50 border border-stone-200 rounded-xl focus:outline-none focus:border-emerald-600"
+                  className="w-full pl-10 pr-4 py-2.5 text-sm bg-[#faf8f5] border border-stone-200 rounded-xl transition-colors placeholder:text-stone-400 focus:outline-none focus:border-[#0f8a6a] focus:ring-4 focus:ring-[#0f8a6a]/10"
                 />
               </div>
             </div>
@@ -166,7 +166,7 @@ export const RoleSelectionLoginPage: React.FC = () => {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 text-sm bg-stone-50 border border-stone-200 rounded-xl focus:outline-none focus:border-emerald-600"
+                  className="w-full pl-10 pr-4 py-2.5 text-sm bg-[#faf8f5] border border-stone-200 rounded-xl transition-colors placeholder:text-stone-400 focus:outline-none focus:border-[#0f8a6a] focus:ring-4 focus:ring-[#0f8a6a]/10"
                 />
               </div>
             </div>
@@ -174,7 +174,7 @@ export const RoleSelectionLoginPage: React.FC = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full mt-2 py-3 px-4 rounded-xl bg-emerald-800 hover:bg-emerald-900 text-white font-semibold text-sm transition shadow-xs flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70"
+              className="w-full mt-2 py-3 px-4 rounded-xl bg-[#0f5e59] hover:bg-[#0b4b47] text-white font-semibold text-sm transition-all duration-200 shadow-sm hover:shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8a317] focus-visible:ring-offset-2"
             >
               <span>{loading ? 'Authenticating...' : `Sign In as ${selectedRole === 'FARMER' ? 'Farmer' : 'Centre Operator'}`}</span>
               <ArrowRight className="w-4 h-4" />
@@ -193,7 +193,7 @@ export const RoleSelectionLoginPage: React.FC = () => {
               type="button"
               onClick={handleGoogleSignIn}
               disabled={loading}
-              className="w-full py-2.5 px-4 rounded-xl border border-stone-300 hover:border-stone-400 bg-white hover:bg-stone-50 text-stone-700 font-semibold text-sm transition shadow-xs flex items-center justify-center gap-2.5 cursor-pointer disabled:opacity-60"
+              className="w-full py-3 px-4 rounded-xl border border-stone-300 hover:border-[#0f5e59]/50 bg-white hover:bg-[#faf8f5] text-stone-700 font-semibold text-sm transition-all duration-200 shadow-sm hover:shadow-md flex items-center justify-center gap-2.5 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8a317] focus-visible:ring-offset-2"
             >
               <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
