@@ -7,7 +7,6 @@ import {
   Mail,
   ArrowRight,
   AlertCircle,
-  Sparkles
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { Role } from '../../types';
@@ -16,8 +15,8 @@ import { signInWithEmailAndPassword, sendEmailVerification, signOut } from 'fire
 
 export const RoleSelectionLoginPage: React.FC = () => {
   const [selectedRole, setSelectedRole] = useState<'FARMER' | 'OPERATOR'>('FARMER');
-  const [email, setEmail] = useState('farmer@demo.com');
-  const [password, setPassword] = useState('Farmer@123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -27,13 +26,8 @@ export const RoleSelectionLoginPage: React.FC = () => {
   const handleRoleChange = (role: 'FARMER' | 'OPERATOR') => {
     setSelectedRole(role);
     setError(null);
-    if (role === 'FARMER') {
-      setEmail('farmer@demo.com');
-      setPassword('Farmer@123');
-    } else {
-      setEmail('operator@parseoni.demo');
-      setPassword('Operator@123');
-    }
+    setEmail('');
+    setPassword('');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -217,19 +211,6 @@ export const RoleSelectionLoginPage: React.FC = () => {
               </div>
             )}
           </form>
-
-          {/* Quick Demo Autofill Notice */}
-          <div className="mt-5 pt-4 border-t border-stone-100 bg-stone-50 p-3 rounded-xl text-xs text-stone-600">
-            <div className="flex items-center justify-between mb-1">
-              <span className="font-semibold text-emerald-900 flex items-center gap-1">
-                <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-                Demo Credentials Loaded
-              </span>
-            </div>
-            <p className="font-mono text-[11px] text-stone-500">
-              User: <strong className="text-stone-800">{email}</strong> | Pass: <strong className="text-stone-800">{password}</strong>
-            </p>
-          </div>
 
           {/* Registration link ONLY for Farmers, never for Operators per Section 6 */}
           {selectedRole === 'FARMER' ? (
