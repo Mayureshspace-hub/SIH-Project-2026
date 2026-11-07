@@ -21,7 +21,11 @@ export const AdminLoginPage: React.FC = () => {
       await login({ email, password, role: 'ADMIN' });
       navigate('/admin/dashboard');
     } catch (err: any) {
-      setError(err.message || 'Access denied. Invalid administrator credentials.');
+      if (err?.code === 'auth/email-not-verified') {
+        navigate('/verify-email', { state: { email } });
+        return;
+      }
+      setError('Access denied. Invalid administrator credentials.');
     } finally {
       setLoading(false);
     }

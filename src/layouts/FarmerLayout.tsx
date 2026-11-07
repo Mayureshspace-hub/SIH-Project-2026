@@ -93,7 +93,7 @@ export const FarmerLayout: React.FC = () => {
               <Sprout className="w-5 h-5 text-amber-300" />
             </div>
             <div>
-              <span className="text-lg font-bold text-emerald-950 font-serif leading-none">KisanSetu</span>
+              <span className="text-lg font-bold text-emerald-950 font-serif leading-none">Kisan Marg</span>
               <span className="block text-[11px] font-semibold text-emerald-700 tracking-wide uppercase">
                 Farmer Platform
               </span>
@@ -135,9 +135,9 @@ export const FarmerLayout: React.FC = () => {
               <p className="text-[11px] text-stone-500">{farmer?.farmerId || 'MH-NAG-2026-0814'}</p>
             </div>
             <button
-              onClick={() => {
-                logout();
-                navigate('/');
+              onClick={async () => {
+                await logout();
+                navigate('/login');
               }}
               className="p-2 text-stone-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition cursor-pointer"
               title="Sign Out"
@@ -243,9 +243,9 @@ export const FarmerLayout: React.FC = () => {
 
               <div className="pt-3 border-t border-stone-200">
                 <button
-                  onClick={() => {
-                    logout();
-                    navigate('/');
+                  onClick={async () => {
+                    await logout();
+                    navigate('/login');
                   }}
                   className="w-full flex items-center justify-center gap-2 py-2 text-sm font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition"
                 >
