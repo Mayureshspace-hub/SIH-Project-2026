@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { Settings, Sliders, CheckCircle2, ShieldAlert, Save } from 'lucide-react';
 
 export const AdminSettingsPage: React.FC = () => {

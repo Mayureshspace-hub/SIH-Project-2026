@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+﻿import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User, Farmer, Operator, Role } from '../types';
 import { api, setAuthToken, removeAuthToken, getAuthToken } from '../services/api';
 import { auth } from '../firebase';
@@ -198,7 +198,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       password = 'Operator@123';
       roleEnum = 'OPERATOR';
     } else if (role === 'admin') {
-      email = 'admin@demo.kisansetu';
+      email = 'admin@demo.Kisan Marg';
       password = 'Admin@123';
       roleEnum = 'ADMIN';
     }

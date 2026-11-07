@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import {
-  Sprout,
   ArrowRight,
   Shield,
   Menu,
@@ -14,18 +13,21 @@ import {
 import { motion, AnimatePresence } from 'motion/react';
 import { DemoSwitcher } from '../components/DemoSwitcher';
 import { useAuth } from '../context/AuthContext';
+import { LanguageSelector } from '../components/LanguageSelector';
+import { useTranslation } from 'react-i18next';
 
 export const PublicLayout: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { t } = useTranslation();
 
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'How It Works', path: '/how-it-works' },
-    { name: 'Centres', path: '/centres' },
-    { name: 'About', path: '/about' },
+    { name: t('navigation.home'), path: '/' },
+    { name: t('navigation.howItWorks'), path: '/how-it-works' },
+    { name: t('navigation.centres'), path: '/centres' },
+    { name: t('navigation.about'), path: '/about' },
   ];
 
   const handleLogout = async () => {
@@ -96,6 +98,8 @@ export const PublicLayout: React.FC = () => {
 
           {/* Right Actions */}
           <div className="flex items-center gap-3">
+            <LanguageSelector />
+
             {user ? (
               <div className="flex items-center gap-2">
                 <Link
@@ -108,17 +112,17 @@ export const PublicLayout: React.FC = () => {
                   }
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#0f5e59] text-white text-sm font-medium hover:bg-[#0d4f4b] transition shadow-sm"
                 >
-                  <span>Go to Dashboard</span>
+                  <span>{t('navigation.goToDashboard')}</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
 
                 <button
                   onClick={handleLogout}
                   className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-stone-600 hover:text-red-600 transition cursor-pointer"
-                  title="Sign Out"
+                  title={t('common.logout')}
                 >
                   <LogOut className="w-4 h-4" />
-                  <span>Sign Out</span>
+                  <span>{t('common.logout')}</span>
                 </button>
               </div>
             ) : (
@@ -127,14 +131,14 @@ export const PublicLayout: React.FC = () => {
                   to="/login"
                   className="hidden sm:inline-block px-3.5 py-2 text-sm font-medium text-[#1a2e2a]/70 hover:text-[#0f5e59] transition-colors"
                 >
-                  Login
+                  {t('navigation.login')}
                 </Link>
 
                 <Link
                   to="/register"
                   className="hidden sm:inline-flex items-center px-5 py-2 rounded-lg bg-[#0f5e59] text-white text-sm font-medium hover:bg-[#0d4f4b] transition shadow-sm"
                 >
-                  Register
+                  {t('navigation.register')}
                 </Link>
               </>
             )}
@@ -185,7 +189,7 @@ export const PublicLayout: React.FC = () => {
                     onClick={handleLogout}
                     className="w-full text-left px-3 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg"
                   >
-                    Sign Out
+                    {t('common.logout')}
                   </button>
                 ) : (
                   <div className="pt-3 border-t border-stone-100 flex gap-2">
@@ -194,7 +198,7 @@ export const PublicLayout: React.FC = () => {
                       onClick={() => setMobileOpen(false)}
                       className="flex-1 text-center px-4 py-2.5 rounded-lg text-sm font-medium text-[#0f5e59] border border-[#0f5e59]/20 hover:bg-[#0f5e59]/5 transition-colors"
                     >
-                      Login
+                      {t('navigation.login')}
                     </Link>
 
                     <Link
@@ -202,7 +206,7 @@ export const PublicLayout: React.FC = () => {
                       onClick={() => setMobileOpen(false)}
                       className="flex-1 text-center px-4 py-2.5 rounded-lg text-sm font-medium bg-[#0f5e59] text-white hover:bg-[#0d4f4b] transition"
                     >
-                      Register
+                      {t('navigation.register')}
                     </Link>
                   </div>
                 )}
@@ -223,6 +227,7 @@ export const PublicLayout: React.FC = () => {
         style={{ backgroundImage: "url('/assets/kisan-marg-footer-landscape.png')" }}
       >
         <div className="absolute inset-0 bg-gradient-to-r from-[#063d2e]/30 via-[#063d2e]/65 to-[#022d24]/95" />
+
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
 
@@ -277,9 +282,21 @@ export const PublicLayout: React.FC = () => {
                 Contact
               </h4>
               <div className="space-y-3 text-sm text-white/75">
-                <p className="flex items-center gap-2"><Phone className="w-4 h-4 text-[#f7c531]" />Helpline: 1800-XXX-XXXX</p>
-                <a className="flex items-center gap-2 hover:text-[#f7c531] transition-colors" href="mailto:support@kisanmarg.gov.in"><Mail className="w-4 h-4 text-[#f7c531]" />support@kisanmarg.gov.in</a>
-                <p className="flex items-center gap-2"><Clock className="w-4 h-4 text-[#f7c531]" />Mon–Sat, 8 AM – 6 PM</p>
+                <p className="flex items-center gap-2">
+                  <Phone className="w-4 h-4 text-[#f7c531]" />
+                  Helpline: 1800-XXX-XXXX
+                </p>
+                <a
+                  className="flex items-center gap-2 hover:text-[#f7c531] transition-colors"
+                  href="mailto:support@kisanmarg.gov.in"
+                >
+                  <Mail className="w-4 h-4 text-[#f7c531]" />
+                  support@kisanmarg.gov.in
+                </a>
+                <p className="flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-[#f7c531]" />
+                  Mon–Sat, 8 AM – 6 PM
+                </p>
               </div>
             </div>
           </div>

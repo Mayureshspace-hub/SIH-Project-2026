@@ -1,15 +1,15 @@
-const API_BASE = '/api';
+﻿const API_BASE = '/api';
 
 export function getAuthToken(): string | null {
-  return localStorage.getItem('kisansetu_token');
+  return localStorage.getItem('Kisan Marg_token');
 }
 
 export function setAuthToken(token: string) {
-  localStorage.setItem('kisansetu_token', token);
+  localStorage.setItem('Kisan Marg_token', token);
 }
 
 export function removeAuthToken() {
-  localStorage.removeItem('kisansetu_token');
+  localStorage.removeItem('Kisan Marg_token');
 }
 
 async function request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
@@ -221,9 +221,13 @@ export const api = {
       method: 'POST',
       body: JSON.stringify(data),
     }),
-  analyzeCropQuality: (imageBase64: string, cropName: string, referenceImageBase64?: string, referenceDescription?: string) =>
-    request<any>('/quality/analyze', {
+  analyzeCropQuality: async (imageBase64: string, cropName: string, referenceImageBase64?: string, referenceDescription?: string) => {
+    console.log("🔵 FRONTEND: Sending request to /quality/analyze");
+    const result = await request<any>('/quality/analyze', {
       method: 'POST',
       body: JSON.stringify({ imageBase64, cropName, referenceImageBase64, referenceDescription }),
-    }),
+    });
+    console.log("🟢 FRONTEND: Response from /quality/analyze:", result);
+    return result;
+  },
 };
