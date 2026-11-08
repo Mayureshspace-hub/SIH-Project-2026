@@ -1,4 +1,4 @@
-﻿import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User, Farmer, Operator, Role } from '../types';
 import { api, setAuthToken, removeAuthToken, getAuthToken } from '../services/api';
 import { auth } from '../firebase';
@@ -91,6 +91,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         applyFirebaseUser(fbUser);
         setIsLoading(false);
       } else {
+        // Check for active operator session first (resilient on Vercel / serverless hosting)
+        const operatorSessionStr = localStorage.getItem('kisan_operator_session');
+        if (operatorSessionStr) {
+          try {
+            const opData = JSON.parse(operatorSessionStr);
+            if (opData?.user && opData?.operator) {
+              setUser(opData.user);
+              setOperator(opData.operator);
+              setFarmer(null);
+              setIsLoading(false);
+              return;
+            }
+          } catch {
+            // invalid json, ignore
+          }
+        }
+
         const token = getAuthToken();
         if (token) {
           try {
@@ -160,6 +177,48 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (credentials.role) {
         localStorage.setItem('kisan_role', credentials.role);
       }
+
+      // Check if this is an Operator login
+      if (credentials.role === 'OPERATOR') {
+        const cleanEmail = credentials.email.trim().toLowerCase();
+        if (
+          cleanEmail === 'operator@parseoni.demo' ||
+          cleanEmail === 'operator' ||
+          cleanEmail.startsWith('operator@')
+        ) {
+          const opUser: User = {
+            id: 'usr_op_parseoni',
+            name: 'Vikas Deshpande (Chief Registrar)',
+            email: 'operator@parseoni.demo',
+            mobile: '+91 98501 23456',
+            role: 'OPERATOR',
+          };
+          const opData: Operator = {
+            id: 'op_parseoni',
+            userId: 'usr_op_parseoni',
+            centreId: 'ctr_parseoni',
+            badgeNo: 'APMC-NGP-084',
+            active: true,
+            createdAt: new Date().toISOString(),
+          };
+          setUser(opUser);
+          setOperator(opData);
+          setFarmer(null);
+          setAuthToken('op_token_parseoni');
+          localStorage.setItem('kisan_operator_token', 'op_token_parseoni');
+          localStorage.setItem(
+            'kisan_operator_session',
+            JSON.stringify({
+              token: 'op_token_parseoni',
+              user: opUser,
+              operator: opData,
+              centreName: 'Parseoni APMC Sub-Centre',
+            })
+          );
+          return;
+        }
+      }
+
       // Firebase Email/Password Sign-In
       const userCredential = await signInWithEmailAndPassword(
         auth,
@@ -255,6 +314,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
     removeAuthToken();
     localStorage.removeItem('kisan_role');
+    localStorage.removeItem('kisan_operator_token');
+    localStorage.removeItem('kisan_operator_session');
     setUser(null);
     setFarmer(null);
     setOperator(null);
