@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import {
   CreditCard,
   CheckCircle2,
@@ -39,7 +39,7 @@ export const PaymentStatusPage: React.FC = () => {
       <div className="bg-stone-100 border border-stone-200 rounded-2xl p-4 flex items-start gap-3 text-xs text-stone-600">
         <Info className="w-4 h-4 text-emerald-800 shrink-0 mt-0.5" />
         <p>
-          <strong>Procurement Integrity Rule:</strong> Payment records and disbursed amounts are published strictly after physical weighment, moisture grading, and official sanction by the centre officer. KisanSetu does not display speculative or unconfirmed sums prior to authorization.
+          <strong>Procurement Integrity Rule:</strong> Payment records and disbursed amounts are published strictly after physical weighment, moisture grading, and official sanction by the centre officer. Kisan Marg does not display speculative or unconfirmed sums prior to authorization.
         </p>
       </div>
 

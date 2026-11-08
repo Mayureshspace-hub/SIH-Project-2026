@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from 'express';
 import http from 'http';
 import path from 'path';
@@ -1277,79 +1278,110 @@ async function startServer() {
   // ==========================================
   app.post('/api/quality/analyze', authenticate, async (req: any, res) => {
     try {
-      const { imageBase64, cropName, produceType } = req.body;
+      const { imageBase64, cropName, produceType: _produceType, referenceImageBase64, referenceDescription } = req.body;
 
       if (!imageBase64) {
         return res.status(400).json({ error: 'Produce image is required for preliminary quality analysis' });
       }
 
       // Check if Gemini API key is available
-      if (process.env.GEMINI_API_KEY) {
-        try {
-          const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-          const base64Data = imageBase64.replace(/^data:image\/\w+;base64,/, '');
-
-          const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
-            contents: [
-              {
-                role: 'user',
-                parts: [
-                  {
-                    text: `You are an agricultural quality assessment advisor. Analyze this agricultural produce sample (${
-                      cropName || 'Grains'
-                    }).
-Assess the visual quality, grain uniformity, foreign matter presence, moisture indication, and estimated FAQ grade.
-Provide a strictly structured JSON response in this format:
-{
-  "estimatedGrade": "Grade A (FAQ)" or "Grade B" or "FAQ Standard",
-  "uniformityPercentage": 92,
-  "foreignMatter": "Low (<1.2%)",
-  "discoloration": "Minimal",
-  "estimatedMspCompliance": "High (Meets standard procurement benchmarks)",
-  "observations": ["Uniform kernel size", "Clean harvested produce", "Low chaff content"],
-  "disclaimer": "Preliminary AI-assisted indication only. Final quality assessment and moisture testing is performed by the authorized procurement centre."
-}`,
-                  },
-                  {
-                    inlineData: {
-                      mimeType: 'image/jpeg',
-                      data: base64Data,
-                    },
-                  },
-                ],
-              },
-            ],
-          });
-
-          const rawText = response.text || '';
-          const jsonMatch = rawText.match(/\{[\s\S]*\}/);
-          if (jsonMatch) {
-            const parsed = JSON.parse(jsonMatch[0]);
-            return res.json(parsed);
-          }
-        } catch (genErr) {
-          console.warn('Gemini API call fallback to standard rule assessment:', genErr);
-        }
+      if (!process.env.GEMINI_API_KEY) {
+        return res.status(500).json({ error: 'Gemini API key is not configured' });
       }
 
-      // Fallback deterministic quality indicator (if no API key or image parsing fallback)
-      return res.json({
-        estimatedGrade: 'Grade A (FAQ)',
-        uniformityPercentage: 89,
-        foreignMatter: 'Low (< 1.5%)',
-        discoloration: 'Minimal (< 2%)',
-        estimatedMspCompliance: 'High (Meets standard procurement benchmarks)',
-        observations: [
-          'High visual uniformity in grain distribution',
-          'Absence of major foreign stones or inorganic matter',
-          'Moisture appears within acceptable procurement threshold (~12-14%)',
-        ],
-        disclaimer:
-          'Preliminary AI-assisted indication only. Final quality assessment is performed by the authorized procurement centre.',
-      });
+      try {
+        const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+        const toInlineData = (image: string) => {
+          const match = image.match(/^data:(image\/[^;]+);base64,(.*)$/);
+          return { mimeType: match?.[1] || 'image/jpeg', data: match?.[2] || image };
+        };
+        const produceImage = toInlineData(imageBase64);
+        const referenceImage = referenceImageBase64 ? toInlineData(referenceImageBase64) : null;
+
+        let response;
+        let attempts = 0;
+        const maxAttempts = 4;
+        let lastError: any = null;
+
+        while (attempts < maxAttempts) {
+          try {
+            response = await ai.models.generateContent({
+              model: 'gemini-3.1-flash-lite',
+              contents: [
+                {
+                  role: 'user',
+                  parts: [
+                    {
+                      text: `You are an agricultural quality assessment advisor. Analyze this agricultural produce sample (${cropName || 'Grains'}).
+${referenceImage ? `Compare it specifically with the supplied ${referenceDescription || 'procurement centre reference'} image. Treat that image as the centre's best-quality visual standard and describe the produce image's relative quality.` : ''}
+Assess only visual quality and similarity to the reference. Do not infer or state moisture, impurity percentages, exact foreign-matter percentages, or procurement prices.
+Provide a strictly structured JSON response in this format:
+{
+  "estimatedGrade": "Grade A" or "Grade B" or "Grade C",
+  "visualSimilarityPercentage": 89,
+  "uniformity": "High" or "Medium" or "Low",
+  "visibleDamage": "Low" or "Medium" or "High",
+  "discoloration": "Low" or "Medium" or "High",
+  "visibleForeignMatter": "Low" or "Medium" or "High"
+}`,
+                    },
+                    {
+                      inlineData: produceImage,
+                    },
+                    ...(referenceImage ? [{ inlineData: referenceImage }] : []),
+                  ],
+                },
+              ],
+            });
+            break;
+          } catch (error: any) {
+            lastError = error;
+            attempts++;
+            const status = error.status || (error.response && error.response.status);
+            if ((status === 503 || status === 429) && attempts < maxAttempts) {
+              // Exponential backoff: ~2s, ~4s, ~8s with jitter to avoid thundering herd
+              const baseDelay = Math.pow(2, attempts) * 1000;
+              const jitter = Math.random() * 500;
+              await new Promise(resolve => setTimeout(resolve, baseDelay + jitter));
+              continue;
+            }
+            throw error;
+          }
+        }
+
+        if (!response) {
+          // All retries exhausted without a successful response
+          const statusCode = lastError?.status || 503;
+          return res.status(statusCode === 429 ? 429 : 503).json({
+            error: 'AI analysis service is temporarily unavailable due to high demand. Please try again in a few minutes.',
+            retryable: true,
+          });
+        }
+
+        const rawText = response.text || '';
+        const jsonMatch = rawText.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          const parsed = JSON.parse(jsonMatch[0]);
+          return res.json(parsed);
+        } else {
+          throw new Error("Invalid format received from Gemini AI");
+        }
+      } catch (genErr: any) {
+        console.error('[Quality AI] Analysis error:', genErr.name || 'Error', genErr.message || '');
+        const status = genErr.status || (genErr.response && genErr.response.status);
+        if (status === 503 || status === 429) {
+          return res.status(status === 429 ? 429 : 503).json({
+            error: 'AI analysis service is temporarily unavailable due to high demand. Please try again in a few minutes.',
+            retryable: true,
+          });
+        }
+        return res.status(500).json({
+          error: 'Gemini AI analysis failed. Please try again later.',
+        });
+      }
     } catch (err: any) {
-      res.status(500).json({ error: err.message || 'Quality analysis failed' });
+      console.error('[Quality AI] Unexpected error:', err.message || '');
+      res.status(500).json({ error: 'Quality analysis failed. Please try again later.' });
     }
   });
 

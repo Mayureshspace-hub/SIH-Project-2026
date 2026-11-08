@@ -18,6 +18,7 @@ import { PublicCentresPage } from './pages/public/PublicCentresPage';
 import { PublicCentreDetailPage } from './pages/public/PublicCentreDetailPage';
 import { RoleSelectionLoginPage } from './pages/public/RoleSelectionLoginPage';
 import { FarmerRegisterPage } from './pages/public/FarmerRegisterPage';
+import { VerifyEmailPage } from './pages/public/VerifyEmailPage';
 import { AdminLoginPage } from './pages/public/AdminLoginPage';
 
 // Farmer Pages
@@ -29,7 +30,6 @@ import { LiveQueuePage } from './pages/farmer/LiveQueuePage';
 import { MyBookingsPage } from './pages/farmer/MyBookingsPage';
 import { ProcurementPage } from './pages/farmer/ProcurementPage';
 import { PaymentStatusPage } from './pages/farmer/PaymentStatusPage';
-import { QualityCheckPage } from './pages/farmer/QualityCheckPage';
 import { NotificationsPage } from './pages/farmer/NotificationsPage';
 import { FarmerProfilePage } from './pages/farmer/FarmerProfilePage';
 
@@ -42,6 +42,9 @@ import { OperatorFarmersPage } from './pages/operator/OperatorFarmersPage';
 import { OperatorBookingsPage } from './pages/operator/OperatorBookingsPage';
 import { DailyReportsPage } from './pages/operator/DailyReportsPage';
 import { CentreProfilePage } from './pages/operator/CentreProfilePage';
+import { KnowledgeManagementPage } from './pages/operator/KnowledgeManagementPage';
+import { ReferenceImageManagementPage } from './pages/operator/ReferenceImageManagementPage';
+import { ProcurementDashboard } from './components/ProcurementDashboard';
 
 // Admin Pages
 import { AdminDashboard } from './pages/admin/AdminDashboard';
@@ -70,6 +73,7 @@ export default function App() {
               <Route path="/centres/:id" element={<PublicCentreDetailPage />} />
               <Route path="/login" element={<RoleSelectionLoginPage />} />
               <Route path="/register" element={<FarmerRegisterPage />} />
+              <Route path="/verify-email" element={<VerifyEmailPage />} />
               <Route path="/admin/login" element={<AdminLoginPage />} />
             </Route>
 
@@ -83,7 +87,6 @@ export default function App() {
               <Route path="/farmer/bookings" element={<MyBookingsPage />} />
               <Route path="/farmer/procurement" element={<ProcurementPage />} />
               <Route path="/farmer/payments" element={<PaymentStatusPage />} />
-              <Route path="/farmer/quality-check" element={<QualityCheckPage />} />
               <Route path="/farmer/notifications" element={<NotificationsPage />} />
               <Route path="/farmer/profile" element={<FarmerProfilePage />} />
             </Route>
@@ -98,7 +101,12 @@ export default function App() {
               <Route path="/operator/payments" element={<PaymentUpdatesPage />} />
               <Route path="/operator/reports" element={<DailyReportsPage />} />
               <Route path="/operator/profile" element={<CentreProfilePage />} />
+              <Route path="/operator/knowledge-hub" element={<KnowledgeManagementPage />} />
+              <Route path="/operator/ai-image-analysis" element={<ReferenceImageManagementPage />} />
             </Route>
+
+            {/* Standalone Unified Procurement Centre Dashboard */}
+            <Route path="/operator/procurement-centre" element={<ProcurementDashboard />} />
 
             {/* Admin Flow */}
             <Route element={<AdminLayout />}>

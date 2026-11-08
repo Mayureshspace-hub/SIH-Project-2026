@@ -11,16 +11,27 @@ import {
   Gauge
 } from 'lucide-react';
 import { api } from '../../services/api';
+import { CentreKnowledgeHub } from '../../components/CentreKnowledgeHub';
+import { QualityCheckPage } from './QualityCheckPage';
 
 export const CentreDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [centre, setCentre] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
+  const [centreRates, setCentreRates] = useState<Record<string, string>>({});
+
   useEffect(() => {
     if (id) {
       api.getCentre(id)
-        .then((res) => setCentre(res))
+        .then((res) => {
+            setCentre(res);
+            // Load rates from localStorage
+            const saved = localStorage.getItem(`centreRates_${id}`);
+            if (saved) {
+                setCentreRates(JSON.parse(saved));
+            }
+        })
         .finally(() => setLoading(false));
     }
   }, [id]);
@@ -126,11 +137,11 @@ export const CentreDetailPage: React.FC = () => {
                     <p className="text-[11px] text-stone-500">{crop.category}</p>
                   </div>
                 </div>
-                {crop.indicativeMsp && (
+                {(crop.indicativeMsp || centreRates[crop.id]) && (
                   <div className="text-right">
-                    <span className="text-[10px] text-stone-400 block">Indicative MSP</span>
+                    <span className="text-[10px] text-stone-400 block">Indicative Rate</span>
                     <span className="text-xs font-mono font-bold text-emerald-800">
-                      ₹{crop.indicativeMsp}/qtl
+                      ₹{centreRates[crop.id] && centreRates[crop.id] !== '' ? centreRates[crop.id] : crop.indicativeMsp}/qtl
                     </span>
                   </div>
                 )}
@@ -139,6 +150,9 @@ export const CentreDetailPage: React.FC = () => {
           </div>
         </div>
       </div>
+
+      <CentreKnowledgeHub centreId={centre.id} />
+      <QualityCheckPage key={centre.id} centre={{ id: centre.id, name: centre.name, acceptedCrops: centre.acceptedCrops }} />
     </div>
   );
 };

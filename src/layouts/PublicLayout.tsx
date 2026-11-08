@@ -1,24 +1,51 @@
 import React, { useState } from 'react';
-import { Outlet, Link, useLocation } from 'react-router-dom';
-import { Sprout, ArrowRight, Shield, Menu, X } from 'lucide-react';
+import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
+import {
+  ArrowRight,
+  Shield,
+  Menu,
+  X,
+  LogOut,
+  Phone,
+  Mail,
+  Clock,
+} from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { DemoSwitcher } from '../components/DemoSwitcher';
 import { useAuth } from '../context/AuthContext';
+import { LanguageSelector } from '../components/LanguageSelector';
+import { useTranslation } from 'react-i18next';
 
 export const PublicLayout: React.FC = () => {
   const location = useLocation();
-  const { user } = useAuth();
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { t } = useTranslation();
 
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'How It Works', path: '/how-it-works' },
-    { name: 'Centres', path: '/centres' },
-    { name: 'About', path: '/about' },
+    { name: t('navigation.home'), path: '/' },
+    { name: t('navigation.howItWorks'), path: '/how-it-works' },
+    { name: t('navigation.centres'), path: '/centres' },
+    { name: t('navigation.about'), path: '/about' },
   ];
 
+  const handleLogout = async () => {
+    await logout();
+    setMobileOpen(false);
+    navigate('/login');
+  };
+
   return (
-    <div className="min-h-screen flex flex-col bg-[#faf8f5] text-[#1a2e2a]" style={{ fontFamily: "'Inter', 'Plus Jakarta Sans', system-ui, sans-serif" }}>
-      {/* ─── Top Info Strip ─── */}
+    <div
+      className="min-h-screen flex flex-col bg-[#faf8f5] text-[#1a2e2a]"
+      style={{
+        fontFamily: "'Inter', 'Plus Jakarta Sans', system-ui, sans-serif",
+      }}
+    >
+      <DemoSwitcher />
+
+      {/* Top Info Strip */}
       <div className="bg-[#0f5e59] text-white/80 text-xs py-1.5 hidden sm:block">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           <span>🌾 Empowering Indian Agriculture through Digital Innovation</span>
@@ -29,19 +56,27 @@ export const PublicLayout: React.FC = () => {
         </div>
       </div>
 
-      {/* ─── Navigation Bar ─── */}
+      {/* Navigation */}
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-stone-200/80 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group transition-transform hover:scale-[1.02]">
+          <Link
+            to="/"
+            className="flex items-center gap-3 group transition-transform hover:scale-[1.02]"
+          >
             <img
-              alt="Kisan Marg Golden Harvest Logo"
-              className="h-11 md:h-12 w-auto object-contain transition-transform group-hover:rotate-1"
-              src="https://lh3.googleusercontent.com/aida/AEtjO1W3mEilXG2s18g2Hd7INBgdbtoA3ff4JDxFZ_ilMNQ8FlF_YfLAdbi4t7bk0ZdNUzH9TqxIhqCwwDp68plUVGEkk40ZQORAB9HQsP_n3YMO7HtrnoHHZkUS8d5FfJVigNdIacciPRE49i3DtDeJq18JjS_b10PYV6Jn1tv-4_IaC59eYT_QfQqcBcIImMbDI2nUzQmXKO_I4ioWAvQaovAXS2DRDzkunrZkrbrKsBoeEJPR5afRgmq8xRPU"
+              alt="Kisan Marg emblem"
+              className="h-11 w-11 md:h-12 md:w-12 object-contain"
+              src="/assets/kisan-marg-logo-emblem.png"
             />
+            <span className="text-xl md:text-2xl font-extrabold tracking-tight whitespace-nowrap">
+              <span className="text-[#175C4D]">Kisan</span>{' '}
+              <span className="text-[#E8A317]">Marg</span>
+            </span>
           </Link>
 
-          {/* Desktop Nav */}
+          {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-[#1a2e2a]/60">
             {navLinks.map((link) => (
               <Link
@@ -61,51 +96,69 @@ export const PublicLayout: React.FC = () => {
             ))}
           </nav>
 
-          {/* Right actions */}
+          {/* Right Actions */}
           <div className="flex items-center gap-3">
+            <LanguageSelector />
+
             {user ? (
-              <Link
-                to={
-                  user.role === 'FARMER'
-                    ? '/farmer/dashboard'
-                    : user.role === 'OPERATOR'
-                    ? '/operator/dashboard'
-                    : '/admin/dashboard'
-                }
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#0f5e59] text-white text-sm font-medium hover:bg-[#0d4f4b] transition shadow-sm"
-              >
-                <span>Go to Dashboard</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
+              <div className="flex items-center gap-2">
+                <Link
+                  to={
+                    user.role === 'FARMER'
+                      ? '/farmer/dashboard'
+                      : user.role === 'OPERATOR'
+                      ? '/operator/dashboard'
+                      : '/admin/dashboard'
+                  }
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#0f5e59] text-white text-sm font-medium hover:bg-[#0d4f4b] transition shadow-sm"
+                >
+                  <span>{t('navigation.goToDashboard')}</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+
+                <button
+                  onClick={handleLogout}
+                  className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-stone-600 hover:text-red-600 transition cursor-pointer"
+                  title={t('common.logout')}
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span>{t('common.logout')}</span>
+                </button>
+              </div>
             ) : (
               <>
                 <Link
                   to="/login"
                   className="hidden sm:inline-block px-3.5 py-2 text-sm font-medium text-[#1a2e2a]/70 hover:text-[#0f5e59] transition-colors"
                 >
-                  Login
+                  {t('navigation.login')}
                 </Link>
+
                 <Link
                   to="/register"
                   className="hidden sm:inline-flex items-center px-5 py-2 rounded-lg bg-[#0f5e59] text-white text-sm font-medium hover:bg-[#0d4f4b] transition shadow-sm"
                 >
-                  Register
+                  {t('navigation.register')}
                 </Link>
               </>
             )}
 
-            {/* Mobile menu button */}
+            {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className="md:hidden p-2 rounded-lg text-[#1a2e2a]/70 hover:bg-stone-100 transition cursor-pointer"
               aria-label="Toggle menu"
             >
-              {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {mobileOpen ? (
+                <X className="w-5 h-5" />
+              ) : (
+                <Menu className="w-5 h-5" />
+              )}
             </button>
           </div>
         </div>
 
-        {/* Mobile Nav */}
+        {/* Mobile Navigation */}
         <AnimatePresence>
           {mobileOpen && (
             <motion.div
@@ -130,21 +183,30 @@ export const PublicLayout: React.FC = () => {
                     {link.name}
                   </Link>
                 ))}
-                {!user && (
+
+                {user ? (
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left px-3 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg"
+                  >
+                    {t('common.logout')}
+                  </button>
+                ) : (
                   <div className="pt-3 border-t border-stone-100 flex gap-2">
                     <Link
                       to="/login"
                       onClick={() => setMobileOpen(false)}
                       className="flex-1 text-center px-4 py-2.5 rounded-lg text-sm font-medium text-[#0f5e59] border border-[#0f5e59]/20 hover:bg-[#0f5e59]/5 transition-colors"
                     >
-                      Login
+                      {t('navigation.login')}
                     </Link>
+
                     <Link
                       to="/register"
                       onClick={() => setMobileOpen(false)}
                       className="flex-1 text-center px-4 py-2.5 rounded-lg text-sm font-medium bg-[#0f5e59] text-white hover:bg-[#0d4f4b] transition"
                     >
-                      Register
+                      {t('navigation.register')}
                     </Link>
                   </div>
                 )}
@@ -159,50 +221,54 @@ export const PublicLayout: React.FC = () => {
         <Outlet />
       </main>
 
-      {/* ─── Footer ─── */}
-      <footer className="bg-[#0a3d3a] text-white/70 text-sm border-t border-[#0f5e59] mt-auto">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+      {/* Footer */}
+      <footer
+        className="relative mt-auto overflow-hidden bg-[#063d2e] bg-cover bg-center text-white/70 text-sm"
+        style={{ backgroundImage: "url('/assets/kisan-marg-footer-landscape.png')" }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-[#063d2e]/30 via-[#063d2e]/65 to-[#022d24]/95" />
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
+
             {/* Brand */}
-            <div className="md:col-span-1">
-              <Link to="/" className="inline-flex items-center gap-3 group mb-4">
-                <div className="bg-white p-2 rounded-xl inline-block shadow-sm group-hover:shadow-md transition-shadow">
-                  <img
-                    alt="Kisan Marg Golden Harvest Logo"
-                    className="h-10 w-auto object-contain transition-transform group-hover:scale-105"
-                    src="https://lh3.googleusercontent.com/aida/AEtjO1W3mEilXG2s18g2Hd7INBgdbtoA3ff4JDxFZ_ilMNQ8FlF_YfLAdbi4t7bk0ZdNUzH9TqxIhqCwwDp68plUVGEkk40ZQORAB9HQsP_n3YMO7HtrnoHHZkUS8d5FfJVigNdIacciPRE49i3DtDeJq18JjS_b10PYV6Jn1tv-4_IaC59eYT_QfQqcBcIImMbDI2nUzQmXKO_I4ioWAvQaovAXS2DRDzkunrZkrbrKsBoeEJPR5afRgmq8xRPU"
-                  />
-                </div>
-                <div>
-                  <span className="text-lg font-black font-display text-white tracking-tight block">KisanMarg</span>
-                  <span className="text-xs font-semibold text-emerald-300 block">Smart Farmer Procurement Platform</span>
-                </div>
+            <div className="lg:pr-6">
+              <Link to="/" className="inline-block group mb-4">
+                <span className="text-2xl font-black tracking-tight">
+                  <span className="text-white">Kisan</span>{' '}
+                  <span className="text-[#f7c531]">Marg</span>
+                </span>
               </Link>
-              <p className="text-white/50 text-xs leading-relaxed">
+
+              <p className="max-w-xs text-white/80 text-sm leading-relaxed">
                 Smart Farmer Procurement & Live Queue Platform.
               </p>
             </div>
 
             {/* Quick Links */}
             <div>
-              <h4 className="text-white font-semibold text-sm mb-4">Quick Links</h4>
+              <h4 className="text-white font-bold text-sm mb-4">
+                Quick Links
+              </h4>
               <div className="space-y-2.5">
-                <Link to="/" className="block text-xs text-white/50 hover:text-white transition-colors">Home</Link>
-                <Link to="/how-it-works" className="block text-xs text-white/50 hover:text-white transition-colors">How It Works</Link>
-                <Link to="/centres" className="block text-xs text-white/50 hover:text-white transition-colors">Centres</Link>
-                <Link to="/about" className="block text-xs text-white/50 hover:text-white transition-colors">About</Link>
+                <Link to="/" className="block text-sm text-white/75 hover:text-[#f7c531] transition-colors">Home</Link>
+                <Link to="/how-it-works" className="block text-sm text-white/75 hover:text-[#f7c531] transition-colors">How It Works</Link>
+                <Link to="/centres" className="block text-sm text-white/75 hover:text-[#f7c531] transition-colors">Centres</Link>
+                <Link to="/about" className="block text-sm text-white/75 hover:text-[#f7c531] transition-colors">About</Link>
               </div>
             </div>
 
             {/* Platform */}
             <div>
-              <h4 className="text-white font-semibold text-sm mb-4">Platform</h4>
+              <h4 className="text-white font-bold text-sm mb-4">
+                Platform
+              </h4>
               <div className="space-y-2.5">
-                <Link to="/login" className="block text-xs text-white/50 hover:text-white transition-colors">Farmer Login</Link>
-                <Link to="/register" className="block text-xs text-white/50 hover:text-white transition-colors">Register</Link>
+                <Link to="/login" className="block text-sm text-white/75 hover:text-[#f7c531] transition-colors">Farmer Login</Link>
+                <Link to="/register" className="block text-sm text-white/75 hover:text-[#f7c531] transition-colors">Register</Link>
                 <Link
-                  to="/admin/login"
-                  className="inline-flex items-center gap-1 text-xs text-white/40 hover:text-[#e8a838] transition-colors"
+                  to="/admin-login"
+                  className="inline-flex items-center gap-1 text-sm text-white/75 hover:text-[#f7c531] transition-colors"
                 >
                   <Shield className="w-3 h-3" />
                   Admin Portal
@@ -212,17 +278,31 @@ export const PublicLayout: React.FC = () => {
 
             {/* Contact */}
             <div>
-              <h4 className="text-white font-semibold text-sm mb-4">Contact</h4>
-              <div className="space-y-2.5 text-xs text-white/50">
-                <p>📞 Helpline: 1800-XXX-XXXX</p>
-                <p>📧 support@kisanmarg.gov.in</p>
-                <p>🕐 Mon–Sat, 8 AM – 6 PM</p>
+              <h4 className="text-white font-bold text-sm mb-4">
+                Contact
+              </h4>
+              <div className="space-y-3 text-sm text-white/75">
+                <p className="flex items-center gap-2">
+                  <Phone className="w-4 h-4 text-[#f7c531]" />
+                  Helpline: 1800-XXX-XXXX
+                </p>
+                <a
+                  className="flex items-center gap-2 hover:text-[#f7c531] transition-colors"
+                  href="mailto:support@kisanmarg.gov.in"
+                >
+                  <Mail className="w-4 h-4 text-[#f7c531]" />
+                  support@kisanmarg.gov.in
+                </a>
+                <p className="flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-[#f7c531]" />
+                  Mon–Sat, 8 AM – 6 PM
+                </p>
               </div>
             </div>
           </div>
 
-          <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-white/40">
+          <div className="mt-10 pt-6 border-t border-white/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p className="text-xs text-white/65">
               &copy; 2026 Kisan Marg. Designed to eliminate waiting lines and bring transparency to agricultural procurement.
             </p>
           </div>

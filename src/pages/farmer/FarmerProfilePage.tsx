@@ -46,7 +46,7 @@ export const FarmerProfilePage: React.FC = () => {
           <div className="bg-stone-50 p-4 rounded-2xl border border-stone-200">
             <span className="text-stone-400 block">Registered Mobile Number</span>
             <strong className="text-stone-900 font-mono text-sm mt-0.5 block">
-              {farmer?.mobile || '+91 98223 45678'}
+              {user?.mobile || '+91 98223 45678'}
             </strong>
           </div>
 

@@ -1,15 +1,15 @@
 const API_BASE = '/api';
 
 export function getAuthToken(): string | null {
-  return localStorage.getItem('kisansetu_token');
+  return localStorage.getItem('Kisan Marg_token');
 }
 
 export function setAuthToken(token: string) {
-  localStorage.setItem('kisansetu_token', token);
+  localStorage.setItem('Kisan Marg_token', token);
 }
 
 export function removeAuthToken() {
-  localStorage.removeItem('kisansetu_token');
+  localStorage.removeItem('Kisan Marg_token');
 }
 
 async function request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
@@ -23,17 +23,29 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
     headers['Authorization'] = `Bearer ${token}`;
   }
 
-  const response = await fetch(`${API_BASE}${endpoint}`, {
-    ...options,
-    headers,
-  });
+  try {
+    const response = await fetch(`${API_BASE}${endpoint}`, {
+      ...options,
+      headers,
+    });
 
-  const data = await response.json();
-  if (!response.ok) {
-    throw new Error(data.error || 'Request failed');
+    const contentType = response.headers.get('content-type') || '';
+    if (!contentType.includes('application/json')) {
+      throw new Error(`Endpoint ${endpoint} returned non-JSON response (${response.status})`);
+    }
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.error || 'Request failed');
+    }
+
+    return data;
+  } catch (err: any) {
+    if (err?.name === 'SyntaxError' || err?.message?.includes('Unexpected token')) {
+      throw new Error('API server is not reachable on this host. Operating in offline/client mode.');
+    }
+    throw err;
   }
-
-  return data;
 }
 
 export const api = {
@@ -221,9 +233,13 @@ export const api = {
       method: 'POST',
       body: JSON.stringify(data),
     }),
-  analyzeCropQuality: (imageBase64: string, cropName: string) =>
-    request<any>('/quality/analyze', {
+  analyzeCropQuality: async (imageBase64: string, cropName: string, referenceImageBase64?: string, referenceDescription?: string) => {
+    console.log("🔵 FRONTEND: Sending request to /quality/analyze");
+    const result = await request<any>('/quality/analyze', {
       method: 'POST',
-      body: JSON.stringify({ imageBase64, cropName }),
-    }),
+      body: JSON.stringify({ imageBase64, cropName, referenceImageBase64, referenceDescription }),
+    });
+    console.log("🟢 FRONTEND: Response from /quality/analyze:", result);
+    return result;
+  },
 };

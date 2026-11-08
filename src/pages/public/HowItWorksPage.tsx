@@ -1,124 +1,259 @@
-import React from 'react';
+﻿import React from 'react';
 import { Link } from 'react-router-dom';
 import {
-  Search,
-  CalendarCheck,
-  Ticket,
-  Clock,
-  Scale,
-  CreditCard,
   ArrowRight,
+  Banknote,
+  CalendarCheck,
+  CheckCircle2,
+  ClipboardList,
+  Clock3,
+  MapPin,
+  Scale,
+  Search,
   ShieldCheck,
-  Info
+  Ticket,
+  Users,
+  UserRound,
+  Warehouse,
 } from 'lucide-react';
 
-export const HowItWorksPage: React.FC = () => {
-  const steps = [
-    {
-      num: '01',
-      title: 'Find Centre & Verify Crop Acceptance',
-      icon: Search,
-      description:
-        'Centres do not accept all crops uniformly. Search by your specific produce (e.g. Paddy, Soybean, Bengal Gram) to view only authorized procurement hubs ready to receive your stock.',
-    },
-    {
-      num: '02',
-      title: 'Book a Designated Entry Slot',
-      icon: CalendarCheck,
-      description:
-        'Choose a convenient 1-hour entry window. Strict capacity caps ensure no more than 10 farmers arrive simultaneously, completely preventing road congestion.',
-    },
-    {
-      num: '03',
-      title: 'Receive Unique Digital Token',
-      icon: Ticket,
-      description:
-        'The platform generates an authenticated digital token (e.g. PAR-027) stamped with your slot, centre code, and reported produce quantity.',
-    },
-    {
-      num: '04',
-      title: 'Quantity-Aware Dynamic Live Queue',
-      icon: Clock,
-      description:
-        'Unlike primitive queues that assume a flat 10 minutes per person, KisanSetu estimates processing duration based on the quintals each farmer ahead has brought. Track changes live without refreshing.',
-    },
-    {
-      num: '05',
-      title: 'Physical Weighment & Official Procurement',
-      icon: Scale,
-      description:
-        'Upon arriving and check-in, the weighbridge operator calls your token. Gross weighment, tare weighment, and moisture grading are performed and an official procurement slip is recorded.',
-    },
-    {
-      num: '06',
-      title: 'Verified Direct Bank Transfer (DBT)',
-      icon: CreditCard,
-      description:
-        'We never fabricate or show speculative amounts. Once the authorized centre sanctions the payment file, track the live status from "Payment On the Way" to "Payment Completed".',
-    },
-  ];
+const farmerSteps = [
+  {
+    title: 'Register or log in',
+    icon: UserRound,
+    description:
+      'Create an account or sign in, then provide your name, mobile number, village or location, and the farmer details requested by the system.',
+  },
+  {
+    title: 'Choose a procurement center',
+    icon: MapPin,
+    description:
+      'Explore available centers and review their location, operating status, and the procurement information shown for each center.',
+  },
+  {
+    title: 'Check dates and slots',
+    icon: CalendarCheck,
+    description:
+      'Review the dates and time slots currently offered for your selected center. Slot availability is shown when provided by the system.',
+  },
+  {
+    title: 'Book and get your token',
+    icon: Ticket,
+    description:
+      'Select a suitable slot and submit your booking. Your booking confirmation and token information are available after it is created.',
+  },
+  {
+    title: 'Track your queue',
+    icon: Clock3,
+    description:
+      'Check your booking and token position along with the queue status available for your center.',
+  },
+  {
+    title: 'Visit the center',
+    icon: Warehouse,
+    description:
+      'Arrive at the selected procurement center according to your assigned slot and token to help make the visit more organized.',
+  },
+  {
+    title: 'Follow procurement and payment',
+    icon: Banknote,
+    description:
+      'After your crop is processed, check the procurement record and follow the payment status shown in your account.',
+  },
+];
+
+const centerSteps = [
+  {
+    title: 'Log in to the center dashboard',
+    icon: ShieldCheck,
+    description:
+      'Center staff sign in to access the operational tools available to their account.',
+  },
+  {
+    title: 'Manage daily slots',
+    icon: CalendarCheck,
+    description:
+      'Review available procurement slots and the farmer bookings associated with them.',
+  },
+  {
+    title: 'View the farmer queue',
+    icon: Users,
+    description:
+      'See booked farmers and their token or queue status to understand who is expected at the center.',
+  },
+  {
+    title: 'Process procurement',
+    icon: Scale,
+    description:
+      'Process farmers in line with their assigned slot and queue, and record procurement using the system workflow.',
+  },
+  {
+    title: 'Update procurement and payment',
+    icon: CheckCircle2,
+    description:
+      'Record the relevant procurement outcome and update payment status after processing.',
+  },
+  {
+    title: 'Monitor daily operations',
+    icon: ClipboardList,
+    description:
+      'Review the operational view of farmer bookings, pending requests, completed procurement, and queue status.',
+  },
+];
+
+type ProcessStep = {
+  title: string;
+  icon: typeof UserRound;
+  description: string;
+};
+
+type ProcessStepsProps = {
+  steps: ProcessStep[];
+  accent: 'emerald' | 'amber';
+};
+
+const ProcessSteps: React.FC<ProcessStepsProps> = ({ steps, accent }) => {
+  const colors =
+    accent === 'emerald'
+      ? {
+          icon: 'bg-emerald-50 text-emerald-800 border-emerald-100',
+          number: 'text-emerald-800',
+          line: 'bg-emerald-200',
+        }
+      : {
+          icon: 'bg-amber-50 text-amber-800 border-amber-100',
+          number: 'text-amber-800',
+          line: 'bg-amber-200',
+        };
 
   return (
-    <div className="bg-stone-50 py-12 md:py-20 text-stone-900">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6">
-        <div className="text-center mb-16">
-          <span className="text-xs font-bold text-emerald-700 tracking-wider uppercase mb-2 block">
-            System Guide
-          </span>
-          <h1 className="text-3xl sm:text-4xl font-serif font-bold text-emerald-950">
-            How KisanSetu Works
-          </h1>
-          <p className="mt-4 text-stone-600 max-w-xl mx-auto text-base leading-relaxed">
-            Eliminating 10+ hours of physical waiting in tractor lines through algorithmic slot scheduling and real-time weighbridge queue orchestration.
-          </p>
-        </div>
+    <ol className="relative space-y-4 sm:space-y-5">
+      {steps.map((step, index) => {
+        const Icon = step.icon;
 
-        <div className="space-y-6">
-          {steps.map((step) => {
-            const Icon = step.icon;
-            return (
-              <div
-                key={step.num}
-                className="bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row gap-6 items-start hover:shadow-xs transition"
-              >
-                <div className="w-14 h-14 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-center justify-center shrink-0 font-mono font-bold text-lg">
-                  {step.num}
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Icon className="w-5 h-5 text-emerald-700" />
-                    <h3 className="text-lg font-bold text-stone-900">{step.title}</h3>
-                  </div>
-                  <p className="text-stone-600 text-sm leading-relaxed">{step.description}</p>
-                </div>
+        return (
+          <li key={step.title} className="relative flex gap-4 sm:gap-5">
+            {index < steps.length - 1 && (
+              <span
+                aria-hidden="true"
+                className={`absolute left-6 top-14 bottom-[-1.25rem] w-px ${colors.line}`}
+              />
+            )}
+
+            <div
+              className={`relative z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border ${colors.icon}`}
+            >
+              <Icon className="h-5 w-5" aria-hidden="true" />
+            </div>
+
+            <div className="min-w-0 flex-1 rounded-2xl border border-stone-200 bg-white p-4 sm:p-5">
+              <div className="mb-1 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                <span
+                  className={`font-mono text-xs font-bold ${colors.number}`}
+                >
+                  STEP {String(index + 1).padStart(2, '0')}
+                </span>
+
+                <h3 className="text-base font-bold text-stone-900">
+                  {step.title}
+                </h3>
               </div>
-            );
-          })}
-        </div>
 
-        <div className="mt-12 bg-amber-50 border border-amber-200 rounded-2xl p-6 flex items-start gap-4">
-          <Info className="w-6 h-6 text-amber-800 shrink-0 mt-0.5" />
-          <div className="text-sm text-amber-900">
-            <p className="font-bold mb-1">Quantity-Based Queue Formula</p>
-            <p className="text-xs text-amber-800 leading-relaxed font-mono">
-              Estimated Wait = Base Processing Time (10m) + ∑ (Farmers Ahead Quantity × Centre Processing Factor)
-            </p>
-            <p className="text-xs text-amber-700 mt-1">
-              This formula accounts for varying truck sizes, ensuring farmers arrive exactly when the centre is ready for them.
-            </p>
-          </div>
-        </div>
-
-        <div className="mt-10 text-center">
-          <Link
-            to="/login"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-800 text-white font-medium hover:bg-emerald-900 transition"
-          >
-            <span>Proceed to Login / Register</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-      </div>
-    </div>
+              <p className="text-sm leading-relaxed text-stone-600">
+                {step.description}
+              </p>
+            </div>
+          </li>
+        );
+      })}
+    </ol>
   );
 };
+
+export const HowItWorksPage: React.FC = () => (
+  <main className="bg-stone-50 py-12 text-stone-900 md:py-20">
+    <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <header className="mx-auto mb-12 max-w-2xl text-center sm:mb-14">
+        <span className="mb-2 block text-xs font-bold uppercase tracking-wider text-emerald-700">
+          System Guide
+        </span>
+
+        <h1 className="font-serif text-3xl font-bold text-emerald-950 sm:text-4xl">
+          How Kisan Marg Works
+        </h1>
+
+        <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-stone-600">
+          A clear view of the procurement journey, from booking a center visit
+          to tracking the outcome.
+        </p>
+      </header>
+
+      <div className="grid items-start gap-6 lg:grid-cols-2 lg:gap-8">
+        {/* Farmer Journey */}
+        <section
+          aria-labelledby="farmers-heading"
+          className="rounded-3xl border border-emerald-100 bg-emerald-50/60 p-4 sm:p-6 lg:p-7"
+        >
+          <div className="mb-6 flex items-center gap-3 sm:mb-7">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-800 text-white">
+              <UserRound className="h-6 w-6" aria-hidden="true" />
+            </div>
+
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wider text-emerald-700">
+                The farmer journey
+              </p>
+
+              <h2
+                id="farmers-heading"
+                className="text-xl font-bold text-emerald-950 sm:text-2xl"
+              >
+                For Farmers
+              </h2>
+            </div>
+          </div>
+
+          <ProcessSteps steps={farmerSteps} accent="emerald" />
+        </section>
+
+        {/* Procurement Centre Workflow */}
+        <section
+          aria-labelledby="centers-heading"
+          className="rounded-3xl border border-amber-100 bg-amber-50/60 p-4 sm:p-6 lg:p-7"
+        >
+          <div className="mb-6 flex items-center gap-3 sm:mb-7">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-700 text-white">
+              <Warehouse className="h-6 w-6" aria-hidden="true" />
+            </div>
+
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wider text-amber-800">
+                The center workflow
+              </p>
+
+              <h2
+                id="centers-heading"
+                className="text-xl font-bold text-stone-900 sm:text-2xl"
+              >
+                For Procurement Centers
+              </h2>
+            </div>
+          </div>
+
+          <ProcessSteps steps={centerSteps} accent="amber" />
+        </section>
+      </div>
+
+      <div className="mt-10 text-center sm:mt-12">
+        <Link
+          to="/login"
+          className="inline-flex items-center gap-2 rounded-xl bg-emerald-800 px-6 py-3 font-medium text-white transition hover:bg-emerald-900"
+        >
+          <Search className="h-4 w-4" aria-hidden="true" />
+          <span>Get started with Kisan Marg</span>
+          <ArrowRight className="h-4 w-4" aria-hidden="true" />
+        </Link>
+      </div>
+    </div>
+  </main>
+);

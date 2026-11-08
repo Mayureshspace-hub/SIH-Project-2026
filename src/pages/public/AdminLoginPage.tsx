@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Shield, Lock, Mail, ArrowRight, AlertCircle, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 export const AdminLoginPage: React.FC = () => {
-  const [email, setEmail] = useState('admin@demo.kisansetu');
+  const [email, setEmail] = useState('admin@demo.Kisan Marg');
   const [password, setPassword] = useState('Admin@123');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -21,7 +21,11 @@ export const AdminLoginPage: React.FC = () => {
       await login({ email, password, role: 'ADMIN' });
       navigate('/admin/dashboard');
     } catch (err: any) {
-      setError(err.message || 'Access denied. Invalid administrator credentials.');
+      if (err?.code === 'auth/email-not-verified') {
+        navigate('/verify-email', { state: { email } });
+        return;
+      }
+      setError('Access denied. Invalid administrator credentials.');
     } finally {
       setLoading(false);
     }
@@ -98,7 +102,7 @@ export const AdminLoginPage: React.FC = () => {
           </form>
 
           <div className="mt-6 pt-4 border-t border-stone-700/80 text-[11px] text-stone-400 text-center font-mono">
-            Demo Root: admin@demo.kisansetu | Admin@123
+            Demo Root: admin@demo.Kisan Marg | Admin@123
           </div>
         </div>
       </div>

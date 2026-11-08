@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Building2, MapPin, Clock, Gauge, Sprout, CheckCircle2 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { api } from '../../services/api';
+import { CropRateSetup } from '../../components/operator/CropRateSetup';
 
 export const CentreProfilePage: React.FC = () => {
   const { operator } = useAuth();
@@ -93,6 +94,8 @@ export const CentreProfilePage: React.FC = () => {
             ))}
           </div>
         </div>
+
+        <CropRateSetup centreId={centreId} crops={centre.acceptedCrops || []} />
       </div>
     </div>
   );
