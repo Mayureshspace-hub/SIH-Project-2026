@@ -206,20 +206,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.setItem('kisan_role', roleEnum);
 
     try {
-      // Try logging into Firebase with demo credentials
-      await signInWithEmailAndPassword(auth, email, password);
-    } catch {
-      // If demo user hasn't been created in Firebase yet, create it or use backend session
-      try {
-        await createUserWithEmailAndPassword(auth, email, password);
-      } catch {
-        // Fallback to backend login directly
-        const data = await api.login({ email, password, role: roleEnum });
-        setAuthToken(data.token);
-        setUser(data.user);
-        setFarmer(data.farmer);
-        setOperator(data.operator);
-      }
+      const data = await api.login({ email, password, role: roleEnum });
+      setAuthToken(data.token);
+      setUser(data.user);
+      setFarmer(data.farmer);
+      setOperator(data.operator);
+    } catch (err) {
+      console.warn('Backend login fallback:', err);
     }
   };
 

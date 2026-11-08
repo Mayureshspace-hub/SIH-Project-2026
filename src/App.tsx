@@ -43,6 +43,7 @@ import { DailyReportsPage } from './pages/operator/DailyReportsPage';
 import { CentreProfilePage } from './pages/operator/CentreProfilePage';
 import { KnowledgeManagementPage } from './pages/operator/KnowledgeManagementPage';
 import { ReferenceImageManagementPage } from './pages/operator/ReferenceImageManagementPage';
+import { ProcurementDashboard } from './components/ProcurementDashboard';
 
 // Admin Pages
 import { AdminDashboard } from './pages/admin/AdminDashboard';
@@ -102,6 +103,9 @@ export default function App() {
               <Route path="/operator/knowledge-hub" element={<KnowledgeManagementPage />} />
               <Route path="/operator/ai-image-analysis" element={<ReferenceImageManagementPage />} />
             </Route>
+
+            {/* Standalone Unified Procurement Centre Dashboard */}
+            <Route path="/operator/procurement-centre" element={<ProcurementDashboard />} />
 
             {/* Admin Flow */}
             <Route element={<AdminLayout />}>
