@@ -107,6 +107,7 @@ export default function App() {
 
             {/* Standalone Unified Procurement Centre Dashboard */}
             <Route path="/operator/procurement-centre" element={<ProcurementDashboard />} />
+            <Route path="/operator/procurement-centre/:centreId" element={<ProcurementDashboard />} />
 
             {/* Admin Flow */}
             <Route element={<AdminLayout />}>
