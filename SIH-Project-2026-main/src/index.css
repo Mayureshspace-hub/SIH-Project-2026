@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+/* ═══════════════ Kisan Marg Custom Animations ═══════════════ */
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-7px); }
+}
+
+@keyframes pulseSubtle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.88; transform: scale(0.985); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes gradientX {
+  0%, 100% { background-position: left center; }
+  50% { background-position: right center; }
+}
+
+@keyframes glowPulse {
+  0% { box-shadow: 0 0 12px rgba(15, 91, 91, 0.2); }
+  100% { box-shadow: 0 0 28px rgba(79, 138, 91, 0.42); }
+}
+
+/* ═══════════════ Font Settings ═══════════════ */
+
+body {
+  font-family: 'Inter', 'Plus Jakarta Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-display {
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+}
+
+/* ═══════════════ Custom Scrollbar ═══════════════ */
+
+.custom-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+  background-color: #CBD5E1;
+  border-radius: 9999px;
+}
+
+/* ═══════════════ Selection Color ═══════════════ */
+
+::selection {
+  background-color: rgb(209 250 229); /* emerald-100 */
+  color: #0F5B5B;
+}
+
+/* ═══════════════ Reduced Motion Support ═══════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

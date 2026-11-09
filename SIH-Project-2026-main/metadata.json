@@ -1,0 +1,6 @@
+{
+  "name": "Kisan Marg - Farmer Procurement & Live Queue",
+  "description": "Digital farmer procurement management and live queue platform with real-time token tracking, slot booking, and verified payment lifecycle.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
