@@ -13,8 +13,10 @@ import { Role } from '../../types';
 import { auth } from '../../firebase';
 import { signInWithEmailAndPassword, sendEmailVerification, signOut } from 'firebase/auth';
 import { ProcurementLogin } from '../../components/ProcurementLogin';
+import { useTranslation } from 'react-i18next';
 
 export const RoleSelectionLoginPage: React.FC = () => {
+  const { t } = useTranslation();
   const [selectedRole, setSelectedRole] = useState<'FARMER' | 'OPERATOR'>('FARMER');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -88,13 +90,13 @@ export const RoleSelectionLoginPage: React.FC = () => {
       }
     } catch (err: any) {
       if (err?.code === 'auth/user-not-found') {
-        setError('No account found with this email. Please register first.');
+        setError(t('auth.accountNotFound'));
       } else if (err?.code === 'auth/wrong-password' || err?.code === 'auth/invalid-credential') {
-        setError('Email or password is incorrect. If you haven\'t created an account yet, please register below.');
+        setError(t('auth.invalidCredentials'));
       } else if (err?.code === 'auth/too-many-requests') {
-        setError('Too many failed attempts. Please reset your password or try again later.');
+        setError(t('auth.tooManyAttempts'));
       } else {
-        setError(err?.message || 'Email or password is incorrect');
+        setError(err?.message || t('auth.emailPasswordIncorrect'));
       }
     } finally {
       setLoading(false);
@@ -115,7 +117,7 @@ export const RoleSelectionLoginPage: React.FC = () => {
       if (err?.code === 'auth/popup-closed-by-user' || err?.code === 'auth/cancelled-popup-request') {
         return;
       }
-      setError(err?.message || 'Failed to sign in with Google. Please try again.');
+      setError(err?.message || t('auth.googleFailed'));
     } finally {
       setLoading(false);
     }
@@ -126,18 +128,18 @@ export const RoleSelectionLoginPage: React.FC = () => {
       <div className="max-w-md w-full mx-auto px-4 sm:px-6">
         <div className="text-center mb-9">
           <span className="text-xs font-bold text-[#0f5e59] tracking-[0.16em] uppercase mb-2 block">
-            Portal Access
+            {t('auth.portalAccess')}
           </span>
 <h1 className="text-3xl sm:text-4xl font-serif font-bold tracking-tight text-[#123c35]">
-            Sign In to Kisan Marg
+            {t('auth.signInToBrand')}
           </h1>
-          <p className="text-sm text-stone-500 mt-2">Select your account type to continue.</p>
+          <p className="text-sm text-stone-500 mt-2">{t('auth.selectAccountType')}</p>
         </div>
 
         {/* Role Selection Box: Farmer vs Centre (Section 6) */}
         <div className="bg-white border border-[#0f5e59]/15 rounded-3xl p-6 sm:p-8 shadow-[0_18px_50px_rgba(15,94,89,0.08)]">
           <label className="block text-xs font-bold text-[#123c35] uppercase tracking-[0.12em] mb-4 text-center">
-            Who are you?
+            {t('auth.whoAreYou')}
           </label>
 
           <div className="grid grid-cols-2 gap-3 mb-7">
@@ -153,7 +155,7 @@ export const RoleSelectionLoginPage: React.FC = () => {
               <div className="w-11 h-11 rounded-full bg-[#d7f6e7] flex items-center justify-center text-[#0f7c61]">
                 <Users className="w-5 h-5" />
               </div>
-              <span className="text-xs">👨‍🌾 Farmer</span>
+              <span className="text-xs">👨‍🌾 {t('farmer.dashboard')}</span>
             </button>
 
             <button
@@ -168,7 +170,7 @@ export const RoleSelectionLoginPage: React.FC = () => {
               <div className="w-11 h-11 rounded-full bg-[#d7f6e7] flex items-center justify-center text-[#0f7c61]">
                 <Building2 className="w-5 h-5" />
               </div>
-              <span className="text-xs">🏢 Procurement Centre</span>
+              <span className="text-xs">🏢 {t('auth.procurementCentre')}</span>
             </button>
           </div>
 
@@ -178,7 +180,7 @@ export const RoleSelectionLoginPage: React.FC = () => {
             <>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-xs font-semibold text-stone-700 mb-1">Email Address</label>
+                  <label className="block text-xs font-semibold text-stone-700 mb-1">{t('forms.email')}</label>
                   <div className="relative">
                     <Mail className="w-4 h-4 text-stone-400 absolute left-3.5 top-3" />
                     <input
@@ -192,7 +194,7 @@ export const RoleSelectionLoginPage: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-stone-700 mb-1">Password</label>
+                  <label className="block text-xs font-semibold text-stone-700 mb-1">{t('forms.password')}</label>
                   <div className="relative">
                     <Lock className="w-4 h-4 text-stone-400 absolute left-3.5 top-3" />
                     <input
@@ -210,7 +212,7 @@ export const RoleSelectionLoginPage: React.FC = () => {
                   disabled={loading}
                   className="w-full mt-2 py-3 px-4 rounded-xl bg-[#0f5e59] hover:bg-[#0b4b47] text-white font-semibold text-sm transition-all duration-200 shadow-sm hover:shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8a317] focus-visible:ring-offset-2"
                 >
-                  <span>{loading ? 'Authenticating...' : 'Sign In as Farmer'}</span>
+                  <span>{loading ? t('auth.authenticating') : t('auth.signInAsFarmer')}</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
 
@@ -219,7 +221,7 @@ export const RoleSelectionLoginPage: React.FC = () => {
                     <div className="w-full border-t border-stone-200" />
                   </div>
                   <div className="relative flex justify-center text-[11px] uppercase tracking-wider">
-                    <span className="bg-white px-3 text-stone-500 font-semibold">Or continue with</span>
+                    <span className="bg-white px-3 text-stone-500 font-semibold">{t('auth.orContinueWith')}</span>
                   </div>
                 </div>
 
@@ -236,7 +238,7 @@ export const RoleSelectionLoginPage: React.FC = () => {
                     <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
                     <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
                   </svg>
-                  <span>Continue with Google</span>
+                  <span>{t('auth.continueWithGoogle')}</span>
                 </button>
 
                 {error && (
@@ -251,7 +253,7 @@ export const RoleSelectionLoginPage: React.FC = () => {
               <div className="mt-5 pt-4 border-t border-stone-100 bg-[#faf8f5] p-3 rounded-xl text-xs text-stone-600">
                 <div className="flex items-center justify-between mb-2">
                   <span className="font-semibold text-[#123c35] flex items-center gap-1.5">
-                    <span>⚡</span> Farmer Demo Login
+                    <span>⚡</span> {t('auth.farmerDemoLogin')}
                   </span>
                 </div>
                 <button
@@ -264,15 +266,15 @@ export const RoleSelectionLoginPage: React.FC = () => {
                   className="w-full text-left px-2.5 py-1.5 rounded-lg bg-white border border-stone-200 hover:border-[#0f8a6a] text-[11px] font-medium text-stone-700 hover:text-[#0f5e59] transition cursor-pointer flex items-center justify-between"
                 >
                   <span>farmer@demo.com (Pass: Farmer@123)</span>
-                  <span className="text-[#0f5e59] font-bold">Auto-Fill &rarr;</span>
+                  <span className="text-[#0f5e59] font-bold">{t('procurementCentreLogin.autoFill')} &rarr;</span>
                 </button>
               </div>
 
               {/* Farmer registration link */}
               <div className="mt-5 text-center text-xs text-stone-600">
-                Don&apos;t have a farmer account?{' '}
+                {t('auth.noFarmerAccount')}{' '}
                 <Link to="/register" className="font-bold text-emerald-800 hover:underline">
-                  Register as Farmer &rarr;
+                  {t('auth.registerAsFarmer')} &rarr;
                 </Link>
               </div>
             </>

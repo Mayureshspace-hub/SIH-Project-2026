@@ -94,8 +94,8 @@
     "transparentQueueing": "पारदर्शी FIFO रांग",
     "officialPayment": "अधिकृत DBT भुगतान ट्रॅकिंग",
     "endToEndTransparency": "टोच-टोचपर्यंत पारदर्शकता",
-    "Kisan MargJourney": "किसान सेतु प्रवास",
-    "highlights": "किसान सेतु का निवडा",
+    "Kisan MargJourney": "Kisan Marg प्रवास",
+    "highlights": "Kisan Marg का निवडावे",
     "testimonials": "वापरकर्ते काय म्हणतात",
     "getInTouch": "संपर्कात रहा",
     "learnMore": "अधिक जाणून घ्या",
@@ -404,7 +404,7 @@
     "legal": "कायदेशीर",
     "privacy": "गोपनीयता नीती",
     "terms": "अटी आणि शर्ती",
-    "copyright": "© 2026 किसान सेतु। सर्व अधिकार सुरक्षित।",
+    "copyright": "© 2026 Kisan Marg. सर्व अधिकार सुरक्षित.",
     "followUs": "आमचे अनुसरण करा"
   },
   "qualityCheck": {
@@ -460,7 +460,7 @@
     "step6Desc": "आपल्या बँक खात्यात DBT भुगतान हस्तांतरण पहा।"
   },
   "about": {
-    "title": "किसान सेतु बद्दल",
+    "title": "Kisan Marg बद्दल",
     "mission": "आमचे मिशन",
     "missionDesc": "कृषि खरेदीमध्ये क्रांती आणण्यासाठी आणि शेतकऱ्यांना पारदर्शक, न्यायसंगत आणि कुशल सेवा प्रदान करण्यासाठी।",
     "vision": "आमचा दृष्टिकोन",
@@ -494,5 +494,24 @@
     "totalProcurement": "एकूण खरेदी",
     "averageWaitTime": "सरासरी प्रतीक्षा वेळ",
     "successRate": "यश दर"
+  },
+  "procurementCentreLogin": {
+    "authorisedPortal": "अधिकृत APMC खरेदी केंद्र ऑपरेटर पोर्टल. एकाच प्रमाणपत्राने लॉग इन.",
+    "emailOrUsername": "ईमेल किंवा वापरकर्तानाव",
+    "invalidCredentials": "खरेदी केंद्राची ओळखपत्रे अवैध आहेत",
+    "authenticating": "केंद्राचे प्रमाणीकरण सुरू आहे...",
+    "signIn": "खरेदी केंद्र म्हणून साइन इन करा",
+    "demoCredential": "पूर्वनिर्धारित केंद्र ओळखपत्रे",
+    "autoFill": "आपोआप भरा",
+    "accountNotice": "खरेदी केंद्र खाती राज्य APMC प्रशासनाकडून नियुक्त व अधिकृत केली जातात."
+  },
+  "auth": {
+    "portalAccess": "पोर्टल प्रवेश", "signInToBrand": "Kisan Marg मध्ये साइन इन करा", "selectAccountType": "पुढे जाण्यासाठी खाते प्रकार निवडा.", "whoAreYou": "तुम्ही कोण आहात?", "procurementCentre": "खरेदी केंद्र", "authenticating": "प्रमाणीकरण सुरू आहे...", "signInAsFarmer": "शेतकरी म्हणून साइन इन करा", "orContinueWith": "किंवा यासह पुढे जा", "continueWithGoogle": "Google सह पुढे जा", "farmerDemoLogin": "शेतकरी डेमो लॉग इन", "noFarmerAccount": "तुमचे शेतकरी खाते नाही का?", "registerAsFarmer": "शेतकरी म्हणून नोंदणी करा", "accountNotFound": "या ईमेलसाठी खाते सापडले नाही. कृपया प्रथम नोंदणी करा.", "invalidCredentials": "ईमेल किंवा पासवर्ड चुकीचा आहे. खाते नसल्यास खाली नोंदणी करा.", "tooManyAttempts": "खूप जास्त अयशस्वी प्रयत्न. कृपया पासवर्ड रीसेट करा किंवा नंतर प्रयत्न करा.", "emailPasswordIncorrect": "ईमेल किंवा पासवर्ड चुकीचा आहे", "googleFailed": "Google सह साइन इन करता आले नाही. कृपया पुन्हा प्रयत्न करा."
+  },
+  "farmerDashboardUi": {
+    "activeToday": "आज सक्रिय", "liveWeighbridgeQueue": "थेट वजनपूल रांग", "cropAndQuantity": "पीक आणि प्रमाण", "assignedToken": "दिलेला टोकन", "openLiveQueue": "थेट रांग उघडा"
+  },
+  "homeStitch": {
+    "officialPlatform": "अधिकृत स्मार्ट शेतकरी खरेदी मंच", "empoweringFarmers": "शेतकऱ्यांना सक्षम बनवणे.", "smartProcurement": "स्मार्ट खरेदी.", "lessWaiting": "कमी प्रतीक्षा.", "heroDescription": "जवळची खरेदी केंद्रे शोधा, वितरण स्लॉट आगाऊ बुक करा आणि गेटवरील रांग थेट पाहा.", "findNearestCentre": "जवळचे केंद्र शोधा", "coreCapabilities": "केंद्र प्रणालीची मुख्य वैशिष्ट्ये", "coreServices": "शेतकऱ्यांसाठी मुख्य सेवा", "featuresHeading": "केंद्र भेटीसाठी स्मार्ट सुविधा", "featuresDescription": "गावातून निघण्यापूर्वीच्या सर्व गरजा, चार पारदर्शक डिजिटल सुविधांमध्ये.", "transparentProcess": "पारदर्शक प्रक्रिया", "journeyHeading": "प्रत्येक शेतकऱ्यासाठी हे कसे कार्य करते", "signInToPlatform": "मंचावर साइन इन करा", "mspRates": "अधिकृत MSP दर", "governmentStandard": "सरकारी मानक", "onlineSlotBooking": "ऑनलाइन स्लॉट बुकिंग", "zeroHighwayWaits": "रस्त्यावर प्रतीक्षा नाही", "directDbt": "थेट DBT हस्तांतरण", "aadhaarLinkedPay": "आधार-जोडलेले पेमेंट", "liveQueueUpdates": "थेट रांग अद्यतने", "realtimeGateToken": "रीअल-टाइम गेट टोकन", "centreLocator": "केंद्र शोध व साठवण उपलब्धता", "centreLocatorDescription": "दैनंदिन खरेदी मर्यादा आणि साठवण जागेसह जवळची अधिकृत MSP केंद्रे शोधा.", "checkLocalCentres": "स्थानिक केंद्रे पहा", "slotTokenBooking": "ऑनलाइन स्लॉट व टोकन बुकिंग", "slotTokenDescription": "पीक व वाहतूक तयारीनुसार रिपोर्टिंगची वेळ राखीव ठेवा.", "reserveSlot": "आता स्लॉट राखीव ठेवा", "gateQueueTracker": "रीअल-टाइम गेट रांग ट्रॅकर", "gateQueueDescription": "गेट टोकन व मंजुरीचा वेग पाहा, म्हणजे बोलावल्यावरच पीक आणता येईल.", "trackGateToken": "थेट गेट टोकन ट्रॅक करा", "instantDbt": "त्वरित MSP DBT जुळवणी", "instantDbtDescription": "वेळेवर पेमेंटसाठी आधार बँक खात्यांशी जोडलेल्या प्रमाणित इलेक्ट्रॉनिक वजन नोंदी."
   }
 }

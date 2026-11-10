@@ -94,8 +94,8 @@
     "transparentQueueing": "पारदर्शी FIFO कतार",
     "officialPayment": "आधिकारिक DBT भुगतान ट्रैकिंग",
     "endToEndTransparency": "अंत से अंत तक पारदर्शिता",
-    "Kisan MargJourney": "किसान सेतु यात्रा",
-    "highlights": "किसान सेतु क्यों चुनें",
+    "Kisan MargJourney": "Kisan Marg यात्रा",
+    "highlights": "Kisan Marg क्यों चुनें",
     "testimonials": "उपयोगकर्ता क्या कहते हैं",
     "getInTouch": "संपर्क में रहें",
     "learnMore": "और जानें",
@@ -404,7 +404,7 @@
     "legal": "कानूनी",
     "privacy": "गोपनीयता नीति",
     "terms": "नियम और शर्तें",
-    "copyright": "© 2026 किसान सेतु। सर्वाधिकार सुरक्षित।",
+    "copyright": "© 2026 Kisan Marg। सर्वाधिकार सुरक्षित।",
     "followUs": "हमें फॉलो करें"
   },
   "qualityCheck": {
@@ -460,7 +460,7 @@
     "step6Desc": "अपने बैंक खाते में DBT भुगतान ट्रांसफर की निगरानी करें।"
   },
   "about": {
-    "title": "किसान सेतु के बारे में",
+    "title": "Kisan Marg के बारे में",
     "mission": "हमारा मिशन",
     "missionDesc": "कृषि खरीद को क्रांति देना और किसानों को पारदर्शी, न्यायसंगत और कुशल सेवाएं प्रदान करना।",
     "vision": "हमारा दृष्टिकोण",
@@ -494,5 +494,24 @@
     "totalProcurement": "कुल खरीद",
     "averageWaitTime": "औसत प्रतीक्षा समय",
     "successRate": "सफलता दर"
+  },
+  "procurementCentreLogin": {
+    "authorisedPortal": "अधिकृत APMC खरीद केंद्र ऑपरेटर पोर्टल। एकल-क्रेडेंशियल लॉग इन।",
+    "emailOrUsername": "ईमेल या उपयोगकर्ता नाम",
+    "invalidCredentials": "खरीद केंद्र के प्रमाण-पत्र अमान्य हैं",
+    "authenticating": "केंद्र का प्रमाणीकरण हो रहा है...",
+    "signIn": "खरीद केंद्र के रूप में साइन इन करें",
+    "demoCredential": "पूर्वनिर्धारित केंद्र प्रमाण-पत्र",
+    "autoFill": "स्वतः भरें",
+    "accountNotice": "खरीद केंद्र खाते राज्य APMC प्रशासन द्वारा आवंटित और अधिकृत किए जाते हैं।"
+  },
+  "auth": {
+    "portalAccess": "पोर्टल प्रवेश", "signInToBrand": "Kisan Marg में साइन इन करें", "selectAccountType": "जारी रखने के लिए अपना खाता प्रकार चुनें।", "whoAreYou": "आप कौन हैं?", "procurementCentre": "खरीद केंद्र", "authenticating": "प्रमाणीकरण हो रहा है...", "signInAsFarmer": "किसान के रूप में साइन इन करें", "orContinueWith": "या इसके साथ जारी रखें", "continueWithGoogle": "Google से जारी रखें", "farmerDemoLogin": "किसान डेमो लॉग इन", "noFarmerAccount": "क्या आपका किसान खाता नहीं है?", "registerAsFarmer": "किसान के रूप में पंजीकरण करें", "accountNotFound": "इस ईमेल से कोई खाता नहीं मिला। कृपया पहले पंजीकरण करें।", "invalidCredentials": "ईमेल या पासवर्ड गलत है। यदि आपने अभी तक खाता नहीं बनाया है, तो नीचे पंजीकरण करें।", "tooManyAttempts": "बहुत अधिक असफल प्रयास। कृपया पासवर्ड रीसेट करें या बाद में पुनः प्रयास करें।", "emailPasswordIncorrect": "ईमेल या पासवर्ड गलत है", "googleFailed": "Google से साइन इन नहीं हो सका। कृपया फिर से प्रयास करें।"
+  },
+  "farmerDashboardUi": {
+    "activeToday": "आज सक्रिय", "liveWeighbridgeQueue": "लाइव तुलाई पुल कतार", "cropAndQuantity": "फसल और मात्रा", "assignedToken": "आवंटित टोकन", "openLiveQueue": "लाइव कतार खोलें"
+  },
+  "homeStitch": {
+    "officialPlatform": "आधिकारिक स्मार्ट किसान खरीद मंच", "empoweringFarmers": "किसानों को सशक्त बनाना।", "smartProcurement": "स्मार्ट खरीद।", "lessWaiting": "कम प्रतीक्षा।", "heroDescription": "पास के खरीद केंद्र खोजें, अपना डिलीवरी स्लॉट पहले से बुक करें और अपनी गेट कतार को रीयल-टाइम में देखें।", "findNearestCentre": "निकटतम केंद्र खोजें", "coreCapabilities": "केंद्र प्रणाली की प्रमुख सुविधाएं", "coreServices": "किसानों के लिए मुख्य सेवाएं", "featuresHeading": "केंद्र यात्रा के लिए स्मार्ट सुविधाएं", "featuresDescription": "गांव से निकलने से पहले आपकी हर जरूरत, चार पारदर्शी डिजिटल सुविधाओं में।", "transparentProcess": "पारदर्शी प्रक्रिया", "journeyHeading": "हर किसान के लिए यह कैसे काम करता है", "signInToPlatform": "प्लेटफॉर्म में साइन इन करें", "mspRates": "आधिकारिक MSP दरें", "governmentStandard": "सरकारी मानक", "onlineSlotBooking": "ऑनलाइन स्लॉट बुकिंग", "zeroHighwayWaits": "सड़क पर शून्य प्रतीक्षा", "directDbt": "सीधा DBT हस्तांतरण", "aadhaarLinkedPay": "आधार से जुड़ा भुगतान", "liveQueueUpdates": "लाइव कतार अपडेट", "realtimeGateToken": "रीयल-टाइम गेट टोकन", "centreLocator": "केंद्र खोज और भंडारण उपलब्धता", "centreLocatorDescription": "रोजाना खरीद सीमा और भंडारण स्थान के साथ पास के आधिकारिक MSP केंद्र खोजें।", "checkLocalCentres": "स्थानीय केंद्र देखें", "slotTokenBooking": "ऑनलाइन स्लॉट और टोकन बुकिंग", "slotTokenDescription": "फसल और परिवहन की तैयारी के अनुसार रिपोर्टिंग समय आरक्षित करें।", "reserveSlot": "अभी स्लॉट आरक्षित करें", "gateQueueTracker": "रीयल-टाइम गेट कतार ट्रैकर", "gateQueueDescription": "गेट टोकन और निकासी गति ट्रैक करें ताकि बुलाए जाने पर ही उपज लाएं।", "trackGateToken": "लाइव गेट टोकन ट्रैक करें", "instantDbt": "तत्काल MSP DBT मिलान", "instantDbtDescription": "समय पर भुगतान के लिए आधार बैंक खातों से जुड़े प्रमाणित इलेक्ट्रॉनिक तुलाई रिकॉर्ड।"
   }
 }

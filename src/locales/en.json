@@ -498,5 +498,24 @@
     "totalProcurement": "Total Procurement",
     "averageWaitTime": "Average Wait Time",
     "successRate": "Success Rate"
+  },
+  "procurementCentreLogin": {
+    "authorisedPortal": "Authorised APMC Procurement Centre Operator Portal. Single-credential login.",
+    "emailOrUsername": "Email or Username",
+    "invalidCredentials": "Invalid Procurement Centre credentials",
+    "authenticating": "Authenticating Centre...",
+    "signIn": "Sign In as Procurement Centre",
+    "demoCredential": "Predefined Centre Credential",
+    "autoFill": "Auto-Fill",
+    "accountNotice": "Procurement Centre accounts are assigned and authorised by State APMC Administration."
+  },
+  "auth": {
+    "portalAccess": "Portal Access", "signInToBrand": "Sign In to Kisan Marg", "selectAccountType": "Select your account type to continue.", "whoAreYou": "Who are you?", "procurementCentre": "Procurement Centre", "authenticating": "Authenticating...", "signInAsFarmer": "Sign In as Farmer", "orContinueWith": "Or continue with", "continueWithGoogle": "Continue with Google", "farmerDemoLogin": "Farmer Demo Login", "noFarmerAccount": "Don't have a farmer account?", "registerAsFarmer": "Register as Farmer", "accountNotFound": "No account found with this email. Please register first.", "invalidCredentials": "Email or password is incorrect. If you haven't created an account yet, please register below.", "tooManyAttempts": "Too many failed attempts. Please reset your password or try again later.", "emailPasswordIncorrect": "Email or password is incorrect", "googleFailed": "Failed to sign in with Google. Please try again."
+  },
+  "farmerDashboardUi": {
+    "activeToday": "ACTIVE TODAY", "liveWeighbridgeQueue": "Live Weighbridge Queue", "cropAndQuantity": "Crop & Quantity", "assignedToken": "Assigned Token", "openLiveQueue": "Open Live Queue"
+  },
+  "homeStitch": {
+    "officialPlatform": "Official Smart Farmer Procurement Platform", "empoweringFarmers": "Empowering Farmers.", "smartProcurement": "Smart Procurement.", "lessWaiting": "Less Waiting.", "heroDescription": "Discover nearby procurement centres, book your delivery slot in advance, and track your gate queue in real-time.", "findNearestCentre": "Find Nearest Centre", "coreCapabilities": "Core Centre System Capabilities", "coreServices": "Core Farmer Services", "featuresHeading": "Smart Features Built for Your Centre Visit", "featuresDescription": "Everything you need before leaving your village, in four transparent digital pillars.", "transparentProcess": "Transparent Process", "journeyHeading": "How It Works for Every Kisan", "signInToPlatform": "Sign In to Platform", "mspRates": "Official MSP Rates", "governmentStandard": "Government standard", "onlineSlotBooking": "Online Slot Booking", "zeroHighwayWaits": "Zero highway waits", "directDbt": "Direct DBT Transfer", "aadhaarLinkedPay": "Aadhaar linked pay", "liveQueueUpdates": "Live Queue Updates", "realtimeGateToken": "Real-time gate token", "centreLocator": "Centre Locator & Storage Availability", "centreLocatorDescription": "Locate official MSP collection centres nearby with live daily procurement intake quotas and storage space metrics.", "checkLocalCentres": "Check Local Centres", "slotTokenBooking": "Online Slot & Token Booking", "slotTokenDescription": "Reserve reporting time windows tailored to your harvest and transport readiness.", "reserveSlot": "Reserve Slot Now", "gateQueueTracker": "Real-Time Gate Queue Tracker", "gateQueueDescription": "Track gate tokens and clearance speed so you haul produce precisely when called.", "trackGateToken": "Track Live Gate Token", "instantDbt": "Instant MSP Direct DBT Reconciliation", "instantDbtDescription": "Authenticated electronic weighment records linked to Aadhaar bank accounts for timely payouts."
   }
 }

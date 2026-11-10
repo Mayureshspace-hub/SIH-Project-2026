@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Building2, Lock, Mail, ArrowRight, AlertCircle, ShieldCheck } from 'lucide-react';
 import { procurementAuth } from '../services/procurementAuth';
+import { useTranslation } from 'react-i18next';
 
 interface ProcurementLoginProps {
   onSuccess?: () => void;
 }
 
 export const ProcurementLogin: React.FC<ProcurementLoginProps> = ({ onSuccess }) => {
+  const { t } = useTranslation();
   const [usernameOrEmail, setUsernameOrEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -32,7 +34,7 @@ export const ProcurementLogin: React.FC<ProcurementLoginProps> = ({ onSuccess })
         navigate('/operator/procurement-centre');
       }
     } catch (err: any) {
-      setError(err?.message || 'Invalid Procurement Centre credentials');
+      setError(err?.message || t('procurementCentreLogin.invalidCredentials'));
     } finally {
       setLoading(false);
     }
@@ -42,14 +44,14 @@ export const ProcurementLogin: React.FC<ProcurementLoginProps> = ({ onSuccess })
     <div className="w-full">
       <div className="mb-4 p-3 bg-emerald-50/70 border border-emerald-200/80 rounded-xl text-xs text-emerald-950 flex items-center gap-2">
         <ShieldCheck className="w-4 h-4 text-[#0f5e59] shrink-0" />
-        <span>Authorised APMC Procurement Centre Operator Portal. Single-credential login.</span>
+        <span>{t('procurementCentreLogin.authorisedPortal')}</span>
       </div>
 
       <form onSubmit={handleOperatorSubmit} className="space-y-4">
         {/* Email or Username */}
         <div>
           <label className="block text-xs font-semibold text-stone-700 mb-1">
-            Email or Username
+            {t('procurementCentreLogin.emailOrUsername')}
           </label>
           <div className="relative">
             <Mail className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
@@ -68,7 +70,7 @@ export const ProcurementLogin: React.FC<ProcurementLoginProps> = ({ onSuccess })
         {/* Password */}
         <div>
           <label className="block text-xs font-semibold text-stone-700 mb-1">
-            Password
+            {t('forms.password')}
           </label>
           <div className="relative">
             <Lock className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
@@ -90,7 +92,7 @@ export const ProcurementLogin: React.FC<ProcurementLoginProps> = ({ onSuccess })
           disabled={loading}
           className="w-full mt-2 py-3 px-4 rounded-xl bg-[#0f5e59] hover:bg-[#0b4b47] text-white font-semibold text-sm transition-all duration-200 shadow-sm hover:shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8a317] focus-visible:ring-offset-2"
         >
-          <span>{loading ? 'Authenticating Centre...' : 'Sign In as Procurement Centre'}</span>
+          <span>{loading ? t('procurementCentreLogin.authenticating') : t('procurementCentreLogin.signIn')}</span>
           <ArrowRight className="w-4 h-4" />
         </button>
 
@@ -107,7 +109,7 @@ export const ProcurementLogin: React.FC<ProcurementLoginProps> = ({ onSuccess })
         <div className="flex items-center justify-between mb-2">
           <span className="font-semibold text-[#123c35] flex items-center gap-1.5">
             <Building2 className="w-3.5 h-3.5 text-[#0f5e59]" />
-            <span>Predefined Centre Credential</span>
+            <span>{t('procurementCentreLogin.demoCredential')}</span>
           </span>
           <span className="text-[10px] bg-emerald-100 text-[#0f5e59] px-2 py-0.5 rounded font-mono font-bold">Parseoni</span>
         </div>
@@ -121,12 +123,12 @@ export const ProcurementLogin: React.FC<ProcurementLoginProps> = ({ onSuccess })
           className="w-full text-left px-2.5 py-1.5 rounded-lg bg-white border border-stone-200 hover:border-[#0f8a6a] text-[11px] font-medium text-stone-700 hover:text-[#0f5e59] transition cursor-pointer flex items-center justify-between"
         >
           <span>operator@parseoni.demo (Pass: Operator@123)</span>
-          <span className="text-[#0f5e59] font-bold">Auto-Fill &rarr;</span>
+          <span className="text-[#0f5e59] font-bold">{t('procurementCentreLogin.autoFill')} &rarr;</span>
         </button>
       </div>
 
       <div className="mt-4 text-center text-[11px] text-stone-400">
-        Procurement Centre accounts are assigned and authorised by State APMC Administration.
+        {t('procurementCentreLogin.accountNotice')}
       </div>
     </div>
   );

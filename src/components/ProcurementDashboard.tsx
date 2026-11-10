@@ -4,6 +4,9 @@ import { ArrowLeft, ArrowRight, BarChart3, Building2, CalendarDays, Check, Chevr
 import { Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { procurementAuth } from '../services/procurementAuth';
 import { activeQueueStatuses, centreDemos, farmerFor, procurementCentres, type CentreData, type PaymentStatus } from '../procurement-centre/demoData';
+import { useTranslation } from 'react-i18next';
+import { getLocale } from '../utils/locale';
+import i18n from '../i18n';
 import './ProcurementDashboard.css';
 
 type Section = 'overview'|'queue'|'farmers'|'bookings'|'procurement'|'payments'|'reports'|'profile';
@@ -11,11 +14,12 @@ const navItems: {id: Section; title: string; icon: React.ElementType}[] = [
   {id:'overview',title:'Overview',icon:LayoutDashboard},{id:'queue',title:"Today's Queue",icon:Ticket},{id:'farmers',title:'Farmers',icon:Users},{id:'bookings',title:'Bookings',icon:CalendarDays},{id:'procurement',title:'Procurement',icon:Wheat},{id:'payments',title:'Payments',icon:CircleDollarSign},{id:'reports',title:'Reports & Analytics',icon:BarChart3},{id:'profile',title:'Centre Profile',icon:Building2},
 ];
 const money = (v:number) => `₹${new Intl.NumberFormat('en-IN').format(v)}`;
-const qty = (v:number) => `${new Intl.NumberFormat('en-IN').format(v)} qtl`;
+const qty = (v:number) => `${new Intl.NumberFormat(getLocale(i18n.language)).format(v)} qtl`;
 const paymentText: Record<PaymentStatus,string> = { NOT_FINALIZED:'Not finalized', ON_THE_WAY:'On the way', COMPLETED:'Completed' };
 const statusClass = (v:string) => v.toLowerCase().replaceAll('_','-');
 
 export const ProcurementDashboard: React.FC = () => {
+  useTranslation();
   const { centreId } = useParams<{centreId:string}>();
   const [params,setParams] = useSearchParams();
   const navigate = useNavigate();

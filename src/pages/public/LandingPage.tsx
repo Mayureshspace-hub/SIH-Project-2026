@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useInView } from 'motion/react';
+import { useTranslation } from 'react-i18next';
 
 /* ─── Scroll fade-in animation wrapper ───────────────────────── */
 const FadeIn: React.FC<{
@@ -45,6 +46,7 @@ const floatDelayedAnimation = {
 };
 
 export const LandingPage: React.FC = () => {
+  const { t } = useTranslation();
   return (
     <div className="bg-[#F8FAF8] text-[#131D1D]">
       {/* ═══════════════════════ LIVE PROCUREMENT TICKER MARQUEE ═══════════════════════ */}
@@ -94,7 +96,7 @@ export const LandingPage: React.FC = () => {
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#4F8A5B]"></span>
                 </span>
                 <span className="text-xs font-bold tracking-wide uppercase text-[#175C4D]">
-                  Official Smart Farmer Procurement Platform
+                  {t('homeStitch.officialPlatform')}
                 </span>
               </div>
             </FadeIn>
@@ -102,17 +104,17 @@ export const LandingPage: React.FC = () => {
             <FadeIn delay={0.1}>
               {/* Hero Headline */}
               <h1 className="font-display font-black text-4xl sm:text-5xl lg:text-[54px] leading-[1.12] text-gray-900 tracking-tight">
-                Empowering Farmers.
+                {t('homeStitch.empoweringFarmers')}
                 <br />
-                <span className="text-[#175C4D]">Smart Procurement.</span>{' '}
-                <span className="text-[#E8A317]">Less Waiting.</span>
+                <span className="text-[#175C4D]">{t('homeStitch.smartProcurement')}</span>{' '}
+                <span className="text-[#E8A317]">{t('homeStitch.lessWaiting')}</span>
               </h1>
             </FadeIn>
 
             <FadeIn delay={0.2}>
               {/* Subheading */}
               <p className="text-base sm:text-lg text-gray-700 max-w-xl leading-relaxed">
-                Discover nearby procurement centres, book your delivery slot in advance, and track your gate queue in real-time.
+                {t('homeStitch.heroDescription')}
               </p>
             </FadeIn>
 
@@ -124,7 +126,7 @@ export const LandingPage: React.FC = () => {
                   className="relative group overflow-hidden inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-xl bg-gradient-to-r from-[#175C4D] to-[#0F5B5B] hover:from-[#0F5B5B] hover:to-[#093F40] text-white font-display font-bold text-base shadow-lg shadow-emerald-900/10 hover:shadow-xl active:scale-[0.98] transition-all duration-200"
                 >
                   <span className="absolute inset-0 w-1/2 h-full bg-white/10 skew-x-12 -translate-x-full group-hover:translate-x-[280%] transition-transform duration-700 ease-out"></span>
-                  <span className="relative z-10 flex items-center gap-2">Find Nearest Centre</span>
+                  <span className="relative z-10 flex items-center gap-2">{t('homeStitch.findNearestCentre')}</span>
                   <svg className="relative z-10 w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
@@ -139,7 +141,7 @@ export const LandingPage: React.FC = () => {
                     <line x1="8" y1="2" x2="8" y2="6" strokeWidth={2} />
                     <line x1="3" y1="10" x2="21" y2="10" strokeWidth={2} />
                   </svg>
-                  <span>Book Slot</span>
+                  <span>{t('navigation.bookSlot')}</span>
                 </Link>
               </div>
             </FadeIn>
@@ -151,14 +153,14 @@ export const LandingPage: React.FC = () => {
                   <svg className="w-4 h-4 text-[#E8A317]" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
                   </svg>
-                  Core Centre System Capabilities
+                  {t('homeStitch.coreCapabilities')}
                 </p>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                   {[
-                    { icon: 'verified_user', title: 'Official MSP Rates', desc: 'Government standard', color: 'text-[#175C4D]', bg: 'bg-[#DDEBDD]' },
-                    { icon: 'event_available', title: 'Online Slot Booking', desc: 'Zero highway waits', color: 'text-[#4F8A5B]', bg: 'bg-[#DDEBDD]' },
-                    { icon: 'payments', title: 'Direct DBT Transfer', desc: 'Aadhaar linked pay', color: 'text-[#E8A317]', bg: 'bg-amber-50' },
-                    { icon: 'sync_alt', title: 'Live Queue Updates', desc: 'Real-time gate token', color: 'text-[#175C4D]', bg: 'bg-[#DDEBDD]' },
+                    { icon: 'verified_user', title: t('homeStitch.mspRates'), desc: t('homeStitch.governmentStandard'), color: 'text-[#175C4D]', bg: 'bg-[#DDEBDD]' },
+                    { icon: 'event_available', title: t('homeStitch.onlineSlotBooking'), desc: t('homeStitch.zeroHighwayWaits'), color: 'text-[#4F8A5B]', bg: 'bg-[#DDEBDD]' },
+                    { icon: 'payments', title: t('homeStitch.directDbt'), desc: t('homeStitch.aadhaarLinkedPay'), color: 'text-[#E8A317]', bg: 'bg-amber-50' },
+                    { icon: 'sync_alt', title: t('homeStitch.liveQueueUpdates'), desc: t('homeStitch.realtimeGateToken'), color: 'text-[#175C4D]', bg: 'bg-[#DDEBDD]' },
                   ].map((badge, idx) => (
                     <div
                       key={idx}
@@ -251,13 +253,13 @@ export const LandingPage: React.FC = () => {
           <FadeIn>
             <span className="text-xs font-bold font-display uppercase tracking-widest text-[#175C4D] bg-[#DDEBDD] px-3.5 py-1 rounded-full border border-[#4F8A5B]/30 inline-flex items-center gap-1.5">
               <span className="h-2 w-2 rounded-full bg-[#4F8A5B] animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]"></span>
-              Core Farmer Services
+              {t('homeStitch.coreServices')}
             </span>
             <h2 className="text-3xl sm:text-4xl font-black font-display text-gray-900 tracking-tight mt-3">
-              Smart Features Built for Your Centre Visit
+              {t('homeStitch.featuresHeading')}
             </h2>
             <p className="text-gray-600 text-sm sm:text-base mt-2">
-              Everything you need before leaving your village, in four transparent digital pillars.
+              {t('homeStitch.featuresDescription')}
             </p>
           </FadeIn>
         </div>
@@ -266,40 +268,40 @@ export const LandingPage: React.FC = () => {
           {[
             {
               icon: '📍',
-              title: 'Centre Locator & Storage Availability',
-              desc: 'Locate official MSP collection centres nearby with live daily procurement intake quotas and storage space metrics.',
+              title: t('homeStitch.centreLocator'),
+              desc: t('homeStitch.centreLocatorDescription'),
               link: '/centres',
-              linkText: 'Check Local Centres',
+              linkText: t('homeStitch.checkLocalCentres'),
               gradient: 'from-[#175C4D] to-[#4F8A5B]',
               hoverColor: 'hover:text-[#175C4D]',
               textColor: 'text-[#175C4D]',
             },
             {
               icon: '📅',
-              title: 'Online Slot & Token Booking',
-              desc: 'Reserve 2-hour reporting time windows tailored to your harvest and transport readiness. Prevent overnight road waits.',
+              title: t('homeStitch.slotTokenBooking'),
+              desc: t('homeStitch.slotTokenDescription'),
               link: '/login',
-              linkText: 'Reserve Slot Now',
+              linkText: t('homeStitch.reserveSlot'),
               gradient: 'from-[#2F6A3E] to-[#4F8A5B]',
               hoverColor: 'hover:text-[#4F8A5B]',
               textColor: 'text-[#4F8A5B]',
             },
             {
               icon: '🚜',
-              title: 'Real-Time Gate Queue Tracker',
-              desc: 'Live telemetry on gate tokens and tractor clearance speed so you haul your produce precisely when called.',
+              title: t('homeStitch.gateQueueTracker'),
+              desc: t('homeStitch.gateQueueDescription'),
               link: '/login',
-              linkText: 'Track Live Gate Token',
+              linkText: t('homeStitch.trackGateToken'),
               gradient: 'from-[#E8A317] to-[#F59E0B]',
               hoverColor: 'hover:text-amber-700',
               textColor: 'text-amber-700',
             },
             {
               icon: '🏦',
-              title: 'Instant MSP Direct DBT Reconciliation',
-              desc: 'Authenticated electronic weighment records directly linked to Aadhaar bank accounts for guaranteed, timely payouts.',
+              title: t('homeStitch.instantDbt'),
+              desc: t('homeStitch.instantDbtDescription'),
               link: '/login',
-              linkText: 'View Payment Status',
+              linkText: t('payment.paymentStatus'),
               gradient: 'from-[#175C4D] to-[#2F6A3E]',
               hoverColor: 'hover:text-[#175C4D]',
               textColor: 'text-[#175C4D]',
@@ -335,10 +337,10 @@ export const LandingPage: React.FC = () => {
           <div className="text-center max-w-2xl mx-auto mb-14">
             <FadeIn>
               <span className="text-xs font-bold font-display uppercase tracking-widest text-[#175C4D] bg-[#DDEBDD] px-3.5 py-1 rounded-full border border-[#4F8A5B]/30">
-                Transparent Process
+                {t('homeStitch.transparentProcess')}
               </span>
               <h2 className="text-3xl sm:text-4xl font-black font-display text-gray-900 tracking-tight mt-3">
-                How It Works for Every Kisan
+                {t('homeStitch.journeyHeading')}
               </h2>
             </FadeIn>
           </div>
@@ -465,7 +467,7 @@ export const LandingPage: React.FC = () => {
                   className="relative group overflow-hidden w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-[#E8A317] to-[#F59E0B] hover:from-[#d69512] hover:to-[#e08e04] text-gray-950 font-display font-extrabold text-base shadow-lg hover:shadow-2xl transition-all duration-200 active:scale-95 hover:-translate-y-0.5"
                 >
                   <span className="absolute inset-0 w-1/2 h-full bg-white/30 skew-x-12 -translate-x-full group-hover:translate-x-[300%] transition-transform duration-700 ease-out"></span>
-                  <span className="relative z-10">Sign In to Platform</span>
+                  <span className="relative z-10">{t('homeStitch.signInToPlatform')}</span>
                   <span className="relative z-10 text-xl">🔐</span>
                 </Link>
               </div>
