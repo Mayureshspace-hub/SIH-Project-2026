@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Building2, Lock, Mail, ArrowRight, AlertCircle, ShieldCheck } from 'lucide-react';
 import { procurementAuth } from '../services/procurementAuth';
-import { useAuth } from '../context/AuthContext';
 
 interface ProcurementLoginProps {
   onSuccess?: () => void;
@@ -15,7 +14,6 @@ export const ProcurementLogin: React.FC<ProcurementLoginProps> = ({ onSuccess })
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-  const { login } = useAuth();
 
   const handleOperatorSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,22 +21,10 @@ export const ProcurementLogin: React.FC<ProcurementLoginProps> = ({ onSuccess })
     setLoading(true);
 
     try {
-      // 1. Authenticate using dedicated procurement authentication service
-      const authData = await procurementAuth.login({
+      await procurementAuth.login({
         usernameOrEmail,
         password,
       });
-
-      // 2. Synchronize existing context
-      try {
-        await login({
-          email: authData.user.email,
-          password: password,
-          role: 'OPERATOR',
-        });
-      } catch {
-        // Fallback for custom or direct operator accounts
-      }
 
       if (onSuccess) {
         onSuccess();

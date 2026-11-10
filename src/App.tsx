@@ -6,6 +6,7 @@ import { SocketProvider } from './context/SocketContext';
 // Layouts
 import { PublicLayout } from './layouts/PublicLayout';
 import { FarmerLayout } from './layouts/FarmerLayout';
+
 import { OperatorLayout } from './layouts/OperatorLayout';
 import { AdminLayout } from './layouts/AdminLayout';
 
@@ -106,6 +107,7 @@ export default function App() {
 
             {/* Standalone Unified Procurement Centre Dashboard */}
             <Route path="/operator/procurement-centre" element={<ProcurementDashboard />} />
+            <Route path="/operator/procurement-centre/:centreId" element={<ProcurementDashboard />} />
 
             {/* Admin Flow */}
             <Route element={<AdminLayout />}>

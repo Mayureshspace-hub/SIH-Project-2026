@@ -1,170 +1,76 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import {
-  LayoutDashboard,
-  Users,
-  CalendarCheck,
-  Ticket,
-  Scale,
-  CreditCard,
-  Building2,
-  LogOut,
-  MapPin,
-  ShieldCheck,
-  Bell,
-} from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
-import { ProcurementOverview } from './ProcurementOverview';
-import { FarmerManagement } from './FarmerManagement';
-import { SlotManagement } from './SlotManagement';
-import { TokenManagement } from './TokenManagement';
-import { ProcurementManagement } from './ProcurementManagement';
-import { PaymentTracking } from './PaymentTracking';
+import React, { useMemo, useState } from 'react';
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { ArrowLeft, ArrowRight, BarChart3, Building2, CalendarDays, Check, ChevronDown, CircleDollarSign, Clock3, Download, Flower2, LayoutDashboard, LogOut, MapPin, Menu, Search, ShieldCheck, Sprout, Ticket, Users, Wheat, X } from 'lucide-react';
+import { Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { procurementAuth } from '../services/procurementAuth';
+import { activeQueueStatuses, centreDemos, farmerFor, procurementCentres, type CentreData, type PaymentStatus } from '../procurement-centre/demoData';
+import './ProcurementDashboard.css';
 
-export type ProcurementDashboardTab =
-  | 'overview'
-  | 'farmers'
-  | 'slots'
-  | 'tokens'
-  | 'procurement'
-  | 'payments';
-
-interface TabItem {
-  id: ProcurementDashboardTab;
-  label: string;
-  icon: React.ComponentType<{ className?: string }>;
-  shortLabel: string;
-}
-
-const TABS: TabItem[] = [
-  { id: 'overview', label: 'Overview', shortLabel: 'Overview', icon: LayoutDashboard },
-  { id: 'farmers', label: 'Farmer Management', shortLabel: 'Farmers', icon: Users },
-  { id: 'slots', label: 'Slot Management', shortLabel: 'Slots', icon: CalendarCheck },
-  { id: 'tokens', label: 'Token & Queue', shortLabel: 'Tokens', icon: Ticket },
-  { id: 'procurement', label: 'Procurement Entry', shortLabel: 'Procurement', icon: Scale },
-  { id: 'payments', label: 'Payment Tracking', shortLabel: 'Payments', icon: CreditCard },
+type Section = 'overview'|'queue'|'farmers'|'bookings'|'procurement'|'payments'|'reports'|'profile';
+const navItems: {id: Section; title: string; icon: React.ElementType}[] = [
+  {id:'overview',title:'Overview',icon:LayoutDashboard},{id:'queue',title:"Today's Queue",icon:Ticket},{id:'farmers',title:'Farmers',icon:Users},{id:'bookings',title:'Bookings',icon:CalendarDays},{id:'procurement',title:'Procurement',icon:Wheat},{id:'payments',title:'Payments',icon:CircleDollarSign},{id:'reports',title:'Reports & Analytics',icon:BarChart3},{id:'profile',title:'Centre Profile',icon:Building2},
 ];
+const money = (v:number) => `₹${new Intl.NumberFormat('en-IN').format(v)}`;
+const qty = (v:number) => `${new Intl.NumberFormat('en-IN').format(v)} qtl`;
+const paymentText: Record<PaymentStatus,string> = { NOT_FINALIZED:'Not finalized', ON_THE_WAY:'On the way', COMPLETED:'Completed' };
+const statusClass = (v:string) => v.toLowerCase().replaceAll('_','-');
 
 export const ProcurementDashboard: React.FC = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const initialTab = (searchParams.get('tab') as ProcurementDashboardTab) || 'overview';
-  const [activeTab, setActiveTab] = useState<ProcurementDashboardTab>(initialTab);
-
-  const { user, operator, logout } = useAuth();
+  const { centreId } = useParams<{centreId:string}>();
+  const [params,setParams] = useSearchParams();
   const navigate = useNavigate();
+  const session = procurementAuth.getCurrentOperator();
+  const [query,setQuery] = useState('');
+  const [mobileOpen,setMobileOpen] = useState(false);
+  const [section,setSection] = useState<Section>((params.get('section') as Section) || 'overview');
+  const selected = centreId ? centreDemos[centreId] : undefined;
+  const data = selected;
+  const today = new Date().toISOString().slice(0,10);
+  const sectionChange = (key:Section) => { setSection(key); setParams(key === 'overview' ? {} : {section:key}); setMobileOpen(false); };
+  const logout = () => { procurementAuth.logout(); navigate('/login'); };
+  const goCentre = (id:string) => navigate(`/operator/procurement-centre/${id}`);
 
-  // Keep search params in sync with active tab
-  const handleTabChange = (tab: ProcurementDashboardTab) => {
-    setActiveTab(tab);
-    setSearchParams({ tab });
-  };
-
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
-
-  return (
-    <div className="min-h-screen bg-[#f8fafc] text-gray-900 flex flex-col font-sans">
-      {/* Top Centre Header Bar */}
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 sm:h-20">
-            {/* Left: Branding & Centre Scope */}
-            <div className="flex items-center gap-3 sm:gap-4">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-[#0f5e59] to-[#0a403d] text-white flex items-center justify-center shadow-sm flex-shrink-0">
-                <Building2 className="w-5 h-5 sm:w-6 sm:h-6 text-[#f7c531]" />
-              </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="font-serif font-bold text-base sm:text-lg text-gray-900 tracking-tight">
-                    Parseoni APMC Centre
-                  </span>
-                  <span className="hidden sm:inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-[#0f5e59] border border-emerald-200">
-                    <ShieldCheck className="w-3 h-3 text-[#0f5e59]" />
-                    Official Operator
-                  </span>
-                </div>
-                <div className="flex items-center gap-2 text-xs text-gray-500 mt-0.5">
-                  <span className="flex items-center gap-1">
-                    <MapPin className="w-3 h-3 text-gray-400" />
-                    Nagpur District &bull; Centre ID: <code className="font-mono text-gray-700">ctr_parseoni</code>
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Right: Operator Badge & Logout */}
-            <div className="flex items-center gap-3">
-              <div className="hidden md:flex flex-col text-right">
-                <span className="text-xs font-semibold text-gray-900">
-                  {user?.name || 'Procurement In-Charge'}
-                </span>
-                <span className="text-[11px] text-gray-500">
-                  {user?.email || 'operator@parseoni.demo'}
-                </span>
-              </div>
-
-              <button
-                onClick={handleLogout}
-                className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-red-700 bg-red-50 hover:bg-red-100 border border-red-200 transition-colors"
-                title="Sign out from Procurement Centre"
-              >
-                <LogOut className="w-4 h-4" />
-                <span className="hidden sm:inline">Logout</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Tab Navigation Menu */}
-          <nav className="flex items-center gap-1 sm:gap-2 overflow-x-auto pb-3 pt-1 scrollbar-none">
-            {TABS.map((tab) => {
-              const Icon = tab.icon;
-              const isActive = activeTab === tab.id;
-
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => handleTabChange(tab.id)}
-                  className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${
-                    isActive
-                      ? 'bg-[#0f5e59] text-white shadow-sm font-semibold'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                  }`}
-                >
-                  <Icon className={`w-4 h-4 ${isActive ? 'text-[#f7c531]' : 'text-gray-400'}`} />
-                  <span className="hidden sm:inline">{tab.label}</span>
-                  <span className="sm:hidden">{tab.shortLabel}</span>
-                </button>
-              );
-            })}
-          </nav>
-        </div>
-      </header>
-
-      {/* Main Content Body */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-        {activeTab === 'overview' && (
-          <ProcurementOverview onNavigateTab={(tab) => handleTabChange(tab as ProcurementDashboardTab)} />
-        )}
-        {activeTab === 'farmers' && <FarmerManagement />}
-        {activeTab === 'slots' && <SlotManagement />}
-        {activeTab === 'tokens' && <TokenManagement />}
-        {activeTab === 'procurement' && <ProcurementManagement />}
-        {activeTab === 'payments' && <PaymentTracking />}
+  if (!session || !procurementAuth.isAuthenticated()) return <div className="pc-auth"><Building2/><h2>Operator sign-in required</h2><p>Sign in with your Procurement Centre account to access the portal.</p><Link to="/login">Go to login</Link></div>;
+  if (centreId && !selected) return <div className="pc-auth"><Building2/><h2>Centre not found</h2><p>This centre ID was not found.</p><Link to="/operator/procurement-centre">Choose a centre</Link></div>;
+  if (!data) {
+    const filtered = procurementCentres.filter(c => `${c.name} ${c.location} ${c.id}`.toLowerCase().includes(query.toLowerCase()));
+    return <div className="pc-selection">
+      <header className="pc-topbar"><Link className="pc-brand" to="/"><img className="pc-brand-image" src="/assets/kisan-marg-logo-emblem.png" alt=""/><span><b><span>Kisan</span> <em>Marg</em></b><small>PROCUREMENT CENTRE PORTAL</small></span></Link><div className="pc-operator"><span className="pc-avatar">{session.user.name.slice(0,1)}</span><span><b>{session.user.name}</b><small>Centre operator</small></span><button className="pc-icon-button" onClick={logout} aria-label="Log out"><LogOut size={18}/></button></div></header>
+      <main className="pc-select-main"><section className="pc-hero"><div className="pc-hero-copy"><span className="pc-eyebrow"><span className="pc-live-dot"/> CENTRE OPERATIONS</span><h1>Smart Procurement.<br/><em>Smarter Centre Management.</em></h1><p>Manage farmers, bookings, live queues, procurement and payments from one platform.</p><div className="pc-hero-meta"><span><Building2 size={17}/> 8 registered centres</span><span><ShieldCheck size={17}/> Independent centre operations</span></div></div><div className="pc-hero-art"><div className="pc-art-sun"/><div className="pc-art-hill hill-one"/><div className="pc-art-hill hill-two"/><div className="pc-art-stalk stalk-one">✳</div><div className="pc-art-stalk stalk-two">✳</div><div className="pc-art-stalk stalk-three">✳</div><div className="pc-art-caption"><span className="pc-live-dot"/> BUILT FOR EVERY HARVEST</div></div></section>
+      <section className="pc-centres-heading"><div><span className="pc-eyebrow">YOUR NETWORK</span><h2>Select a procurement centre</h2><p>Review centre details and daily operations.</p></div><label className="pc-search"><Search size={18}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search by centre, location or ID"/><kbd>⌘ K</kbd></label></section>
+      <div className="pc-centre-grid">{filtered.map((c,i)=>{const d=centreDemos[c.id], bookings=d.bookings.filter(b=>b.date===today).length, active=d.queue.filter(q=>q.date===today&&activeQueueStatuses.includes(q.status)).length, total=d.procurement.filter(p=>p.date===today).reduce((s,p)=>s+p.quantity,0); return <button className="pc-centre-card" key={c.id} onClick={()=>goCentre(c.id)}><div className="pc-card-top"><span className="pc-card-icon">{i===2?<Building2/>:<Sprout/>}</span><span className="pc-id">{c.id}</span></div><h3>{c.name}</h3><p className="pc-card-location"><MapPin size={15}/>{c.location}</p><div className="pc-card-stats"><span><small>FARMERS</small><b>{c.farmersCount.toLocaleString('en-IN')}</b></span><span><small>TODAY'S BOOKINGS</small><b>{bookings}</b></span><span><small>TODAY PROCURED</small><b>{qty(total)}</b></span><span><small>ACTIVE QUEUE</small><b>{active}</b></span></div><span className="pc-card-action">View dashboard <ArrowRight size={16}/></span></button>})}{filtered.length===0&&<div className="pc-no-results">No centres match “{query}”.</div>}</div>
       </main>
-
-      {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 py-4 mt-auto">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 gap-2">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-500" />
-            <span>Kisan Marg Government Procurement Infrastructure &bull; Parseoni Hub</span>
-          </div>
-          <div>Strict Operator Access Scoped to Centre ID: ctr_parseoni</div>
-        </div>
-      </footer>
-    </div>
-  );
+    </div>;
+  }
+  return <CentreDashboard data={data} section={section} setSection={sectionChange} logout={logout} back={()=>navigate('/operator/procurement-centre')} mobileOpen={mobileOpen} setMobileOpen={setMobileOpen}/>;
 };
-export default ProcurementDashboard;
+
+function CentreDashboard({data,section,setSection,logout,back,mobileOpen,setMobileOpen}:{data:CentreData;section:Section;setSection:(v:Section)=>void;logout:()=>void;back:()=>void;mobileOpen:boolean;setMobileOpen:(v:boolean)=>void}) {
+  const c=data.centre, today=new Date().toISOString().slice(0,10), todaysBookings=data.bookings.filter(b=>b.date===today), waiting=data.queue.filter(q=>activeQueueStatuses.includes(q.status)).length;
+  const totalQty=data.procurement.reduce((s,p)=>s+p.quantity,0), pending=data.payments.filter(p=>p.status!=='COMPLETED').reduce((s,p)=>s+p.amount,0), paid=data.payments.filter(p=>p.status==='COMPLETED').reduce((s,p)=>s+p.amount,0);
+  const completed=data.queue.filter(q=>q.status==='COMPLETED').length, delayed=todaysBookings.filter(b=>b.status==='NO_SHOW'||b.status==='BOOKED').length;
+  const cropData=useMemo(()=>Object.entries(data.procurement.reduce<Record<string,number>>((a,p)=>(a[p.crop]=(a[p.crop]||0)+p.quantity,a),{})).map(([name,value])=>({name,value})),[data]);
+  const daily=Array.from({length:7},(_,i)=>{const d=new Date();d.setDate(d.getDate()-(6-i));const key=d.toISOString().slice(0,10);return {day:d.toLocaleDateString('en-IN',{weekday:'short'}),quantity:data.procurement.filter(p=>p.date===key).reduce((s,p)=>s+p.quantity,0)}});
+  const title=navItems.find(n=>n.id===section)?.title||'Overview';
+  return <div className="pc-app"><aside className={`pc-sidebar ${mobileOpen?'open':''}`}><Link to="/" className="pc-brand pc-sidebar-brand"><img className="pc-brand-image" src="/assets/kisan-marg-logo-emblem.png" alt=""/><span><b><span>Kisan</span> <em>Marg</em></b><small>CENTRE PORTAL</small></span><button className="pc-close-sidebar" onClick={()=>setMobileOpen(false)}><X size={18}/></button></Link><div className="pc-side-centre"><span className="pc-side-label">SELECTED CENTRE</span><b>{c.name}</b><small><span className="pc-live-dot"/> {c.id}</small></div><span className="pc-side-label pc-menu-label">WORKSPACE</span><nav className="pc-nav">{navItems.map(n=><button key={n.id} className={section===n.id?'active':''} onClick={()=>setSection(n.id)}><n.icon size={18}/>{n.title}{n.id==='queue'&&<span className="pc-nav-count">{waiting}</span>}</button>)}</nav><div className="pc-sidebar-bottom"><button onClick={back}><ArrowLeft size={17}/>Back to centre selection</button><button onClick={logout}><LogOut size={17}/>Log out</button><div className="pc-side-operator"><span className="pc-avatar">{procurementAuth.getCurrentOperator()?.user.name.slice(0,1)}</span><span><b>{procurementAuth.getCurrentOperator()?.user.name}</b><small>Centre operator</small></span><ChevronDown size={15}/></div></div></aside>
+  {mobileOpen&&<button className="pc-backdrop" onClick={()=>setMobileOpen(false)} aria-label="Close menu"/>}<div className="pc-main"><header className="pc-dash-header"><button className="pc-menu-toggle" onClick={()=>setMobileOpen(true)}><Menu/></button><div className="pc-crumb"><span>Centre operations</span><b>/</b><strong>{title}</strong></div><div className="pc-header-right"><span className="pc-date"><CalendarDays size={16}/>{new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}</span><span className="pc-header-avatar">{procurementAuth.getCurrentOperator()?.user.name.slice(0,1)}</span></div></header><main className="pc-content"><div className="pc-page-heading"><div><span className="pc-eyebrow">{c.id} · {c.district.toUpperCase()} DISTRICT</span><h1>{section==='overview'?`Good day, ${c.name.split(' ')[0]}`:title}</h1><p><MapPin size={15}/>{c.location}</p></div><button className="pc-outline-button" onClick={back}><ArrowLeft size={16}/>All centres</button></div>
+  {section==='overview'&&<Overview data={data} today={today} todaysBookings={todaysBookings.length} waiting={waiting} completed={completed} totalQty={totalQty} pending={pending} paid={paid} delayed={delayed} cropData={cropData} daily={daily} setSection={setSection}/>}
+  {section==='queue'&&<QueueSection data={data}/>}{section==='farmers'&&<FarmersSection data={data}/>}{section==='bookings'&&<BookingsSection data={data}/>}{section==='procurement'&&<ProcurementSection data={data}/>}{section==='payments'&&<PaymentsSection data={data}/>}{section==='reports'&&<ReportsSection data={data} cropData={cropData} daily={daily}/>}{section==='profile'&&<ProfileSection data={data}/>}
+  </main></div></div>
+}
+
+function Overview({data,today,todaysBookings,waiting,completed,totalQty,pending,paid,delayed,cropData,daily,setSection}:{data:CentreData;today:string;todaysBookings:number;waiting:number;completed:number;totalQty:number;pending:number;paid:number;delayed:number;cropData:{name:string;value:number}[];daily:{day:string;quantity:number}[];setSection:(v:Section)=>void}) {
+ const metrics=[['Registered farmers',data.centre.farmersCount.toLocaleString('en-IN'),Users,'Across this centre'],["Today's bookings",String(todaysBookings),CalendarDays,'Scheduled for today'],['Waiting in queue',String(waiting),Ticket,'Active tokens'],['Completed today',String(data.queue.filter(q=>q.date===today&&q.status==='COMPLETED').length),Check,'Queue cleared'],['Procurement quantity',qty(totalQty),Wheat,'Recorded quantity'],['Pending payments',money(pending),Clock3,'Awaiting transfer'],['Completed payments',money(paid),CircleDollarSign,'Processed transfers'],['Delayed bookings',String(delayed),CalendarDays,'Booked / no-show'] ] as const;
+ return <><div className="pc-metric-grid">{metrics.map(([label,value,Icon,detail])=><div className="pc-metric" key={label}><span className="pc-metric-icon"><Icon size={18}/></span><small>{label}</small><b>{value}</b><span className="pc-metric-detail">{detail}</span></div>)}</div><div className="pc-overview-grid"><section className="pc-panel pc-chart-panel"><div className="pc-panel-heading"><div><h2>Procurement activity</h2><p>Daily accepted quantity · quintals</p></div><span className="pc-period">Last 7 days <ChevronDown size={14}/></span></div><div className="pc-chart"><ResponsiveContainer width="100%" height="100%"><BarChart data={daily} margin={{left:-20,right:10,top:10,bottom:0}}><CartesianGrid vertical={false} stroke="#edf0eb"/><XAxis dataKey="day" axisLine={false} tickLine={false} tick={{fill:'#89918b',fontSize:12}}/><YAxis axisLine={false} tickLine={false} tick={{fill:'#89918b',fontSize:11}}/><Tooltip formatter={(v)=>[`${v} qtl`,'Quantity']} contentStyle={{borderRadius:12,border:'1px solid #e5eae3'}}/><Bar dataKey="quantity" fill="#4f8a5b" radius={[6,6,0,0]} maxBarSize={38}/></BarChart></ResponsiveContainer></div></section><section className="pc-panel pc-crop-panel"><div className="pc-panel-heading"><div><h2>Crop distribution</h2><p>Procurement by crop · quintals</p></div></div><div className="pc-donut-wrap"><ResponsiveContainer width="100%" height="100%"><PieChart><Pie data={cropData} dataKey="value" nameKey="name" innerRadius={62} outerRadius={88} paddingAngle={3}>{cropData.map((_,i)=><Cell key={i} fill={['#4f8a5b','#80ad77','#d4a354','#428b83','#9dbd8e','#e6c47f'][i%6]}/>)}</Pie><Tooltip formatter={(v)=>[`${v} qtl`,'Quantity']}/></PieChart></ResponsiveContainer><div className="pc-donut-center"><b>{qty(totalQty).replace(' qtl','')}</b><small>total qtl</small></div></div><div className="pc-legend">{cropData.map((x,i)=><span key={x.name}><i style={{background:['#4f8a5b','#80ad77','#d4a354','#428b83','#9dbd8e','#e6c47f'][i%6]}}/>{x.name}<b>{x.value} qtl</b></span>)}</div></section></div><section className="pc-panel pc-list-panel"><div className="pc-panel-heading"><div><h2>Today’s queue</h2><p>Live centre intake and token status</p></div><button className="pc-link-button" onClick={()=>setSection('queue')}>Open queue <ArrowRight size={15}/></button></div><div className="pc-queue-preview">{data.queue.filter(q=>q.date===today).slice(0,5).map(q=><div className="pc-queue-row" key={q.id}><span className="pc-token">{q.token}</span><span className="pc-row-person"><b>{farmerFor(data,q.farmerId).name}</b><small>{farmerFor(data,q.farmerId).village} · {q.crop}</small></span><span className="pc-row-quantity">{qty(q.quantity)}</span><Status value={q.status}/><span className="pc-row-time">{q.arrival}</span></div>)}</div></section><div className="pc-quick-links"><button onClick={()=>setSection('bookings')}><CalendarDays/><span><b>Recent bookings</b><small>Review today’s farm arrivals</small></span><ArrowRight/></button><button onClick={()=>setSection('payments')}><CircleDollarSign/><span><b>Payment summary</b><small>{money(pending)} awaiting completion</small></span><ArrowRight/></button></div></>;
+}
+
+function Status({value}:{value:string}){return <span className={`pc-status ${statusClass(value)}`}><i/>{value.replaceAll('_',' ')}</span>}
+function Table({headers,children}:{headers:string[];children:React.ReactNode}){return <div className="pc-table-wrap"><table className="pc-table"><thead><tr>{headers.map(h=><th key={h}>{h}</th>)}</tr></thead><tbody>{children}</tbody></table></div>}
+function SectionIntro({eyebrow,heading,description}:{eyebrow:string;heading:string;description:string}){return <div className="pc-section-intro"><div><span className="pc-eyebrow">{eyebrow}</span><h2>{heading}</h2><p>{description}</p></div></div>}
+function QueueSection({data}:{data:CentreData}){return <><SectionIntro eyebrow="LIVE OPERATIONS" heading="Today’s queue" description="Token arrivals, estimated wait times and current weighbridge status."/><section className="pc-panel"><Table headers={['TOKEN','FARMER','VILLAGE','CROP','QUANTITY','ARRIVAL','EST. WAIT','STATUS']}>{data.queue.map(q=>{const f=farmerFor(data,q.farmerId);return <tr key={q.id}><td><b className="pc-mono">{q.token}</b></td><td>{f.name}</td><td>{f.village}</td><td>{q.crop}</td><td>{qty(q.quantity)}</td><td>{q.arrival}</td><td>{q.status==='COMPLETED'?'—':`${q.wait} min`}</td><td><Status value={q.status}/></td></tr>})}</Table></section></>}
+function FarmersSection({data}:{data:CentreData}){return <><SectionIntro eyebrow="CENTRE DIRECTORY" heading="Registered farmers" description={`${data.centre.farmersCount.toLocaleString('en-IN')} registered farmers · ${data.farmers.length} farmer profiles shown.`}/><section className="pc-panel"><Table headers={['FARMER ID','FARMER','MOBILE','VILLAGE','DISTRICT','REGISTERED CROPS','BOOKINGS','PROCURED']}>{data.farmers.map(f=><tr key={f.id}><td className="pc-mono">{f.id}</td><td><b>{f.name}</b></td><td>{f.mobile}</td><td>{f.village}</td><td>{f.district}</td><td>{f.crops.join(', ')}</td><td>{data.bookings.filter(b=>b.farmerId===f.id).length}</td><td>{qty(data.procurement.filter(p=>p.farmerId===f.id).reduce((s,p)=>s+p.quantity,0))}</td></tr>)}</Table></section></>}
+function BookingsSection({data}:{data:CentreData}){return <><SectionIntro eyebrow="SLOT MANAGEMENT" heading="Bookings" description="Centre bookings and assigned arrival slots."/><section className="pc-panel"><Table headers={['BOOKING ID','FARMER','CROP','EXPECTED QTY','BOOKING DATE','ARRIVAL SLOT','TOKEN','STATUS']}>{data.bookings.map(b=><tr key={b.id}><td className="pc-mono">{b.id}</td><td>{farmerFor(data,b.farmerId).name}</td><td>{b.crop}</td><td>{qty(b.quantity)}</td><td>{b.date}</td><td>{b.slot}</td><td className="pc-mono">{b.token}</td><td><Status value={b.status}/></td></tr>)}</Table></section></>}
+function ProcurementSection({data}:{data:CentreData}){return <><SectionIntro eyebrow="WEIGHBRIDGE RECORDS" heading="Procurement" description="Accepted quantities and listed rates; MSP alignment is not verified."/><section className="pc-panel"><Table headers={['PROCUREMENT ID','FARMER','CROP','ACTUAL QTY','GRADE','DATE','INDICATIVE RATE','ESTIMATED AMOUNT']}>{data.procurement.map(p=><tr key={p.id}><td className="pc-mono">{p.id}</td><td>{farmerFor(data,p.farmerId).name}</td><td>{p.crop}</td><td>{qty(p.quantity)}</td><td><span className="pc-grade">{p.grade}</span></td><td>{p.date}</td><td>{money(p.rate)}/qtl</td><td><b>{money(p.rate*p.quantity)}</b></td></tr>)}</Table></section></>}
+function PaymentsSection({data}:{data:CentreData}){return <><SectionIntro eyebrow="SETTLEMENTS" heading="Payments" description="Payment transactions associated with procurement records."/><section className="pc-panel"><Table headers={['TRANSACTION ID','FARMER','PROCUREMENT ID','CROP','QUANTITY','TOTAL AMOUNT','PAYMENT DATE','STATUS']}>{data.payments.map(p=><tr key={p.id}><td className="pc-mono">{p.id}</td><td>{farmerFor(data,p.farmerId).name}</td><td className="pc-mono">{p.procurementId}</td><td>{p.crop}</td><td>{qty(p.quantity)}</td><td><b>{money(p.amount)}</b></td><td>{p.date}</td><td><Status value={paymentText[p.status]}/></td></tr>)}</Table></section></>}
+function ReportsSection({data,cropData,daily}:{data:CentreData;cropData:{name:string;value:number}[];daily:{day:string;quantity:number}[]}){const total=data.procurement.reduce((s,p)=>s+p.quantity,0),payments=data.payments.reduce((a,p)=>(a[p.status]=(a[p.status]||0)+p.amount,a),{} as Record<string,number>);return <><SectionIntro eyebrow="CENTRE ANALYTICS" heading="Reports & analytics" description="Daily, weekly and monthly summaries for the selected centre."/><div className="pc-report-grid"><div className="pc-report-card"><small>DAILY PROCUREMENT</small><b>{qty(data.procurement.filter(p=>p.date===new Date().toISOString().slice(0,10)).reduce((s,p)=>s+p.quantity,0))}</b><span>Current day</span></div><div className="pc-report-card"><small>WEEKLY PROCUREMENT</small><b>{qty(daily.reduce((s,x)=>s+x.quantity,0))}</b><span>Last seven days</span></div><div className="pc-report-card"><small>MONTHLY PROCUREMENT</small><b>{qty(total)}</b><span>Available records</span></div><div className="pc-report-card"><small>FARMERS SERVED</small><b>{new Set(data.procurement.map(p=>p.farmerId)).size}</b><span>In procurement records</span></div></div><div className="pc-overview-grid"><div className="pc-panel pc-chart-panel"><div className="pc-panel-heading"><div><h2>Weekly procurement</h2><p>Daily quantity in quintals</p></div></div><div className="pc-chart"><ResponsiveContainer width="100%" height="100%"><BarChart data={daily}><CartesianGrid vertical={false} stroke="#edf0eb"/><XAxis dataKey="day" axisLine={false} tickLine={false}/><YAxis axisLine={false} tickLine={false}/><Tooltip/><Bar dataKey="quantity" fill="#4f8a5b" radius={[6,6,0,0]}/></BarChart></ResponsiveContainer></div></div><div className="pc-panel pc-report-summary"><div className="pc-panel-heading"><div><h2>Booking & payment summary</h2><p>Records in this centre dataset</p></div></div><div className="pc-summary-lines"><span>Total bookings <b>{data.bookings.length}</b></span><span>Completed procurement <b>{data.procurement.length}</b></span>{Object.entries(payments).map(([k,v])=><span key={k}>{paymentText[k as PaymentStatus]} <b>{money(v)}</b></span>)}</div></div></div><section className="pc-panel"><div className="pc-panel-heading"><div><h2>Crop-wise procurement distribution</h2><p>{data.centre.name} · {qty(total)}</p></div></div><div className="pc-crop-bars">{cropData.map(x=><div key={x.name}><span>{x.name}</span><i><b style={{width:`${Math.max(8,x.value/Math.max(...cropData.map(c=>c.value))*100)}%`}}/></i><strong>{qty(x.value)}</strong></div>)}</div></section></>}
+function ProfileSection({data}:{data:CentreData}){const c=data.centre;return <><SectionIntro eyebrow="CENTRE INFORMATION" heading="Centre profile" description="Centre registry details and operator information."/><div className="pc-profile-grid"><section className="pc-panel pc-profile-card"><span className="pc-profile-icon"><Building2/></span><span className="pc-eyebrow">PROCUREMENT CENTRE</span><h2>{c.name}</h2><span className="pc-id">{c.id}</span><div className="pc-profile-line"><MapPin/><span><small>ADDRESS</small><b>{c.location}</b></span></div><div className="pc-profile-line"><Building2/><span><small>DISTRICT</small><b>{c.district}, Maharashtra</b></span></div><div className="pc-profile-line"><Clock3/><span><small>OPERATING HOURS</small><b>Monday–Saturday · 08:00–17:00</b></span></div><div className="pc-profile-line"><Users/><span><small>CONTACT</small><b>Not provided</b></span></div></section></div></>}
